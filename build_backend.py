@@ -12,30 +12,48 @@ import csv
 import hashlib
 import io
 import os
+import tomllib
 from pathlib import Path
 from zipfile import ZIP_DEFLATED, ZipFile
 
-NAME = "intelligence"
-VERSION = "0.1.0"
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "src"
+PROJECT = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]
+NAME = PROJECT["name"]
+VERSION = PROJECT["version"]
+SUMMARY = PROJECT["description"]
 DIST_INFO = f"{NAME}-{VERSION}.dist-info"
 WHEEL_NAME = f"{NAME}-{VERSION}-py3-none-any.whl"
 
 
 def _metadata() -> str:
-    return (
-        "Metadata-Version: 2.1\n"
-        f"Name: {NAME}\n"
-        f"Version: {VERSION}\n"
-        "Summary: Multi-category research engine for collected social content\n"
-    )
+    lines = [
+        "Metadata-Version: 2.1",
+        f"Name: {NAME}",
+        f"Version: {VERSION}",
+        f"Summary: {SUMMARY}",
+    ]
+    urls = PROJECT.get("urls", {})
+    homepage = urls.get("Homepage")
+    if homepage:
+        lines.append(f"Home-page: {homepage}")
+    return "\n".join(lines) + "\n"
 
 
-def _wheel_file_bytes() -> dict[str, bytes]:
+def _package_files() -> dict[str, bytes]:
+    package_root = SRC / NAME
+    files: dict[str, bytes] = {}
+    for path in sorted(package_root.glob("**/*")):
+        if path.is_file():
+            rel = path.relative_to(SRC).as_posix()
+            files[rel] = path.read_bytes()
+    return files
+
+
+def _editable_files() -> dict[str, bytes]:
     entry_points = (
         "[console_scripts]\n"
-        "intelligence = intelligence.cli:main\n"
+        f"{NAME} = {NAME}.cli:main\n"
     )
     files: dict[str, bytes] = {
         f"{NAME}.pth": (str(SRC) + os.linesep).encode(),
@@ -52,6 +70,24 @@ def _wheel_file_bytes() -> dict[str, bytes]:
     return files
 
 
+def _wheel_files(editable: bool) -> dict[str, bytes]:
+    entry_points = (
+        "[console_scripts]\n"
+        f"{NAME} = {NAME}.cli:main\n"
+    )
+    files = _editable_files() if editable else _package_files()
+    files[f"{DIST_INFO}/METADATA"] = _metadata().encode()
+    files[f"{DIST_INFO}/WHEEL"] = (
+        "Wheel-Version: 1.0\n"
+        "Generator: intelligence.build_backend\n"
+        "Root-Is-Purelib: true\n"
+        "Tag: py3-none-any\n"
+    ).encode()
+    files[f"{DIST_INFO}/entry_points.txt"] = entry_points.encode()
+    files[f"{DIST_INFO}/top_level.txt"] = f"{NAME}\n".encode()
+    return files
+
+
 def _record_bytes(files: dict[str, bytes]) -> bytes:
     rows: list[list[str]] = []
     for path, data in sorted(files.items()):
@@ -65,9 +101,9 @@ def _record_bytes(files: dict[str, bytes]) -> bytes:
     return buffer.getvalue().encode()
 
 
-def _build_wheel(wheel_directory: str) -> str:
+def _build_wheel(wheel_directory: str, editable: bool) -> str:
     wheel_path = Path(wheel_directory) / WHEEL_NAME
-    files = _wheel_file_bytes()
+    files = _wheel_files(editable)
     files[f"{DIST_INFO}/RECORD"] = _record_bytes(files)
 
     wheel_path.parent.mkdir(parents=True, exist_ok=True)
@@ -109,8 +145,8 @@ def prepare_metadata_for_build_editable(metadata_directory, config_settings=None
 
 
 def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
-    return _build_wheel(wheel_directory)
+    return _build_wheel(wheel_directory, editable=False)
 
 
 def build_editable(wheel_directory, config_settings=None, metadata_directory=None):
-    return _build_wheel(wheel_directory)
+    return _build_wheel(wheel_directory, editable=True)
