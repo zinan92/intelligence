@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import tempfile
 import unittest
 from datetime import datetime, timezone
 from pathlib import Path
@@ -16,21 +15,19 @@ MEDIACRAWLER_FIXTURE = Path(
     "/Users/wendy/work/content-co/MediaCrawler-jade-trend-research/data/research/"
     "jade_trends/raw/2026-03-23/crawler_pool_b/search_contents_2026-03-23.jsonl"
 )
+FIXTURES_DIR = Path(__file__).with_name("fixtures")
+XHS_FIXTURE = FIXTURES_DIR / "xhs_downloader.jsonl"
+DOUYIN_FIXTURE = FIXTURES_DIR / "douyin_downloader.jsonl"
 
 
-def _write_jsonl(tmpdir: str, filename: str, rows: list[dict[str, object]]) -> Path:
-    path = Path(tmpdir) / filename
-    path.write_text(
-        "\n".join(json.dumps(row, ensure_ascii=False) for row in rows) + "\n",
-        encoding="utf-8",
-    )
-    return path
+def _read_first_row(path: Path) -> dict[str, object]:
+    with path.open("r", encoding="utf-8") as handle:
+        return json.loads(handle.readline())
 
 
 class AdapterTests(unittest.TestCase):
     def test_mediacrawler_loads_real_export_into_canonical_samples(self) -> None:
-        with MEDIACRAWLER_FIXTURE.open("r", encoding="utf-8") as handle:
-            first_row = json.loads(handle.readline())
+        first_row = _read_first_row(MEDIACRAWLER_FIXTURE)
 
         samples = load_mediacrawler_samples(MEDIACRAWLER_FIXTURE)
 
@@ -58,21 +55,8 @@ class AdapterTests(unittest.TestCase):
         self.assertEqual(sample.provenance.raw_metadata["xsec_token"], first_row["xsec_token"])
 
     def test_xhs_loader_maps_export_fields_to_canonical_samples(self) -> None:
-        row = {
-            "note_id": "xhs-note-001",
-            "title": "jade pendant",
-            "desc": "jade pendant body",
-            "note_url": "https://www.xiaohongshu.com/explore/xhs-note-001",
-            "time": 1710000000000,
-            "last_modify_ts": 1710000005000,
-            "tag_list": "jade,pendant",
-            "xsec_token": "token-xhs",
-            "image_list": "https://example.com/image.jpg",
-        }
-
-        with tempfile.TemporaryDirectory() as tmpdir:
-            fixture = _write_jsonl(tmpdir, "xhs.jsonl", [row])
-            samples = load_xhs_samples(fixture)
+        row = _read_first_row(XHS_FIXTURE)
+        samples = load_xhs_samples(XHS_FIXTURE)
 
         self.assertEqual(len(samples), 1)
 
@@ -92,23 +76,11 @@ class AdapterTests(unittest.TestCase):
             sample.provenance.captured_at,
             datetime.fromtimestamp(row["last_modify_ts"] / 1000, tz=timezone.utc),
         )
-        self.assertEqual(sample.provenance.raw_metadata["xsec_token"], "token-xhs")
+        self.assertEqual(sample.provenance.raw_metadata["xsec_token"], row["xsec_token"])
 
     def test_douyin_loader_maps_export_fields_to_canonical_samples(self) -> None:
-        row = {
-            "aweme_id": "douyin-001",
-            "desc": "douyin body",
-            "share_url": "https://www.douyin.com/video/douyin-001",
-            "create_time": 1711000000000,
-            "update_time": 1711000009000,
-            "tag_list": "short video,jade",
-            "nickname": "creator",
-            "music_title": "sample track",
-        }
-
-        with tempfile.TemporaryDirectory() as tmpdir:
-            fixture = _write_jsonl(tmpdir, "douyin.jsonl", [row])
-            samples = load_douyin_samples(fixture)
+        row = _read_first_row(DOUYIN_FIXTURE)
+        samples = load_douyin_samples(DOUYIN_FIXTURE)
 
         self.assertEqual(len(samples), 1)
 
@@ -128,7 +100,7 @@ class AdapterTests(unittest.TestCase):
             sample.provenance.captured_at,
             datetime.fromtimestamp(row["update_time"] / 1000, tz=timezone.utc),
         )
-        self.assertEqual(sample.provenance.raw_metadata["nickname"], "creator")
+        self.assertEqual(sample.provenance.raw_metadata["nickname"], row["nickname"])
 
 
 if __name__ == "__main__":
