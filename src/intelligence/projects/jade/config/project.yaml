@@ -1,0 +1,32 @@
+name: jade
+domain: xiaohongshu
+purpose: jade_trend_research
+contract:
+  config: config/project.yaml
+  keywords: keywords/seed_keywords.csv
+  templates: templates/
+  examples: optional
+keyword_groups:
+  - jade_basics
+  - modern_jade_design
+  - material_combination
+  - style_and_scene
+  - price_and_gifting
+  - adjacent_categories
+sample_frame:
+  target_sample_mix:
+    core_jade_accounts: 30-50
+    adjacent_category_accounts: 20-30
+    keyword_discovery_sets: 40-80
+  core_jade_account_classes:
+    - commercial_conversion
+    - aesthetic_editorial
+    - young_experimental
+  account_size_tiers:
+    - head
+    - mid
+    - emerging
+selection_rules:
+  focus: product_specific_notes_with_visual_detail
+  band: 3000-8000_rmb
+  mandatory_review: image_first
