@@ -1,0 +1,19 @@
+[build-system]
+requires = []
+build-backend = "build_backend"
+backend-path = ["."]
+
+[project]
+name = "intelligence"
+version = "0.1.0"
+description = "Multi-category research engine for collected social content"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "Wendy" }
+]
+license = { text = "Proprietary" }
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/zinan92/intelligence"
