@@ -11,11 +11,8 @@ from intelligence.adapters.xhs_downloader import load_samples as load_xhs_sample
 from intelligence.schema import CanonicalSample
 
 
-MEDIACRAWLER_FIXTURE = Path(
-    "/Users/wendy/work/content-co/MediaCrawler-jade-trend-research/data/research/"
-    "jade_trends/raw/2026-03-23/crawler_pool_b/search_contents_2026-03-23.jsonl"
-)
 FIXTURES_DIR = Path(__file__).with_name("fixtures")
+MEDIACRAWLER_FIXTURE = FIXTURES_DIR / "mediacrawler_jade_export.jsonl"
 XHS_FIXTURE = FIXTURES_DIR / "xhs_downloader.jsonl"
 DOUYIN_FIXTURE = FIXTURES_DIR / "douyin_downloader.jsonl"
 
