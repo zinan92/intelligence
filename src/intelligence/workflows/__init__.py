@@ -9,4 +9,5 @@ __all__ = [
     "score",
     "validate",
     "report",
+    "jade_pack",
 ]
