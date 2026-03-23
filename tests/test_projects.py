@@ -9,6 +9,7 @@ from intelligence.projects import discover_project_pack, list_project_packs
 
 
 ROOT = Path(__file__).resolve().parents[1]
+CASE_STUDY_ROOT = ROOT / "docs" / "case-studies" / "jade"
 
 
 class ProjectPackDiscoveryTests(unittest.TestCase):
@@ -42,6 +43,34 @@ class ProjectPackDiscoveryTests(unittest.TestCase):
         self.assertTrue(pack.keywords_path.is_file())
         self.assertTrue(pack.templates_path.is_dir())
         self.assertFalse(pack.examples_path.exists())
+
+    def test_jade_pack_keeps_runtime_config_lean_and_exposes_case_study_assets(self) -> None:
+        pack = discover_project_pack("jade")
+        config_text = pack.config_path.read_text(encoding="utf-8")
+
+        self.assertIn("keyword_groups:", config_text)
+        self.assertNotIn("sample_frame:", config_text)
+        self.assertNotIn("selection_rules:", config_text)
+
+        self.assertTrue((CASE_STUDY_ROOT / "README.md").is_file())
+        self.assertTrue((CASE_STUDY_ROOT / "sample_frame.md").is_file())
+        self.assertTrue((CASE_STUDY_ROOT / "scoring_notes.md").is_file())
+
+        keyword_batch_text = (pack.templates_path / "keyword_batch.md").read_text(encoding="utf-8")
+        report_text = (pack.templates_path / "report.md").read_text(encoding="utf-8")
+        trend_map_text = (pack.templates_path / "trend_map.md").read_text(encoding="utf-8")
+        product_priority_text = (pack.templates_path / "product_priority.md").read_text(
+            encoding="utf-8"
+        )
+        design_brief_text = (pack.templates_path / "design_brief.md").read_text(encoding="utf-8")
+
+        self.assertNotIn("Placeholder", keyword_batch_text)
+        self.assertNotIn("Placeholder", report_text)
+        self.assertIn("Batch Metadata", keyword_batch_text)
+        self.assertIn("Executive Summary", report_text)
+        self.assertIn("Product Translation", trend_map_text)
+        self.assertIn("Build Now", product_priority_text)
+        self.assertIn("Guardrails", design_brief_text)
 
     def test_discover_project_pack_rejects_unknown_name(self) -> None:
         with self.assertRaises(FileNotFoundError):
