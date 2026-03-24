@@ -10,6 +10,7 @@ Jade Pack pack processed 1 MediaCrawler sample from mediacrawler_jade_export.jso
 - input: mediacrawler_jade_export.jsonl
 - jade pendant feature
 - tags: jade, pendant
+- https://www.xiaohongshu.com/explore/mc-note-001?xsec_token=token-mc&xsec_source=pc_search
 
 ## Validation States
 

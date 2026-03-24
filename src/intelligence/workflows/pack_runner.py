@@ -160,6 +160,20 @@ def _build_report(
             f" with {top_score['confidence']} confidence."
         )
 
+    evidence_bullets: list[str] = [
+        top_sample.content.title if top_sample and top_sample.content.title else "No title available",
+        f"tags: {tags}" if tags else "tags: none",
+    ]
+    source_urls = [
+        sample.provenance.url
+        for sample in samples
+        if sample.provenance.url
+    ]
+    if source_urls:
+        evidence_bullets.extend(source_urls[:5])
+        if len(source_urls) > 5:
+            evidence_bullets.append(f"... and {len(source_urls) - 5} more sources")
+
     evidence_buckets = (
         ReportBlock(
             title="Fixture Coverage" if is_fixture else "Input Coverage",
@@ -168,10 +182,7 @@ def _build_report(
                 ("source", "mediacrawler"),
                 ("input", source_path.name),
             ),
-            bullets=(
-                top_sample.content.title if top_sample and top_sample.content.title else "No title available",
-                f"tags: {tags}" if tags else "tags: none",
-            ),
+            bullets=tuple(evidence_bullets),
         ),
     )
 
