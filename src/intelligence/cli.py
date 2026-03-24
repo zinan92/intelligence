@@ -7,7 +7,14 @@ import sys
 from pathlib import Path
 
 from . import __version__
-from .workflows.jade_pack import run_jade_pack
+from .workflows.jade_pack import jade_pack_spec
+from .workflows.pack_runner import run_pack_flow
+from .workflows.streetwear_pack import streetwear_pack_spec
+
+_PACK_SPECS = {
+    "jade": jade_pack_spec,
+    "designer_streetwear": streetwear_pack_spec,
+}
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -24,11 +31,11 @@ def build_parser() -> argparse.ArgumentParser:
 
     run_pack = subparsers.add_parser(
         "run-pack",
-        help="Run a tiny pack-local proof flow.",
+        help="Run a pack flow against MediaCrawler export data.",
     )
     run_pack.add_argument(
         "pack",
-        choices=("jade",),
+        choices=sorted(_PACK_SPECS),
         help="Project pack to run.",
     )
     run_pack.add_argument(
@@ -51,15 +58,14 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     if args.command == "run-pack":
-        if args.pack == "jade":
-            input_path: Path | None = args.input
-            if input_path is not None and not input_path.is_file():
-                print(f"error: input file not found: {input_path}", file=sys.stderr)
-                return 1
-            run_jade_pack(args.output_dir, input_path=input_path)
-            return 0
+        input_path: Path | None = args.input
+        if input_path is not None and not input_path.is_file():
+            print(f"error: input file not found: {input_path}", file=sys.stderr)
+            return 1
 
-        parser.error(f"unsupported pack: {args.pack}")
+        spec = _PACK_SPECS[args.pack]
+        run_pack_flow(spec, args.output_dir, input_path=input_path)
+        return 0
 
     return 0
 
