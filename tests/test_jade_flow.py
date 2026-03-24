@@ -49,6 +49,8 @@ class JadePackFlowTests(unittest.TestCase):
             self.assertIn("jade", report_json["summary"].lower())
             self.assertIn("# Jade Pack Report", report_md)
             self.assertIn("## Evidence Buckets", report_md)
+            self.assertIn("Fixture Coverage", report_md)
+            self.assertIn("fixture-only execution", report_md)
             self.assertIn("<html", report_html.lower())
 
     def test_run_pack_jade_with_explicit_input(self) -> None:
@@ -83,6 +85,10 @@ class JadePackFlowTests(unittest.TestCase):
             self.assertIn("weighted_score", scored[0])
             self.assertEqual(report_json["title"], "Jade Pack Report")
             self.assertIn("# Jade Pack Report", report_md)
+            # --input provided → report should NOT say "fixture"
+            self.assertNotIn("Fixture Coverage", report_md)
+            self.assertNotIn("fixture-only execution", report_md)
+            self.assertIn("Input Coverage", report_md)
 
     def test_run_pack_jade_with_multi_sample_input(self) -> None:
         with TemporaryDirectory() as tmpdir:
@@ -127,6 +133,11 @@ class JadePackFlowTests(unittest.TestCase):
 
             # First sample has jade + bracelet + modern → should score higher
             self.assertGreater(scored[0]["weighted_score"], scored[1]["weighted_score"])
+
+            # Report should reflect real input, not fixture
+            report_md = (outdir / "report.md").read_text(encoding="utf-8")
+            self.assertIn("Input Coverage", report_md)
+            self.assertIn("user input: multi.jsonl", report_md)
 
     def test_run_pack_jade_input_file_not_found(self) -> None:
         with TemporaryDirectory() as tmpdir:

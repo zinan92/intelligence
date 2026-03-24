@@ -117,7 +117,7 @@ def _scoring_engine() -> ScoringEngine:
     )
 
 
-def _build_report(samples, scored_samples, *, source_path: Path) -> Report:
+def _build_report(samples, scored_samples, *, source_path: Path, is_fixture: bool) -> Report:
     sample_count = len(samples)
     top_sample = samples[0] if samples else None
     top_score = scored_samples[0] if scored_samples else None
@@ -136,7 +136,7 @@ def _build_report(samples, scored_samples, *, source_path: Path) -> Report:
 
     evidence_buckets = (
         ReportBlock(
-            title="Fixture Coverage",
+            title="Fixture Coverage" if is_fixture else "Input Coverage",
             fields=(
                 ("sample count", str(sample_count)),
                 ("source", "mediacrawler"),
@@ -149,6 +149,7 @@ def _build_report(samples, scored_samples, *, source_path: Path) -> Report:
         ),
     )
 
+    execution_label = "fixture-only execution" if is_fixture else f"user input: {source_path.name}"
     validation_states = (
         ReportBlock(
             title="Runtime Check",
@@ -157,7 +158,7 @@ def _build_report(samples, scored_samples, *, source_path: Path) -> Report:
                 ("scored outputs", str(len(scored_samples))),
                 ("report files", "5"),
             ),
-            bullets=("fixture-only execution", "shared renderers for JSON, Markdown, and HTML"),
+            bullets=(execution_label, "shared renderers for JSON, Markdown, and HTML"),
         ),
     )
 
@@ -233,7 +234,11 @@ def run_jade_pack(
     engine = _scoring_engine()
     scored_samples = [_score_payload(sample, engine.score(_bucket_scores(sample))) for sample in samples]
 
-    report = _build_report(samples, scored_samples, source_path=source_path)
+    report = _build_report(
+        samples, scored_samples,
+        source_path=source_path,
+        is_fixture=input_path is None,
+    )
 
     _write_json(output_path / "normalized_samples.json", normalized_samples)
     _write_json(output_path / "scored_samples.json", scored_samples)
