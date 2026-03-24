@@ -26,11 +26,15 @@ _SILHOUETTE_KEYWORDS = (
     "oversized", "oversize", "boxy", "wide-leg", "wide leg", "baggy",
     "relaxed", "loose", "boyfriend", "straight-leg", "廓形", "宽松",
     "阔腿", "落肩", "直筒", "silhouette",
+    # added from real-data pilot — common in actual XHS streetwear posts
+    "ootd", "街拍", "fit check", "fitcheck",
 )
 
 _GRAPHIC_KEYWORDS = (
     "graphic", "print", "logo", "embroidered", "embroidery", "slogan",
     "graffiti", "印花", "涂鸦", "标语", "字母", "卡通", "图案",
+    # added from real-data pilot
+    "潮流", "美式复古",
 )
 
 _LAYERING_KEYWORDS = (
@@ -48,6 +52,8 @@ _MATERIAL_KEYWORDS = (
     "nylon", "denim", "corduroy", "fleece", "mesh", "gore-tex",
     "尼龙", "丹宁", "灯芯绒", "卫衣", "冲锋衣", "机能",
     "网眼", "工装",
+    # added from real-data pilot
+    "机能风", "工装裤",
 )
 
 _COMMERCE_KEYWORDS = (
