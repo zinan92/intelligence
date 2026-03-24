@@ -138,8 +138,14 @@ def _build_report(
     is_fixture: bool,
 ) -> Report:
     sample_count = len(samples)
-    top_sample = samples[0] if samples else None
-    top_score = scored_samples[0] if scored_samples else None
+
+    if scored_samples:
+        top_idx = max(range(len(scored_samples)), key=lambda i: scored_samples[i]["weighted_score"])
+        top_sample = samples[top_idx]
+        top_score = scored_samples[top_idx]
+    else:
+        top_sample = None
+        top_score = None
     tags = _join_unique(tag for sample in samples for tag in sample.content.tags)
 
     summary = (
@@ -187,8 +193,8 @@ def _build_report(
             title=spec.trend_label,
             fields=(
                 ("weighted score", f"{top_score['weighted_score']:.2f}" if top_score else "0.00"),
-                ("confidence", top_score["confidence"] if top_score else "low"),
-                ("classification", top_score["classification"] if top_score else "avoid_for_now"),
+                ("confidence", top_score["confidence"] if top_score else spec.scoring_config.default_confidence),
+                ("classification", top_score["classification"] if top_score else spec.scoring_config.default_classification),
             ),
             bullets=spec.trend_bullets or (
                 "category-specific signal detected",

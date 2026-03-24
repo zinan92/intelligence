@@ -89,6 +89,40 @@ class DesignerStreetwearPackFlowTests(unittest.TestCase):
             self.assertNotIn("Jade", report_json["title"])
             self.assertNotIn("jade", report_json["summary"].lower().split("from")[0])
 
+    def test_report_top_signal_is_highest_scored_sample(self) -> None:
+        """Report summary should reflect the highest-scoring sample, not the first."""
+        with TemporaryDirectory() as tmpdir:
+            exit_code = main(["run-pack", "designer_streetwear", "--output-dir", tmpdir])
+            self.assertEqual(exit_code, 0)
+
+            scored = json.loads(
+                (Path(tmpdir) / "scored_samples.json").read_text(encoding="utf-8")
+            )
+            max_score = max(s["weighted_score"] for s in scored)
+            report_json = json.loads(
+                (Path(tmpdir) / "report.json").read_text(encoding="utf-8")
+            )
+            self.assertIn(f"{max_score:.2f}", report_json["summary"])
+
+    def test_empty_input_uses_pack_default_classification(self) -> None:
+        """Empty input should use the pack's own default_classification, not jade's."""
+        with TemporaryDirectory() as tmpdir:
+            input_path = Path(tmpdir) / "empty.jsonl"
+            input_path.write_text("", encoding="utf-8")
+            outdir = Path(tmpdir) / "out"
+
+            exit_code = main([
+                "run-pack", "designer_streetwear",
+                "--input", str(input_path),
+                "--output-dir", str(outdir),
+            ])
+            self.assertEqual(exit_code, 0)
+
+            report_md = (outdir / "report.md").read_text(encoding="utf-8")
+            # streetwear default is "noise", not jade's "avoid_for_now"
+            self.assertIn("noise", report_md)
+            self.assertNotIn("avoid_for_now", report_md)
+
     def test_examples_directory_contains_streetwear_readme(self) -> None:
         readme = Path(__file__).resolve().parents[1] / "examples" / "designer_streetwear" / "README.md"
         self.assertTrue(readme.is_file())
