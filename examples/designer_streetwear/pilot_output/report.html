@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Designer Streetwear Pack Report</title>
+  <style>
+    :root {
+      --bg: #0b0b12;
+      --surface: #14141f;
+      --surface-raised: #1c1c2e;
+      --border: #2a2a3c;
+      --text: #dfe0ec;
+      --text-muted: #8889a0;
+      --accent: #6e8efb;
+      --green: #34d399;
+      --amber: #fbbf24;
+      --red: #f87171;
+      --purple: #a78bfa;
+      --mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.6; padding: 2.5rem 1.5rem; }
+    main { max-width: 880px; margin: 0 auto; }
+
+    /* Hero */
+    .hero { padding-bottom: 2rem; margin-bottom: 2.5rem; border-bottom: 1px solid var(--border); }
+    .hero h1 { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 0.5rem; }
+    .hero .summary { color: var(--text-muted); font-size: 0.88rem; line-height: 1.55; margin-bottom: 1.25rem; }
+    .score-bar { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+    .badge { display: inline-flex; align-items: center; padding: 0.3rem 0.7rem; border-radius: 5px; font-family: var(--mono); font-size: 0.78rem; font-weight: 500; white-space: nowrap; }
+    .badge.score { background: var(--accent); color: #fff; font-size: 1.05rem; font-weight: 700; padding: 0.35rem 0.85rem; border-radius: 6px; }
+    .badge.confidence { border: 1px solid var(--border); }
+    .badge.confidence-high { background: rgba(52,211,153,0.12); color: var(--green); border-color: rgba(52,211,153,0.4); }
+    .badge.confidence-medium { background: rgba(251,191,36,0.12); color: var(--amber); border-color: rgba(251,191,36,0.4); }
+    .badge.confidence-low { background: rgba(248,113,113,0.12); color: var(--red); border-color: rgba(248,113,113,0.4); }
+    .badge.classification { background: var(--surface-raised); color: var(--text-muted); border: 1px solid var(--border); }
+
+    /* Sections */
+    .report-section { margin-bottom: 2.25rem; }
+    .report-section h2 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.85rem; padding-bottom: 0.45rem; border-bottom: 1px solid var(--border); }
+
+    /* Cards */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem 1.35rem; margin-bottom: 0.65rem; }
+    .card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.85rem; }
+
+    /* Field grid */
+    .field-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.85rem; }
+    .field-grid:not(:empty) { margin-bottom: 0.85rem; }
+    .field { display: flex; flex-direction: column; gap: 0.15rem; }
+    .field .label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+    .field .value { font-family: var(--mono); font-size: 0.88rem; }
+
+    /* Bullets */
+    .bullets { list-style: none; padding: 0; }
+    .bullets li { padding: 0.35rem 0 0.35rem 1rem; position: relative; font-size: 0.84rem; color: var(--text-muted); line-height: 1.5; }
+    .bullets li::before { content: '\203A'; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
+    .bullets a { color: var(--accent); text-decoration: none; word-break: break-all; }
+    .bullets a:hover { text-decoration: underline; }
+
+    /* Section accents */
+    .evidence-buckets .card { border-left: 3px solid var(--accent); }
+    .trend-clusters .card { border-left: 3px solid var(--green); }
+    .product-priorities .card { border-left: 3px solid var(--amber); }
+    .design-briefs .card { border-left: 3px solid var(--purple); }
+
+    /* Footer */
+    .report-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.72rem; font-family: var(--mono); }
+
+    @media (max-width: 640px) {
+      body { padding: 1.25rem 1rem; }
+      .field-grid { grid-template-columns: 1fr 1fr; }
+      .hero h1 { font-size: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <h1>Designer Streetwear Pack Report</h1>
+      <p class="summary">Designer Streetwear pack processed 20 MediaCrawler samples from streetwear_pilot_20.jsonl and produced a compact research report. The top signal scored 0.58 with medium confidence.</p>
+      <div class="score-bar"><span class="badge score">0.58</span><span class="badge confidence confidence-medium">medium</span><span class="badge classification">emerging_pattern</span></div>
+    </header>
+    <section class="report-section evidence-buckets"><h2>Evidence Buckets</h2><div class="card"><h3>Input Coverage</h3><div class="field-grid"><div class="field"><span class="label">sample count</span><span class="value">20</span></div><div class="field"><span class="label">source</span><span class="value">mediacrawler</span></div><div class="field"><span class="label">input</span><span class="value">streetwear_pilot_20.jsonl</span></div></div><ul class="bullets"><li>BAPE鲨鱼卫衣穿搭合集｜5套look</li><li>tags: 叠穿搭配, oversize, 阔腿裤, 春季穿搭, 街头穿搭, Supreme, Nike, 联名, 开箱测评, 潮牌, 球鞋, 机能风, 冲锋衣, 工装裤, 尼龙, 穿搭, 暗黑风, 涂鸦, 印花T恤, graphic, 百元穿搭, 好物推荐, Stussy, 设计师品牌, 丹宁, 廓形, 美食, 牛肉面, 午餐, 日系穿搭, vintage, 灯芯绒, 复古, 搭配, BAPE, 卫衣, 叠穿, 街头, baggy, 宜家, 家居, 收纳, Fear of God, Essentials, oversized, 开箱, 国潮, 小众品牌, 印花, 设计师, 推荐, 通勤穿搭, 一周穿搭, 写真, 摄影, 公园, Off-White, 配件, 值得买, 音乐节穿搭, 吉他, 学习, 音乐, sacai, 测评, 网眼, 美式复古, 混搭, 遛狗, 宠物, 周末, Palm Angels, logo, fleece</li><li><a href="https://www.xiaohongshu.com/explore/pilot-001" target="_blank" rel="noopener">https://www.xiaohongshu.com/explore/pilot-001</a></li><li><a href="https://www.xiaohongshu.com/explore/pilot-002" target="_blank" rel="noopener">https://www.xiaohongshu.com/explore/pilot-002</a></li><li><a href="https://www.xiaohongshu.com/explore/pilot-003" target="_blank" rel="noopener">https://www.xiaohongshu.com/explore/pilot-003</a></li><li><a href="https://www.xiaohongshu.com/explore/pilot-004" target="_blank" rel="noopener">https://www.xiaohongshu.com/explore/pilot-004</a></li><li><a href="https://www.xiaohongshu.com/explore/pilot-005" target="_blank" rel="noopener">https://www.xiaohongshu.com/explore/pilot-005</a></li><li>... and 15 more sources</li></ul></div></section><section class="report-section validation-states"><h2>Validation States</h2><div class="card"><h3>Runtime Check</h3><div class="field-grid"><div class="field"><span class="label">normalized outputs</span><span class="value">20</span></div><div class="field"><span class="label">scored outputs</span><span class="value">20</span></div><div class="field"><span class="label">report files</span><span class="value">5</span></div></div><ul class="bullets"><li>user input: streetwear_pilot_20.jsonl</li><li>shared renderers for JSON, Markdown, and HTML</li></ul></div></section><section class="report-section trend-clusters"><h2>Trend Clusters</h2><div class="card"><h3>Streetwear Style Signal</h3><div class="field-grid"><div class="field"><span class="label">weighted score</span><span class="value">0.58</span></div><div class="field"><span class="label">confidence</span><span class="value">medium</span></div><div class="field"><span class="label">classification</span><span class="value">emerging_pattern</span></div></div><ul class="bullets"><li>silhouette, graphic, and layering cues detected</li><li>brand and commerce signals used as supporting evidence</li></ul></div></section><section class="report-section product-priorities"><h2>Product Priorities</h2><div class="card"><h3>Build Now</h3><div class="field-grid"><div class="field"><span class="label">direction</span><span class="value">designer streetwear trend line</span></div><div class="field"><span class="label">why</span><span class="value">social content shows repeatable style and outfit composition patterns</span></div></div><ul class="bullets"><li>use the same pack flow with real collection inputs later</li></ul></div></section><section class="report-section design-briefs"><h2>Design Briefs</h2><div class="card"><h3>Keep It Compact</h3><div class="field-grid"><div class="field"><span class="label">target audience</span><span class="value">streetwear trend research</span></div><div class="field"><span class="label">material mix</span><span class="value">silhouette, graphic language, layering, and brand cues</span></div></div><ul class="bullets"><li>avoid overfitting to one fixture</li><li>prefer explicit heuristics over hidden config</li></ul></div></section>
+    <footer class="report-footer">
+      Generated by intelligence engine
+    </footer>
+  </main>
+</body>
+</html>

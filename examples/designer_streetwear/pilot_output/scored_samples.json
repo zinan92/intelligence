@@ -1,0 +1,1145 @@
+[
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-001",
+        "url": "https://www.xiaohongshu.com/explore/pilot-001",
+        "captured_at": "2024-03-31T15:46:45+00:00",
+        "published_at": "2024-03-31T15:46:40+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-001",
+          "type": "video",
+          "title": "春季叠穿公式｜oversized卫衣+阔腿裤",
+          "desc": "今天分享我的春季叠穿思路！oversize卫衣搭配高腰阔腿裤，内搭一件条纹长袖打底。廓形上松下宽，很显瘦。鞋子选了New Balance 990v6，整体搭配很舒服又有层次感。",
+          "video_url": "https://example.com/pilot/v001.mp4",
+          "time": 1711900000000,
+          "last_update_time": 1711900005000,
+          "user_id": "pilot-u001",
+          "nickname": "搭配日记_小鱼",
+          "avatar": "https://example.com/pilot/a001.jpg",
+          "liked_count": "1240",
+          "collected_count": "890",
+          "comment_count": "67",
+          "share_count": "34",
+          "ip_location": "Shanghai",
+          "image_list": "https://example.com/pilot/i001a.jpg,https://example.com/pilot/i001b.jpg",
+          "tag_list": "叠穿搭配,oversize,阔腿裤,春季穿搭,街头穿搭",
+          "last_modify_ts": 1711900005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-001",
+          "source_keyword": "街头穿搭",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "今天分享我的春季叠穿思路！oversize卫衣搭配高腰阔腿裤，内搭一件条纹长袖打底。廓形上松下宽，很显瘦。鞋子选了New Balance 990v6，整体搭配很舒服又有层次感。",
+        "title": "春季叠穿公式｜oversized卫衣+阔腿裤",
+        "summary": null,
+        "tags": [
+          "叠穿搭配",
+          "oversize",
+          "阔腿裤",
+          "春季穿搭",
+          "街头穿搭"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 1.0,
+      "graphic": 0.0,
+      "layering": 0.7,
+      "brand": 0.0,
+      "material": 0.5,
+      "commerce": 0.0
+    },
+    "weighted_score": 0.39,
+    "confidence": "low",
+    "classification": "weak_signal"
+  },
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-002",
+        "url": "https://www.xiaohongshu.com/explore/pilot-002",
+        "captured_at": "2024-04-01T05:40:05+00:00",
+        "published_at": "2024-04-01T05:40:00+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-002",
+          "type": "normal",
+          "title": "Supreme x Nike AF1联名开箱｜真的值2000？",
+          "desc": "终于到手了这双Supreme联名AF1！鞋面是优质皮革+网眼拼接，做工确实比普通AF1好很多。鞋舌有Supreme刺绣logo。上脚偏大半码建议买小。性价比的话见仁见智吧，联名溢价肯定有，但用料和设计确实用心了。",
+          "video_url": "",
+          "time": 1711950000000,
+          "last_update_time": 1711950005000,
+          "user_id": "pilot-u002",
+          "nickname": "球鞋测评官",
+          "avatar": "https://example.com/pilot/a002.jpg",
+          "liked_count": "2100",
+          "collected_count": "1560",
+          "comment_count": "234",
+          "share_count": "89",
+          "ip_location": "Beijing",
+          "image_list": "https://example.com/pilot/i002a.jpg,https://example.com/pilot/i002b.jpg,https://example.com/pilot/i002c.jpg",
+          "tag_list": "Supreme,Nike,联名,开箱测评,潮牌,球鞋",
+          "last_modify_ts": 1711950005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-002",
+          "source_keyword": "潮牌联名",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "终于到手了这双Supreme联名AF1！鞋面是优质皮革+网眼拼接，做工确实比普通AF1好很多。鞋舌有Supreme刺绣logo。上脚偏大半码建议买小。性价比的话见仁见智吧，联名溢价肯定有，但用料和设计确实用心了。",
+        "title": "Supreme x Nike AF1联名开箱｜真的值2000？",
+        "summary": null,
+        "tags": [
+          "Supreme",
+          "Nike",
+          "联名",
+          "开箱测评",
+          "潮牌",
+          "球鞋"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 0.0,
+      "graphic": 0.8,
+      "layering": 0.0,
+      "brand": 0.6,
+      "material": 0.5,
+      "commerce": 0.5
+    },
+    "weighted_score": 0.36,
+    "confidence": "low",
+    "classification": "weak_signal"
+  },
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-003",
+        "url": "https://www.xiaohongshu.com/explore/pilot-003",
+        "captured_at": "2024-04-01T19:33:25+00:00",
+        "published_at": "2024-04-01T19:33:20+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-003",
+          "type": "video",
+          "title": "机能风穿搭｜冲锋衣+工装裤一整套",
+          "desc": "这套机能风look：ACRONYM冲锋衣，Gore-Tex面料防水透气。下装配ACG工装裤，尼龙材质很耐穿。腰包选了Helikon军用款。整套偏暗黑机能，适合下雨天通勤。",
+          "video_url": "https://example.com/pilot/v003.mp4",
+          "time": 1712000000000,
+          "last_update_time": 1712000005000,
+          "user_id": "pilot-u003",
+          "nickname": "机能玩家",
+          "avatar": "https://example.com/pilot/a003.jpg",
+          "liked_count": "890",
+          "collected_count": "670",
+          "comment_count": "45",
+          "share_count": "22",
+          "ip_location": "Chengdu",
+          "image_list": "https://example.com/pilot/i003a.jpg",
+          "tag_list": "机能风,冲锋衣,工装裤,尼龙,穿搭,暗黑风",
+          "last_modify_ts": 1712000005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-003",
+          "source_keyword": "机能穿搭",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "这套机能风look：ACRONYM冲锋衣，Gore-Tex面料防水透气。下装配ACG工装裤，尼龙材质很耐穿。腰包选了Helikon军用款。整套偏暗黑机能，适合下雨天通勤。",
+        "title": "机能风穿搭｜冲锋衣+工装裤一整套",
+        "summary": null,
+        "tags": [
+          "机能风",
+          "冲锋衣",
+          "工装裤",
+          "尼龙",
+          "穿搭",
+          "暗黑风"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 0.0,
+      "graphic": 0.0,
+      "layering": 0.7,
+      "brand": 0.0,
+      "material": 0.5,
+      "commerce": 0.0
+    },
+    "weighted_score": 0.19,
+    "confidence": "low",
+    "classification": "noise"
+  },
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-004",
+        "url": "https://www.xiaohongshu.com/explore/pilot-004",
+        "captured_at": "2024-04-02T09:26:45+00:00",
+        "published_at": "2024-04-02T09:26:40+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-004",
+          "type": "normal",
+          "title": "这件涂鸦T恤也太好看了吧",
+          "desc": "入手了一件graffiti风格的印花T恤，整个背面是手绘涂鸦图案。面料是260g重磅棉，洗了几次没变形。搭配宽松牛仔裤和帆布鞋就很好看。百元价位性价比很高，推荐入手。",
+          "video_url": "",
+          "time": 1712050000000,
+          "last_update_time": 1712050005000,
+          "user_id": "pilot-u004",
+          "nickname": "穿搭种草机",
+          "avatar": "https://example.com/pilot/a004.jpg",
+          "liked_count": "560",
+          "collected_count": "420",
+          "comment_count": "38",
+          "share_count": "15",
+          "ip_location": "Hangzhou",
+          "image_list": "https://example.com/pilot/i004a.jpg,https://example.com/pilot/i004b.jpg",
+          "tag_list": "涂鸦,印花T恤,graphic,百元穿搭,好物推荐",
+          "last_modify_ts": 1712050005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-004",
+          "source_keyword": "印花T恤",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "入手了一件graffiti风格的印花T恤，整个背面是手绘涂鸦图案。面料是260g重磅棉，洗了几次没变形。搭配宽松牛仔裤和帆布鞋就很好看。百元价位性价比很高，推荐入手。",
+        "title": "这件涂鸦T恤也太好看了吧",
+        "summary": null,
+        "tags": [
+          "涂鸦",
+          "印花T恤",
+          "graphic",
+          "百元穿搭",
+          "好物推荐"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 1.0,
+      "graphic": 0.8,
+      "layering": 0.7,
+      "brand": 0.0,
+      "material": 0.0,
+      "commerce": 0.5
+    },
+    "weighted_score": 0.56,
+    "confidence": "medium",
+    "classification": "emerging_pattern"
+  },
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-005",
+        "url": "https://www.xiaohongshu.com/explore/pilot-005",
+        "captured_at": "2024-04-02T23:20:05+00:00",
+        "published_at": "2024-04-02T23:20:00+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-005",
+          "type": "video",
+          "title": "Stussy x Our Legacy联名系列全解析",
+          "desc": "Stussy和Our Legacy这次联名太强了。工装夹克用了日本面料，廓形偏boxy。针织衫是oversized版型很舒服。裤子是宽松直筒丹宁，水洗做旧效果。整个系列设计师品牌质感拉满但价格比预期低。值得入手。",
+          "video_url": "https://example.com/pilot/v005.mp4",
+          "time": 1712100000000,
+          "last_update_time": 1712100005000,
+          "user_id": "pilot-u005",
+          "nickname": "HYPEBEAST_CN",
+          "avatar": "https://example.com/pilot/a005.jpg",
+          "liked_count": "3200",
+          "collected_count": "2400",
+          "comment_count": "189",
+          "share_count": "120",
+          "ip_location": "Shanghai",
+          "image_list": "https://example.com/pilot/i005a.jpg,https://example.com/pilot/i005b.jpg",
+          "tag_list": "Stussy,联名,设计师品牌,丹宁,廓形,潮牌",
+          "last_modify_ts": 1712100005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-005",
+          "source_keyword": "设计师联名",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "Stussy和Our Legacy这次联名太强了。工装夹克用了日本面料，廓形偏boxy。针织衫是oversized版型很舒服。裤子是宽松直筒丹宁，水洗做旧效果。整个系列设计师品牌质感拉满但价格比预期低。值得入手。",
+        "title": "Stussy x Our Legacy联名系列全解析",
+        "summary": null,
+        "tags": [
+          "Stussy",
+          "联名",
+          "设计师品牌",
+          "丹宁",
+          "廓形",
+          "潮牌"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 1.0,
+      "graphic": 0.0,
+      "layering": 0.0,
+      "brand": 0.6,
+      "material": 0.5,
+      "commerce": 0.5
+    },
+    "weighted_score": 0.44,
+    "confidence": "medium",
+    "classification": "weak_signal"
+  },
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-006",
+        "url": "https://www.xiaohongshu.com/explore/pilot-006",
+        "captured_at": "2024-04-03T13:13:25+00:00",
+        "published_at": "2024-04-03T13:13:20+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-006",
+          "type": "normal",
+          "title": "今天午餐吃了一碗牛肉面",
+          "desc": "公司附近新开的面馆，红烧牛肉面25元，牛肉很大块，汤头浓郁。",
+          "video_url": "",
+          "time": 1712150000000,
+          "last_update_time": 1712150005000,
+          "user_id": "pilot-u006",
+          "nickname": "吃货小王",
+          "avatar": "https://example.com/pilot/a006.jpg",
+          "liked_count": "23",
+          "collected_count": "5",
+          "comment_count": "3",
+          "share_count": "0",
+          "ip_location": "Guangzhou",
+          "image_list": "https://example.com/pilot/i006a.jpg",
+          "tag_list": "美食,牛肉面,午餐",
+          "last_modify_ts": 1712150005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-006",
+          "source_keyword": "美食",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "公司附近新开的面馆，红烧牛肉面25元，牛肉很大块，汤头浓郁。",
+        "title": "今天午餐吃了一碗牛肉面",
+        "summary": null,
+        "tags": [
+          "美食",
+          "牛肉面",
+          "午餐"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 0.0,
+      "graphic": 0.0,
+      "layering": 0.0,
+      "brand": 0.0,
+      "material": 0.0,
+      "commerce": 0.0
+    },
+    "weighted_score": 0.0,
+    "confidence": "low",
+    "classification": "noise"
+  },
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-007",
+        "url": "https://www.xiaohongshu.com/explore/pilot-007",
+        "captured_at": "2024-04-04T03:06:45+00:00",
+        "published_at": "2024-04-04T03:06:40+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-007",
+          "type": "normal",
+          "title": "分享我的日系vintage穿搭",
+          "desc": "最近迷上了日系复古风。今天穿了一件vintage灯芯绒外套，里面是宽松条纹衬衫。下装是直筒卡其裤。整体配色偏大地色系，复古又日常。包是中古款帆布包。",
+          "video_url": "",
+          "time": 1712200000000,
+          "last_update_time": 1712200005000,
+          "user_id": "pilot-u007",
+          "nickname": "复古穿搭铺",
+          "avatar": "https://example.com/pilot/a007.jpg",
+          "liked_count": "780",
+          "collected_count": "620",
+          "comment_count": "42",
+          "share_count": "18",
+          "ip_location": "Tokyo",
+          "image_list": "https://example.com/pilot/i007a.jpg,https://example.com/pilot/i007b.jpg",
+          "tag_list": "日系穿搭,vintage,灯芯绒,复古,搭配",
+          "last_modify_ts": 1712200005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-007",
+          "source_keyword": "日系穿搭",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "最近迷上了日系复古风。今天穿了一件vintage灯芯绒外套，里面是宽松条纹衬衫。下装是直筒卡其裤。整体配色偏大地色系，复古又日常。包是中古款帆布包。",
+        "title": "分享我的日系vintage穿搭",
+        "summary": null,
+        "tags": [
+          "日系穿搭",
+          "vintage",
+          "灯芯绒",
+          "复古",
+          "搭配"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 1.0,
+      "graphic": 0.0,
+      "layering": 0.7,
+      "brand": 0.0,
+      "material": 0.5,
+      "commerce": 0.0
+    },
+    "weighted_score": 0.39,
+    "confidence": "low",
+    "classification": "weak_signal"
+  },
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-008",
+        "url": "https://www.xiaohongshu.com/explore/pilot-008",
+        "captured_at": "2024-04-04T17:00:05+00:00",
+        "published_at": "2024-04-04T17:00:00+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-008",
+          "type": "video",
+          "title": "BAPE鲨鱼卫衣穿搭合集｜5套look",
+          "desc": "入手了BAPE鲨鱼卫衣，分享5种不同搭配。look1搭配baggy牛仔裤+AF1偏街头；look2内搭长款衬衫叠穿更有层次；look3配工装短裤适合春天；look4搭配运动裤休闲；look5外面套一件oversized教练夹克做外穿。",
+          "video_url": "https://example.com/pilot/v008.mp4",
+          "time": 1712250000000,
+          "last_update_time": 1712250005000,
+          "user_id": "pilot-u008",
+          "nickname": "潮流穿搭指南",
+          "avatar": "https://example.com/pilot/a008.jpg",
+          "liked_count": "1800",
+          "collected_count": "1350",
+          "comment_count": "96",
+          "share_count": "55",
+          "ip_location": "Shanghai",
+          "image_list": "https://example.com/pilot/i008a.jpg",
+          "tag_list": "BAPE,卫衣,穿搭,叠穿,街头,潮牌,baggy",
+          "last_modify_ts": 1712250005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-008",
+          "source_keyword": "潮牌穿搭",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "入手了BAPE鲨鱼卫衣，分享5种不同搭配。look1搭配baggy牛仔裤+AF1偏街头；look2内搭长款衬衫叠穿更有层次；look3配工装短裤适合春天；look4搭配运动裤休闲；look5外面套一件oversized教练夹克做外穿。",
+        "title": "BAPE鲨鱼卫衣穿搭合集｜5套look",
+        "summary": null,
+        "tags": [
+          "BAPE",
+          "卫衣",
+          "穿搭",
+          "叠穿",
+          "街头",
+          "潮牌",
+          "baggy"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 1.0,
+      "graphic": 0.0,
+      "layering": 0.7,
+      "brand": 0.6,
+      "material": 0.5,
+      "commerce": 0.5
+    },
+    "weighted_score": 0.58,
+    "confidence": "medium",
+    "classification": "emerging_pattern"
+  },
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-009",
+        "url": "https://www.xiaohongshu.com/explore/pilot-009",
+        "captured_at": "2024-04-05T06:53:25+00:00",
+        "published_at": "2024-04-05T06:53:20+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-009",
+          "type": "normal",
+          "title": "周末去了趟宜家",
+          "desc": "买了几个收纳盒和一盏台灯，宜家的北欧简约设计还是很耐看的。",
+          "video_url": "",
+          "time": 1712300000000,
+          "last_update_time": 1712300005000,
+          "user_id": "pilot-u009",
+          "nickname": "居家生活家",
+          "avatar": "https://example.com/pilot/a009.jpg",
+          "liked_count": "45",
+          "collected_count": "12",
+          "comment_count": "4",
+          "share_count": "1",
+          "ip_location": "Beijing",
+          "image_list": "https://example.com/pilot/i009a.jpg",
+          "tag_list": "宜家,家居,收纳",
+          "last_modify_ts": 1712300005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-009",
+          "source_keyword": "家居",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "买了几个收纳盒和一盏台灯，宜家的北欧简约设计还是很耐看的。",
+        "title": "周末去了趟宜家",
+        "summary": null,
+        "tags": [
+          "宜家",
+          "家居",
+          "收纳"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 0.0,
+      "graphic": 0.0,
+      "layering": 0.0,
+      "brand": 0.0,
+      "material": 0.0,
+      "commerce": 0.0
+    },
+    "weighted_score": 0.0,
+    "confidence": "low",
+    "classification": "noise"
+  },
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-010",
+        "url": "https://www.xiaohongshu.com/explore/pilot-010",
+        "captured_at": "2024-04-05T20:46:45+00:00",
+        "published_at": "2024-04-05T20:46:40+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-010",
+          "type": "video",
+          "title": "Fear of God Essentials秋冬穿搭",
+          "desc": "Fear of God Essentials这季太好穿了。卫衣是relaxed fit，面料厚实不起球。搭配阔腿运动裤和拖鞋，oversized但不邋遢。颜色选了雾灰很百搭。开箱时包装也很有质感。性价比在设计师潮牌里算高的。",
+          "video_url": "https://example.com/pilot/v010.mp4",
+          "time": 1712350000000,
+          "last_update_time": 1712350005000,
+          "user_id": "pilot-u010",
+          "nickname": "FOG研究所",
+          "avatar": "https://example.com/pilot/a010.jpg",
+          "liked_count": "2600",
+          "collected_count": "1900",
+          "comment_count": "156",
+          "share_count": "78",
+          "ip_location": "Shanghai",
+          "image_list": "https://example.com/pilot/i010a.jpg,https://example.com/pilot/i010b.jpg",
+          "tag_list": "Fear of God,Essentials,卫衣,oversized,潮牌,开箱",
+          "last_modify_ts": 1712350005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-010",
+          "source_keyword": "设计师潮牌",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "Fear of God Essentials这季太好穿了。卫衣是relaxed fit，面料厚实不起球。搭配阔腿运动裤和拖鞋，oversized但不邋遢。颜色选了雾灰很百搭。开箱时包装也很有质感。性价比在设计师潮牌里算高的。",
+        "title": "Fear of God Essentials秋冬穿搭",
+        "summary": null,
+        "tags": [
+          "Fear of God",
+          "Essentials",
+          "卫衣",
+          "oversized",
+          "潮牌",
+          "开箱"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 1.0,
+      "graphic": 0.0,
+      "layering": 0.7,
+      "brand": 0.6,
+      "material": 0.5,
+      "commerce": 0.5
+    },
+    "weighted_score": 0.58,
+    "confidence": "medium",
+    "classification": "emerging_pattern"
+  },
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-011",
+        "url": "https://www.xiaohongshu.com/explore/pilot-011",
+        "captured_at": "2024-04-06T10:40:05+00:00",
+        "published_at": "2024-04-06T10:40:00+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-011",
+          "type": "normal",
+          "title": "国潮品牌推荐｜这几个小众设计真的绝",
+          "desc": "分享几个我觉得被低估的国潮品牌。ROARINGWILD的印花设计很有态度；ATTEMPT的廓形外套剪裁很好；FMACM的图案T恤每季都想买。价格200-600不等，性价比完胜很多国际潮牌。",
+          "video_url": "",
+          "time": 1712400000000,
+          "last_update_time": 1712400005000,
+          "user_id": "pilot-u011",
+          "nickname": "国潮观察",
+          "avatar": "https://example.com/pilot/a011.jpg",
+          "liked_count": "940",
+          "collected_count": "780",
+          "comment_count": "89",
+          "share_count": "34",
+          "ip_location": "Shenzhen",
+          "image_list": "https://example.com/pilot/i011a.jpg,https://example.com/pilot/i011b.jpg,https://example.com/pilot/i011c.jpg",
+          "tag_list": "国潮,小众品牌,印花,廓形,设计师,推荐",
+          "last_modify_ts": 1712400005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-011",
+          "source_keyword": "国潮品牌",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "分享几个我觉得被低估的国潮品牌。ROARINGWILD的印花设计很有态度；ATTEMPT的廓形外套剪裁很好；FMACM的图案T恤每季都想买。价格200-600不等，性价比完胜很多国际潮牌。",
+        "title": "国潮品牌推荐｜这几个小众设计真的绝",
+        "summary": null,
+        "tags": [
+          "国潮",
+          "小众品牌",
+          "印花",
+          "廓形",
+          "设计师",
+          "推荐"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 1.0,
+      "graphic": 0.8,
+      "layering": 0.0,
+      "brand": 0.6,
+      "material": 0.0,
+      "commerce": 0.5
+    },
+    "weighted_score": 0.51,
+    "confidence": "medium",
+    "classification": "emerging_pattern"
+  },
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-012",
+        "url": "https://www.xiaohongshu.com/explore/pilot-012",
+        "captured_at": "2024-04-07T00:33:25+00:00",
+        "published_at": "2024-04-07T00:33:20+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-012",
+          "type": "video",
+          "title": "一周通勤穿搭vlog",
+          "desc": "周一到周五的通勤穿搭记录。基本都是oversized上衣+直筒裤/阔腿裤的公式。周三那套叠穿了一件针织马甲很有层次。鞋子轮换了匡威、NB和乐福鞋。",
+          "video_url": "https://example.com/pilot/v012.mp4",
+          "time": 1712450000000,
+          "last_update_time": 1712450005000,
+          "user_id": "pilot-u012",
+          "nickname": "上班族穿搭",
+          "avatar": "https://example.com/pilot/a012.jpg",
+          "liked_count": "670",
+          "collected_count": "540",
+          "comment_count": "35",
+          "share_count": "12",
+          "ip_location": "Beijing",
+          "image_list": "https://example.com/pilot/i012a.jpg",
+          "tag_list": "通勤穿搭,oversize,阔腿裤,叠穿,搭配,一周穿搭",
+          "last_modify_ts": 1712450005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-012",
+          "source_keyword": "通勤穿搭",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "周一到周五的通勤穿搭记录。基本都是oversized上衣+直筒裤/阔腿裤的公式。周三那套叠穿了一件针织马甲很有层次。鞋子轮换了匡威、NB和乐福鞋。",
+        "title": "一周通勤穿搭vlog",
+        "summary": null,
+        "tags": [
+          "通勤穿搭",
+          "oversize",
+          "阔腿裤",
+          "叠穿",
+          "搭配",
+          "一周穿搭"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 1.0,
+      "graphic": 0.0,
+      "layering": 0.7,
+      "brand": 0.0,
+      "material": 0.0,
+      "commerce": 0.0
+    },
+    "weighted_score": 0.34,
+    "confidence": "low",
+    "classification": "weak_signal"
+  },
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-013",
+        "url": "https://www.xiaohongshu.com/explore/pilot-013",
+        "captured_at": "2024-04-07T14:26:45+00:00",
+        "published_at": "2024-04-07T14:26:40+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-013",
+          "type": "normal",
+          "title": "帮朋友拍了一组写真",
+          "desc": "周末帮朋友在公园拍了一组写真，自然光下拍的，后期调了胶片色调。",
+          "video_url": "",
+          "time": 1712500000000,
+          "last_update_time": 1712500005000,
+          "user_id": "pilot-u013",
+          "nickname": "摄影小白",
+          "avatar": "https://example.com/pilot/a013.jpg",
+          "liked_count": "89",
+          "collected_count": "22",
+          "comment_count": "8",
+          "share_count": "2",
+          "ip_location": "Nanjing",
+          "image_list": "https://example.com/pilot/i013a.jpg",
+          "tag_list": "写真,摄影,公园",
+          "last_modify_ts": 1712500005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-013",
+          "source_keyword": "摄影",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "周末帮朋友在公园拍了一组写真，自然光下拍的，后期调了胶片色调。",
+        "title": "帮朋友拍了一组写真",
+        "summary": null,
+        "tags": [
+          "写真",
+          "摄影",
+          "公园"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 0.0,
+      "graphic": 0.0,
+      "layering": 0.0,
+      "brand": 0.0,
+      "material": 0.0,
+      "commerce": 0.0
+    },
+    "weighted_score": 0.0,
+    "confidence": "low",
+    "classification": "noise"
+  },
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-014",
+        "url": "https://www.xiaohongshu.com/explore/pilot-014",
+        "captured_at": "2024-04-08T04:20:05+00:00",
+        "published_at": "2024-04-08T04:20:00+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-014",
+          "type": "normal",
+          "title": "Off-White腰带开箱｜工业风配件",
+          "desc": "入手了Off-White经典工业腰带，黄色那条。做工不错，金属扣件有重量感。搭配宽松工装裤露出来特别好看。价格不便宜但确实提升整体穿搭质感。潮牌配件里算实用的。值得买。",
+          "video_url": "",
+          "time": 1712550000000,
+          "last_update_time": 1712550005000,
+          "user_id": "pilot-u014",
+          "nickname": "配件控",
+          "avatar": "https://example.com/pilot/a014.jpg",
+          "liked_count": "430",
+          "collected_count": "310",
+          "comment_count": "28",
+          "share_count": "11",
+          "ip_location": "Shanghai",
+          "image_list": "https://example.com/pilot/i014a.jpg,https://example.com/pilot/i014b.jpg",
+          "tag_list": "Off-White,潮牌,配件,工装裤,开箱,值得买",
+          "last_modify_ts": 1712550005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-014",
+          "source_keyword": "潮牌配件",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "入手了Off-White经典工业腰带，黄色那条。做工不错，金属扣件有重量感。搭配宽松工装裤露出来特别好看。价格不便宜但确实提升整体穿搭质感。潮牌配件里算实用的。值得买。",
+        "title": "Off-White腰带开箱｜工业风配件",
+        "summary": null,
+        "tags": [
+          "Off-White",
+          "潮牌",
+          "配件",
+          "工装裤",
+          "开箱",
+          "值得买"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 1.0,
+      "graphic": 0.0,
+      "layering": 0.7,
+      "brand": 0.6,
+      "material": 0.5,
+      "commerce": 0.5
+    },
+    "weighted_score": 0.58,
+    "confidence": "medium",
+    "classification": "emerging_pattern"
+  },
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-015",
+        "url": "https://www.xiaohongshu.com/explore/pilot-015",
+        "captured_at": "2024-04-08T18:13:25+00:00",
+        "published_at": "2024-04-08T18:13:20+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-015",
+          "type": "video",
+          "title": "音乐节穿搭灵感｜怎么穿不出错",
+          "desc": "马上到音乐节季节了！分享几个穿搭灵感：oversized graphic tee配短裤最安全；想出彩可以试试mesh上衣外面套一件宽松衬衫叠穿；鞋子建议穿舒服的帆布鞋或者厚底鞋。风格偏街头就好。",
+          "video_url": "https://example.com/pilot/v015.mp4",
+          "time": 1712600000000,
+          "last_update_time": 1712600005000,
+          "user_id": "pilot-u015",
+          "nickname": "音乐节生存指南",
+          "avatar": "https://example.com/pilot/a015.jpg",
+          "liked_count": "1500",
+          "collected_count": "1200",
+          "comment_count": "78",
+          "share_count": "45",
+          "ip_location": "Chengdu",
+          "image_list": "https://example.com/pilot/i015a.jpg",
+          "tag_list": "音乐节穿搭,graphic,oversized,叠穿,街头",
+          "last_modify_ts": 1712600005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-015",
+          "source_keyword": "音乐节穿搭",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "马上到音乐节季节了！分享几个穿搭灵感：oversized graphic tee配短裤最安全；想出彩可以试试mesh上衣外面套一件宽松衬衫叠穿；鞋子建议穿舒服的帆布鞋或者厚底鞋。风格偏街头就好。",
+        "title": "音乐节穿搭灵感｜怎么穿不出错",
+        "summary": null,
+        "tags": [
+          "音乐节穿搭",
+          "graphic",
+          "oversized",
+          "叠穿",
+          "街头"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 1.0,
+      "graphic": 0.8,
+      "layering": 0.7,
+      "brand": 0.0,
+      "material": 0.5,
+      "commerce": 0.0
+    },
+    "weighted_score": 0.51,
+    "confidence": "medium",
+    "classification": "emerging_pattern"
+  },
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-016",
+        "url": "https://www.xiaohongshu.com/explore/pilot-016",
+        "captured_at": "2024-04-09T08:06:45+00:00",
+        "published_at": "2024-04-09T08:06:40+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-016",
+          "type": "normal",
+          "title": "最近在学吉他",
+          "desc": "学了两个月了，终于能弹完一首完整的歌了。分享一下练习心得。",
+          "video_url": "",
+          "time": 1712650000000,
+          "last_update_time": 1712650005000,
+          "user_id": "pilot-u016",
+          "nickname": "吉他新手",
+          "avatar": "https://example.com/pilot/a016.jpg",
+          "liked_count": "56",
+          "collected_count": "8",
+          "comment_count": "12",
+          "share_count": "1",
+          "ip_location": "Wuhan",
+          "image_list": "https://example.com/pilot/i016a.jpg",
+          "tag_list": "吉他,学习,音乐",
+          "last_modify_ts": 1712650005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-016",
+          "source_keyword": "吉他",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "学了两个月了，终于能弹完一首完整的歌了。分享一下练习心得。",
+        "title": "最近在学吉他",
+        "summary": null,
+        "tags": [
+          "吉他",
+          "学习",
+          "音乐"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 0.0,
+      "graphic": 0.0,
+      "layering": 0.0,
+      "brand": 0.0,
+      "material": 0.0,
+      "commerce": 0.0
+    },
+    "weighted_score": 0.0,
+    "confidence": "low",
+    "classification": "noise"
+  },
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-017",
+        "url": "https://www.xiaohongshu.com/explore/pilot-017",
+        "captured_at": "2024-04-09T22:00:05+00:00",
+        "published_at": "2024-04-09T22:00:00+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-017",
+          "type": "video",
+          "title": "sacai x Nike Vaporwaffle上脚测评",
+          "desc": "sacai联名第三代Vaporwaffle终于穿上了。双层鞋底很有辨识度，鞋面是网眼和麂皮拼接。舒适度一般，偏硬需要磨合。但颜值确实高，搭配阔腿裤或者直筒裤都好看。值不值得买取决于你是不是sacai粉丝吧。",
+          "video_url": "https://example.com/pilot/v017.mp4",
+          "time": 1712700000000,
+          "last_update_time": 1712700005000,
+          "user_id": "pilot-u017",
+          "nickname": "球鞋日记",
+          "avatar": "https://example.com/pilot/a017.jpg",
+          "liked_count": "1900",
+          "collected_count": "1400",
+          "comment_count": "167",
+          "share_count": "72",
+          "ip_location": "Beijing",
+          "image_list": "https://example.com/pilot/i017a.jpg,https://example.com/pilot/i017b.jpg",
+          "tag_list": "sacai,Nike,联名,球鞋,测评,网眼",
+          "last_modify_ts": 1712700005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-017",
+          "source_keyword": "联名球鞋",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "sacai联名第三代Vaporwaffle终于穿上了。双层鞋底很有辨识度，鞋面是网眼和麂皮拼接。舒适度一般，偏硬需要磨合。但颜值确实高，搭配阔腿裤或者直筒裤都好看。值不值得买取决于你是不是sacai粉丝吧。",
+        "title": "sacai x Nike Vaporwaffle上脚测评",
+        "summary": null,
+        "tags": [
+          "sacai",
+          "Nike",
+          "联名",
+          "球鞋",
+          "测评",
+          "网眼"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 1.0,
+      "graphic": 0.0,
+      "layering": 0.7,
+      "brand": 0.6,
+      "material": 0.5,
+      "commerce": 0.5
+    },
+    "weighted_score": 0.58,
+    "confidence": "medium",
+    "classification": "emerging_pattern"
+  },
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-018",
+        "url": "https://www.xiaohongshu.com/explore/pilot-018",
+        "captured_at": "2024-04-10T11:53:25+00:00",
+        "published_at": "2024-04-10T11:53:20+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-018",
+          "type": "normal",
+          "title": "美式复古穿搭｜灯芯绒+丹宁混搭",
+          "desc": "分享一套美式复古look。上衣是灯芯绒衬衫jacket，颜色选了焦糖色很秋冬。内搭白T，下装配直筒丹宁裤。整体配色就三个色很干净。喜欢这种不刻意但有质感的搭配风格。",
+          "video_url": "",
+          "time": 1712750000000,
+          "last_update_time": 1712750005000,
+          "user_id": "pilot-u018",
+          "nickname": "复古男孩",
+          "avatar": "https://example.com/pilot/a018.jpg",
+          "liked_count": "620",
+          "collected_count": "480",
+          "comment_count": "33",
+          "share_count": "14",
+          "ip_location": "Chongqing",
+          "image_list": "https://example.com/pilot/i018a.jpg",
+          "tag_list": "美式复古,灯芯绒,丹宁,混搭,搭配,穿搭",
+          "last_modify_ts": 1712750005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-018",
+          "source_keyword": "美式复古穿搭",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "分享一套美式复古look。上衣是灯芯绒衬衫jacket，颜色选了焦糖色很秋冬。内搭白T，下装配直筒丹宁裤。整体配色就三个色很干净。喜欢这种不刻意但有质感的搭配风格。",
+        "title": "美式复古穿搭｜灯芯绒+丹宁混搭",
+        "summary": null,
+        "tags": [
+          "美式复古",
+          "灯芯绒",
+          "丹宁",
+          "混搭",
+          "搭配",
+          "穿搭"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 1.0,
+      "graphic": 0.0,
+      "layering": 0.7,
+      "brand": 0.0,
+      "material": 0.5,
+      "commerce": 0.0
+    },
+    "weighted_score": 0.39,
+    "confidence": "low",
+    "classification": "weak_signal"
+  },
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-019",
+        "url": "https://www.xiaohongshu.com/explore/pilot-019",
+        "captured_at": "2024-04-11T01:46:45+00:00",
+        "published_at": "2024-04-11T01:46:40+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-019",
+          "type": "normal",
+          "title": "周末遛狗记录",
+          "desc": "带毛毛去了朝阳公园，天气不错跑了好几圈。",
+          "video_url": "",
+          "time": 1712800000000,
+          "last_update_time": 1712800005000,
+          "user_id": "pilot-u019",
+          "nickname": "铲屎官日常",
+          "avatar": "https://example.com/pilot/a019.jpg",
+          "liked_count": "34",
+          "collected_count": "2",
+          "comment_count": "6",
+          "share_count": "0",
+          "ip_location": "Beijing",
+          "image_list": "https://example.com/pilot/i019a.jpg",
+          "tag_list": "遛狗,宠物,周末",
+          "last_modify_ts": 1712800005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-019",
+          "source_keyword": "宠物",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "带毛毛去了朝阳公园，天气不错跑了好几圈。",
+        "title": "周末遛狗记录",
+        "summary": null,
+        "tags": [
+          "遛狗",
+          "宠物",
+          "周末"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 0.0,
+      "graphic": 0.0,
+      "layering": 0.0,
+      "brand": 0.0,
+      "material": 0.0,
+      "commerce": 0.0
+    },
+    "weighted_score": 0.0,
+    "confidence": "low",
+    "classification": "noise"
+  },
+  {
+    "sample": {
+      "provenance": {
+        "source": "mediacrawler",
+        "source_id": "pilot-020",
+        "url": "https://www.xiaohongshu.com/explore/pilot-020",
+        "captured_at": "2024-04-11T15:40:05+00:00",
+        "published_at": "2024-04-11T15:40:00+00:00",
+        "raw_metadata": {
+          "note_id": "pilot-020",
+          "type": "video",
+          "title": "Palm Angels开箱｜logo印花卫衣+运动裤套装",
+          "desc": "Palm Angels新季套装开箱。卫衣是经典的logo slogan印花，面料是fleece内里很暖。运动裤是宽松直筒版型，侧边有品牌条纹。整套买比单买便宜。穿上很有街头感。做工对得起价格。推荐给喜欢潮牌套装的朋友。",
+          "video_url": "https://example.com/pilot/v020.mp4",
+          "time": 1712850000000,
+          "last_update_time": 1712850005000,
+          "user_id": "pilot-u020",
+          "nickname": "潮流开箱",
+          "avatar": "https://example.com/pilot/a020.jpg",
+          "liked_count": "1100",
+          "collected_count": "830",
+          "comment_count": "72",
+          "share_count": "38",
+          "ip_location": "Shanghai",
+          "image_list": "https://example.com/pilot/i020a.jpg,https://example.com/pilot/i020b.jpg",
+          "tag_list": "Palm Angels,潮牌,印花,logo,开箱,推荐,fleece",
+          "last_modify_ts": 1712850005000,
+          "note_url": "https://www.xiaohongshu.com/explore/pilot-020",
+          "source_keyword": "潮牌开箱",
+          "xsec_token": "tok-pilot"
+        }
+      },
+      "content": {
+        "text": "Palm Angels新季套装开箱。卫衣是经典的logo slogan印花，面料是fleece内里很暖。运动裤是宽松直筒版型，侧边有品牌条纹。整套买比单买便宜。穿上很有街头感。做工对得起价格。推荐给喜欢潮牌套装的朋友。",
+        "title": "Palm Angels开箱｜logo印花卫衣+运动裤套装",
+        "summary": null,
+        "tags": [
+          "Palm Angels",
+          "潮牌",
+          "印花",
+          "logo",
+          "开箱",
+          "推荐",
+          "fleece"
+        ]
+      }
+    },
+    "bucket_scores": {
+      "silhouette": 1.0,
+      "graphic": 0.8,
+      "layering": 0.0,
+      "brand": 0.6,
+      "material": 0.5,
+      "commerce": 0.5
+    },
+    "weighted_score": 0.56,
+    "confidence": "medium",
+    "classification": "emerging_pattern"
+  }
+]
