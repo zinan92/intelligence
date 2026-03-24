@@ -32,10 +32,16 @@ def build_parser() -> argparse.ArgumentParser:
         help="Project pack to run.",
     )
     run_pack.add_argument(
+        "--input",
+        type=Path,
+        default=None,
+        help="Path to a MediaCrawler export JSONL file. Falls back to repo-local fixture when omitted.",
+    )
+    run_pack.add_argument(
         "--output-dir",
         required=True,
         type=Path,
-        help="Directory that will receive the generated demo outputs.",
+        help="Directory that will receive the generated outputs.",
     )
     return parser
 
@@ -46,7 +52,11 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "run-pack":
         if args.pack == "jade":
-            run_jade_pack(args.output_dir)
+            input_path: Path | None = args.input
+            if input_path is not None and not input_path.is_file():
+                print(f"error: input file not found: {input_path}", file=sys.stderr)
+                return 1
+            run_jade_pack(args.output_dir, input_path=input_path)
             return 0
 
         parser.error(f"unsupported pack: {args.pack}")

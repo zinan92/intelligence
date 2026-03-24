@@ -117,15 +117,16 @@ def _scoring_engine() -> ScoringEngine:
     )
 
 
-def _build_report(samples, scored_samples, *, fixture_path: Path) -> Report:
+def _build_report(samples, scored_samples, *, source_path: Path) -> Report:
     sample_count = len(samples)
     top_sample = samples[0] if samples else None
     top_score = scored_samples[0] if scored_samples else None
     tags = _join_unique(tag for sample in samples for tag in sample.content.tags)
 
     summary = (
-        f"Jade pack demo processed {sample_count} repo-local MediaCrawler sample"
-        f"{'s' if sample_count != 1 else ''} and produced a compact jade research report."
+        f"Jade pack processed {sample_count} MediaCrawler sample"
+        f"{'s' if sample_count != 1 else ''} from {source_path.name}"
+        f" and produced a compact jade research report."
     )
     if top_score is not None:
         summary = (
@@ -139,7 +140,7 @@ def _build_report(samples, scored_samples, *, fixture_path: Path) -> Report:
             fields=(
                 ("sample count", str(sample_count)),
                 ("source", "mediacrawler"),
-                ("fixture", fixture_path.name),
+                ("input", source_path.name),
             ),
             bullets=(
                 top_sample.content.title if top_sample and top_sample.content.title else "No title available",
@@ -208,21 +209,31 @@ def _build_report(samples, scored_samples, *, fixture_path: Path) -> Report:
     )
 
 
-def run_jade_pack(output_dir: str | Path) -> None:
-    """Run the tiny jade pack demo against repo-local fixtures only."""
+def run_jade_pack(
+    output_dir: str | Path,
+    *,
+    input_path: str | Path | None = None,
+) -> None:
+    """Run the jade pack flow.
+
+    When *input_path* is provided the flow consumes that MediaCrawler
+    export file.  Otherwise it falls back to the repo-local fixture.
+    """
 
     discover_project_pack("jade")
+
+    source_path = Path(input_path) if input_path is not None else _FIXTURE_PATH
 
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
 
-    samples = load_samples(_FIXTURE_PATH)
+    samples = load_samples(source_path)
     normalized_samples = [_sample_payload(sample) for sample in samples]
 
     engine = _scoring_engine()
     scored_samples = [_score_payload(sample, engine.score(_bucket_scores(sample))) for sample in samples]
 
-    report = _build_report(samples, scored_samples, fixture_path=_FIXTURE_PATH)
+    report = _build_report(samples, scored_samples, source_path=source_path)
 
     _write_json(output_path / "normalized_samples.json", normalized_samples)
     _write_json(output_path / "scored_samples.json", scored_samples)
