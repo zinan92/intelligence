@@ -1,0 +1,110 @@
+{
+  "title": "Jade Pack Report",
+  "summary": "Jade Pack pack processed 1 MediaCrawler sample from mediacrawler_jade_export.jsonl and produced a compact research report. The top signal scored 0.80 with high confidence.",
+  "evidence_buckets": [
+    {
+      "title": "Fixture Coverage",
+      "fields": [
+        {
+          "label": "sample count",
+          "value": "1"
+        },
+        {
+          "label": "source",
+          "value": "mediacrawler"
+        },
+        {
+          "label": "input",
+          "value": "mediacrawler_jade_export.jsonl"
+        }
+      ],
+      "bullets": [
+        "jade pendant feature",
+        "tags: jade, pendant"
+      ]
+    }
+  ],
+  "validation_states": [
+    {
+      "title": "Runtime Check",
+      "fields": [
+        {
+          "label": "normalized outputs",
+          "value": "1"
+        },
+        {
+          "label": "scored outputs",
+          "value": "1"
+        },
+        {
+          "label": "report files",
+          "value": "5"
+        }
+      ],
+      "bullets": [
+        "fixture-only execution",
+        "shared renderers for JSON, Markdown, and HTML"
+      ]
+    }
+  ],
+  "trend_clusters": [
+    {
+      "title": "Jade Pendant Signal",
+      "fields": [
+        {
+          "label": "weighted score",
+          "value": "0.80"
+        },
+        {
+          "label": "confidence",
+          "value": "high"
+        },
+        {
+          "label": "classification",
+          "value": "confirmed_continuation"
+        }
+      ],
+      "bullets": [
+        "category-specific cue: jade + pendant language",
+        "kept intentionally small for repo-local validation"
+      ]
+    }
+  ],
+  "product_priorities": [
+    {
+      "title": "Build Now",
+      "fields": [
+        {
+          "label": "direction",
+          "value": "jade pendant feature line"
+        },
+        {
+          "label": "why",
+          "value": "the fixture shows a clear, repeatable category cue"
+        }
+      ],
+      "bullets": [
+        "use the same pack flow with real collection inputs later"
+      ]
+    }
+  ],
+  "design_briefs": [
+    {
+      "title": "Keep It Compact",
+      "fields": [
+        {
+          "label": "target audience",
+          "value": "jade trend research"
+        },
+        {
+          "label": "material mix",
+          "value": "jade, pendant, and modern design cues"
+        }
+      ],
+      "bullets": [
+        "avoid overfitting to one fixture",
+        "prefer explicit heuristics over hidden config"
+      ]
+    }
+  ]
+}

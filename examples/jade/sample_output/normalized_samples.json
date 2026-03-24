@@ -1,0 +1,43 @@
+[
+  {
+    "provenance": {
+      "source": "mediacrawler",
+      "source_id": "mc-note-001",
+      "url": "https://www.xiaohongshu.com/explore/mc-note-001?xsec_token=token-mc&xsec_source=pc_search",
+      "captured_at": "2024-03-09T16:00:05+00:00",
+      "published_at": "2024-03-09T16:00:00+00:00",
+      "raw_metadata": {
+        "note_id": "mc-note-001",
+        "type": "video",
+        "title": "jade pendant feature",
+        "desc": "jade pendant body",
+        "video_url": "https://example.com/video.mp4",
+        "time": 1710000000000,
+        "last_update_time": 1710000005000,
+        "user_id": "creator-001",
+        "nickname": "creator",
+        "avatar": "https://example.com/avatar.jpg",
+        "liked_count": "10",
+        "collected_count": "5",
+        "comment_count": "2",
+        "share_count": "1",
+        "ip_location": "Beijing",
+        "image_list": "https://example.com/image.jpg",
+        "tag_list": "jade,pendant",
+        "last_modify_ts": 1710000005000,
+        "note_url": "https://www.xiaohongshu.com/explore/mc-note-001?xsec_token=token-mc&xsec_source=pc_search",
+        "source_keyword": "jade pendant",
+        "xsec_token": "token-mc"
+      }
+    },
+    "content": {
+      "text": "jade pendant body",
+      "title": "jade pendant feature",
+      "summary": null,
+      "tags": [
+        "jade",
+        "pendant"
+      ]
+    }
+  }
+]

@@ -1,0 +1,130 @@
+[
+  {
+    "provenance": {
+      "source": "mediacrawler",
+      "source_id": "sw-note-001",
+      "url": "https://www.xiaohongshu.com/explore/sw-note-001?xsec_token=token-sw1&xsec_source=pc_search",
+      "captured_at": "2024-04-01T19:33:25+00:00",
+      "published_at": "2024-04-01T19:33:20+00:00",
+      "raw_metadata": {
+        "note_id": "sw-note-001",
+        "type": "video",
+        "title": "oversized graphic tee layering look",
+        "desc": "layering an oversized graphic tee over a hoodie with wide-leg cargo pants. silhouette is boxy on top, relaxed below. street style vibes.",
+        "video_url": "https://example.com/video1.mp4",
+        "time": 1712000000000,
+        "last_update_time": 1712000005000,
+        "user_id": "creator-sw-001",
+        "nickname": "streetstyle_daily",
+        "avatar": "https://example.com/avatar1.jpg",
+        "liked_count": "320",
+        "collected_count": "150",
+        "comment_count": "45",
+        "share_count": "28",
+        "ip_location": "Shanghai",
+        "image_list": "https://example.com/image1.jpg",
+        "tag_list": "街头穿搭,oversize,layering,graphic",
+        "last_modify_ts": 1712000005000,
+        "note_url": "https://www.xiaohongshu.com/explore/sw-note-001?xsec_token=token-sw1&xsec_source=pc_search",
+        "source_keyword": "街头穿搭",
+        "xsec_token": "token-sw1"
+      }
+    },
+    "content": {
+      "text": "layering an oversized graphic tee over a hoodie with wide-leg cargo pants. silhouette is boxy on top, relaxed below. street style vibes.",
+      "title": "oversized graphic tee layering look",
+      "summary": null,
+      "tags": [
+        "街头穿搭",
+        "oversize",
+        "layering",
+        "graphic"
+      ]
+    }
+  },
+  {
+    "provenance": {
+      "source": "mediacrawler",
+      "source_id": "sw-note-002",
+      "url": "https://www.xiaohongshu.com/explore/sw-note-002?xsec_token=token-sw2&xsec_source=pc_search",
+      "captured_at": "2024-04-02T23:20:05+00:00",
+      "published_at": "2024-04-02T23:20:00+00:00",
+      "raw_metadata": {
+        "note_id": "sw-note-002",
+        "type": "normal",
+        "title": "Nike x Stussy collab bomber jacket review",
+        "desc": "Finally got the Nike x Stussy bomber. Premium nylon shell, oversized fit, embroidered logo on back. Price point around 2000 yuan. Worth it for the quality and brand collab hype.",
+        "video_url": "",
+        "time": 1712100000000,
+        "last_update_time": 1712100005000,
+        "user_id": "creator-sw-002",
+        "nickname": "hypebeast_cn",
+        "avatar": "https://example.com/avatar2.jpg",
+        "liked_count": "580",
+        "collected_count": "290",
+        "comment_count": "72",
+        "share_count": "41",
+        "ip_location": "Beijing",
+        "image_list": "https://example.com/image2.jpg",
+        "tag_list": "Nike,Stussy,联名,bomber,潮牌",
+        "last_modify_ts": 1712100005000,
+        "note_url": "https://www.xiaohongshu.com/explore/sw-note-002?xsec_token=token-sw2&xsec_source=pc_search",
+        "source_keyword": "潮牌联名",
+        "xsec_token": "token-sw2"
+      }
+    },
+    "content": {
+      "text": "Finally got the Nike x Stussy bomber. Premium nylon shell, oversized fit, embroidered logo on back. Price point around 2000 yuan. Worth it for the quality and brand collab hype.",
+      "title": "Nike x Stussy collab bomber jacket review",
+      "summary": null,
+      "tags": [
+        "Nike",
+        "Stussy",
+        "联名",
+        "bomber",
+        "潮牌"
+      ]
+    }
+  },
+  {
+    "provenance": {
+      "source": "mediacrawler",
+      "source_id": "sw-note-003",
+      "url": "https://www.xiaohongshu.com/explore/sw-note-003?xsec_token=token-sw3&xsec_source=pc_search",
+      "captured_at": "2024-04-04T03:06:45+00:00",
+      "published_at": "2024-04-04T03:06:40+00:00",
+      "raw_metadata": {
+        "note_id": "sw-note-003",
+        "type": "normal",
+        "title": "今天做了蛋炒饭",
+        "desc": "简单的蛋炒饭，加了一点酱油和葱花。",
+        "video_url": "",
+        "time": 1712200000000,
+        "last_update_time": 1712200005000,
+        "user_id": "creator-sw-003",
+        "nickname": "foodie_daily",
+        "avatar": "https://example.com/avatar3.jpg",
+        "liked_count": "15",
+        "collected_count": "3",
+        "comment_count": "1",
+        "share_count": "0",
+        "ip_location": "Guangzhou",
+        "image_list": "https://example.com/image3.jpg",
+        "tag_list": "美食,蛋炒饭",
+        "last_modify_ts": 1712200005000,
+        "note_url": "https://www.xiaohongshu.com/explore/sw-note-003?xsec_token=token-sw3&xsec_source=pc_search",
+        "source_keyword": "美食",
+        "xsec_token": "token-sw3"
+      }
+    },
+    "content": {
+      "text": "简单的蛋炒饭，加了一点酱油和葱花。",
+      "title": "今天做了蛋炒饭",
+      "summary": null,
+      "tags": [
+        "美食",
+        "蛋炒饭"
+      ]
+    }
+  }
+]
