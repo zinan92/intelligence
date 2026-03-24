@@ -1,12 +1,15 @@
-# Designer Streetwear Pilot Summary
+# Designer Streetwear — Curated Evaluation Pilot
 
 **Date**: 2026-03-24
 **Pack**: `designer_streetwear`
 **Input**: `pilot_input/streetwear_pilot_20.jsonl` (hand-curated, 20 samples)
+**Type**: Heuristic evaluation set — not a real collected-data pilot
 
 ## Data source
 
-No real streetwear collection existed locally — all available MediaCrawler exports were jade/jewelry focused. A 20-sample pilot dataset was hand-curated using realistic Xiaohongshu post patterns covering the full range of streetwear content types plus noise.
+No real streetwear collection existed locally — all available MediaCrawler exports were jade/jewelry focused. A 20-sample evaluation dataset was hand-curated using realistic Xiaohongshu post patterns covering the full range of streetwear content types plus noise.
+
+This is useful for heuristic tuning and regression testing. It is not a substitute for running the pack on real collected streetwear data.
 
 ## Sample composition
 
@@ -23,51 +26,55 @@ No real streetwear collection existed locally — all available MediaCrawler exp
 
 ## Results
 
-- **20 samples analyzed**, 15 scored as relevant, 5 correctly identified as noise
+- **20 samples analyzed**
 - **Top score**: 0.58 (BAPE穿搭合集, Fear of God Essentials, Off-White开箱, sacai联名)
 - **Score range for relevant posts**: 0.19 – 0.58
 - **Median relevant score**: 0.51
-- **Noise discrimination**: perfect (5/5 noise posts scored 0.00)
+- **True negatives**: 5/5 off-topic posts scored 0.00
+- **False negative**: 1 — techwear post #3 (冲锋衣+工装裤, genuine streetwear) classified as `noise` at 0.19
 
 ### Score distribution
 
-| Classification | Count | Score range |
-|----------------|-------|-------------|
-| emerging_pattern | 8 | 0.44 – 0.58 |
-| weak_signal | 6 | 0.34 – 0.44 |
-| noise | 6 | 0.00 – 0.19 |
+| Classification | Count | Notes |
+|----------------|-------|-------|
+| emerging_pattern | 8 | 0.44 – 0.58, all genuinely relevant |
+| weak_signal | 6 | 0.34 – 0.44, all genuinely relevant |
+| noise (true) | 5 | 0.00, correct rejections |
+| noise (false) | 1 | 0.19, techwear post misclassified |
 
 ## What the pack does well
 
-1. **Noise rejection is clean** — all 5 off-topic posts score exactly 0.00
+1. **Off-topic rejection is clean** — all 5 non-fashion posts score exactly 0.00
 2. **Brand + commerce posts rank high** — posts with brand collabs, reviews, and pricing signals consistently score in the emerging_pattern range
 3. **Multi-bucket posts are rewarded** — posts that hit silhouette + layering + brand + commerce outperform single-dimension posts, which is the intended behavior
 4. **Chinese and English keywords both work** — bilingual content is handled correctly
 
 ## What is still weak
 
-1. **Techwear underscores** — post #3 (冲锋衣+工装裤) scored 0.19 despite being genuine streetwear. The silhouette bucket doesn't recognize techwear-specific fit language. The pack is biased toward casual/oversized silhouettes.
+1. **Techwear is a false negative** — post #3 (冲锋衣+工装裤) scored 0.19 and was classified as noise despite being genuine streetwear. The silhouette bucket doesn't recognize techwear-specific fit language. The pack is biased toward casual/oversized silhouettes.
 2. **No post hits "strong_trend_signal"** (≥0.70) — the 6-bucket structure with weighted averaging means even strong posts cap around 0.58. This might be correct (a single post is not a trend), but it means the pack can't distinguish "very strong signal" from "moderate signal" at the individual sample level.
 3. **Scoring is binary per bucket** — any keyword match = full bucket score. A post mentioning "Nike" once scores the same brand signal as a detailed brand analysis. Frequency or density scoring would improve discrimination.
 4. **No "scene" bucket** — the seed keywords have a `scene_and_occasion` group (音乐节, 通勤, 校园), but there's no corresponding scoring bucket. Scene context is lost.
 
-## Heuristic changes made during pilot
+## Heuristic changes made during evaluation
 
-Three keywords were added based on pilot findings:
+Three keywords were added based on evaluation findings:
 - `直筒` (straight-leg) → silhouette keywords
 - `网眼` (Chinese for mesh) → material keywords
 - `工装` (workwear/cargo) → material keywords
 
 These improved scoring for 4 samples without breaking any existing tests.
 
-## Is the pack useful yet?
+## Status
 
-**Conditionally yes.** The pack reliably separates streetwear content from noise and produces a reasonable relevance ranking. The visual HTML report makes evaluation easy. But the scoring ceiling is low and techwear/functional-streetwear is underrepresented. For a first pilot this is a solid baseline.
+**Heuristic evaluation set: complete.** The pack has a reviewable eval baseline and the visual report layer works for inspection.
+
+**Real collected-data pilot: not yet complete.** Requires a streetwear-focused MediaCrawler collection. This is the next step before the pack can be considered validated for real use.
 
 ## What should improve next
 
-1. Add a `scene` scoring bucket using the existing seed keywords
-2. Consider graduated scoring (0.0 / 0.3 / 0.6 / 1.0) based on keyword density instead of binary 0/1
-3. Expand silhouette keywords for techwear fits (tactical, utility, functional)
-4. Run the pack on real collected data once a streetwear-focused MediaCrawler collection exists
+1. Run on real collected data once a streetwear-focused MediaCrawler collection exists
+2. Expand silhouette keywords for techwear fits (tactical, utility, functional)
+3. Add a `scene` scoring bucket using the existing seed keywords
+4. Consider graduated scoring (0.0 / 0.3 / 0.6 / 1.0) based on keyword density instead of binary 0/1
 5. Test cross-pack comparison: run both jade and streetwear packs on the same mixed input to validate discrimination
