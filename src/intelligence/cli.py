@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 
 from . import __version__
+from .projects import list_project_packs, validate_project_pack
 from .workflows.jade_pack import jade_pack_spec
 from .workflows.pack_runner import run_pack_flow
 from .workflows.streetwear_pack import streetwear_pack_spec
@@ -50,6 +51,16 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         help="Directory that will receive the generated outputs.",
     )
+
+    validate = subparsers.add_parser(
+        "validate-pack",
+        help="Validate a project pack's assets.",
+    )
+    validate.add_argument(
+        "pack",
+        help="Project pack name to validate.",
+    )
+
     return parser
 
 
@@ -65,6 +76,21 @@ def main(argv: list[str] | None = None) -> int:
 
         spec = _PACK_SPECS[args.pack]
         run_pack_flow(spec, args.output_dir, input_path=input_path)
+        return 0
+
+    if args.command == "validate-pack":
+        errors = validate_project_pack(args.pack)
+        if errors:
+            print(f"FAIL: {args.pack}", file=sys.stderr)
+            for error in errors:
+                print(f"  - {error}", file=sys.stderr)
+            return 1
+
+        pack_names = list_project_packs()
+        registered = args.pack in _PACK_SPECS
+        print(f"OK: {args.pack}")
+        print(f"  discoverable: {args.pack in pack_names}")
+        print(f"  registered in CLI: {registered}")
         return 0
 
     return 0
