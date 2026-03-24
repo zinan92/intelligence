@@ -148,8 +148,9 @@ def _build_report(
         top_score = None
     tags = _join_unique(tag for sample in samples for tag in sample.content.tags)
 
+    pack_label = spec.report_title.removesuffix(" Report").removesuffix(" Pack")
     summary = (
-        f"{spec.report_title.removesuffix(' Report')} pack processed"
+        f"{pack_label} pack processed"
         f" {sample_count} MediaCrawler sample"
         f"{'s' if sample_count != 1 else ''} from {source_path.name}"
         f" and produced a compact research report."

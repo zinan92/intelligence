@@ -1,6 +1,6 @@
 # Designer Streetwear Pack Report
 
-Designer Streetwear Pack pack processed 3 MediaCrawler samples from mediacrawler_streetwear_export.jsonl and produced a compact research report. The top signal scored 0.56 with medium confidence.
+Designer Streetwear pack processed 3 MediaCrawler samples from mediacrawler_streetwear_export.jsonl and produced a compact research report. The top signal scored 0.56 with medium confidence.
 
 ## Evidence Buckets
 

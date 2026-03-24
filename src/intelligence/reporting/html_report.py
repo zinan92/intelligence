@@ -74,13 +74,14 @@ def _render_section(title: str, blocks: tuple[object, ...]) -> str:
 
 
 def _extract_hero_metrics(report: Report) -> str:
-    """Build a score-bar div from trend_clusters fields."""
+    """Build a score-bar div from the first trend_clusters block."""
+    if not report.trend_clusters:
+        return ""
     fields: dict[str, str] = {}
-    for block in report.trend_clusters:
-        for label, value in block.fields:
-            key = label.lower().replace(" ", "_")
-            if key in ("weighted_score", "confidence", "classification"):
-                fields[key] = value
+    for label, value in report.trend_clusters[0].fields:
+        key = label.lower().replace(" ", "_")
+        if key in ("weighted_score", "confidence", "classification"):
+            fields[key] = value
 
     if not fields:
         return ""

@@ -356,6 +356,36 @@ class HtmlVisualReportTests(unittest.TestCase):
         self.assertIn("&lt;script&gt;", html)
         self.assertIn("Safe &amp; sound", html)
 
+    def test_hero_uses_first_trend_cluster_not_last(self):
+        report = self.Report(
+            title="Multi-cluster",
+            summary="Two clusters.",
+            trend_clusters=(
+                self.ReportBlock(
+                    title="Primary Signal",
+                    fields=(
+                        ("weighted score", "0.90"),
+                        ("confidence", "high"),
+                        ("classification", "confirmed"),
+                    ),
+                ),
+                self.ReportBlock(
+                    title="Secondary Signal",
+                    fields=(
+                        ("weighted score", "0.20"),
+                        ("confidence", "low"),
+                        ("classification", "noise"),
+                    ),
+                ),
+            ),
+        )
+        html = self.render(report)
+        # Hero should show the first block's metrics, not the second
+        self.assertIn("confidence-high", html)
+        self.assertIn('"badge score">0.90<', html)
+        # The second block's score should NOT appear in the hero score badge
+        self.assertNotIn('"badge score">0.20<', html)
+
     def test_field_labels_and_values_render_in_grid(self):
         html = self.render(self._sample_report())
         self.assertIn('class="label"', html)

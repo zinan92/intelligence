@@ -1,6 +1,6 @@
 # Jade Pack Report
 
-Jade Pack pack processed 1 MediaCrawler sample from mediacrawler_jade_export.jsonl and produced a compact research report. The top signal scored 0.80 with high confidence.
+Jade pack processed 1 MediaCrawler sample from mediacrawler_jade_export.jsonl and produced a compact research report. The top signal scored 0.80 with high confidence.
 
 ## Evidence Buckets
 
