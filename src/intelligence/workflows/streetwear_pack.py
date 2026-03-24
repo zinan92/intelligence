@@ -24,8 +24,8 @@ _FIXTURE_PATH = (
 
 _SILHOUETTE_KEYWORDS = (
     "oversized", "oversize", "boxy", "wide-leg", "wide leg", "baggy",
-    "relaxed", "loose", "boyfriend", "廓形", "宽松", "阔腿", "落肩",
-    "silhouette",
+    "relaxed", "loose", "boyfriend", "straight-leg", "廓形", "宽松",
+    "阔腿", "落肩", "直筒", "silhouette",
 )
 
 _GRAPHIC_KEYWORDS = (
@@ -47,6 +47,7 @@ _BRAND_KEYWORDS = (
 _MATERIAL_KEYWORDS = (
     "nylon", "denim", "corduroy", "fleece", "mesh", "gore-tex",
     "尼龙", "丹宁", "灯芯绒", "卫衣", "冲锋衣", "机能",
+    "网眼", "工装",
 )
 
 _COMMERCE_KEYWORDS = (

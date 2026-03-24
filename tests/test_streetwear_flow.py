@@ -129,6 +129,50 @@ class DesignerStreetwearPackFlowTests(unittest.TestCase):
         self.assertIn("run-pack designer_streetwear", readme.read_text(encoding="utf-8"))
 
 
+class StreetwearHeuristicTests(unittest.TestCase):
+    """Tests for keyword coverage found during the pilot study."""
+
+    def _score_text(self, title: str, desc: str, tags: str) -> dict:
+        """Build a sample, score it, and return the result dict."""
+        from intelligence.schema import CanonicalSample, CanonicalContent, CanonicalProvenance
+        from intelligence.workflows.streetwear_pack import _bucket_scores, _SCORING_CONFIG
+        from intelligence.scoring.engine import ScoringEngine
+
+        sample = CanonicalSample(
+            provenance=CanonicalProvenance(source="test", source_id="t-001"),
+            content=CanonicalContent(
+                text=desc,
+                title=title,
+                tags=tuple(t.strip() for t in tags.split(",") if t.strip()),
+            ),
+        )
+        engine = ScoringEngine(_SCORING_CONFIG)
+        result = engine.score(_bucket_scores(sample))
+        return {
+            "bucket_scores": result.bucket_scores,
+            "weighted_score": result.weighted_score,
+            "confidence": result.confidence,
+            "classification": result.classification,
+        }
+
+    def test_straight_leg_triggers_silhouette(self) -> None:
+        result = self._score_text("直筒裤搭配", "直筒裤穿搭分享", "直筒裤")
+        self.assertGreater(result["bucket_scores"]["silhouette"], 0)
+
+    def test_chinese_mesh_triggers_material(self) -> None:
+        result = self._score_text("网眼拼接球鞋", "网眼面料透气", "球鞋")
+        self.assertGreater(result["bucket_scores"]["material"], 0)
+
+    def test_workwear_triggers_material(self) -> None:
+        result = self._score_text("工装裤搭配", "工装风穿搭", "工装")
+        self.assertGreater(result["bucket_scores"]["material"], 0)
+
+    def test_pure_noise_scores_zero(self) -> None:
+        result = self._score_text("今天吃了火锅", "和朋友聚餐", "美食,火锅")
+        self.assertEqual(result["weighted_score"], 0.0)
+        self.assertEqual(result["classification"], "noise")
+
+
 class SharedWorkflowTests(unittest.TestCase):
     """Tests proving both packs exercise the same shared flow."""
 
