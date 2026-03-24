@@ -88,8 +88,16 @@ def main(argv: list[str] | None = None) -> int:
 
         pack_names = list_project_packs()
         registered = args.pack in _PACK_SPECS
+        discoverable = args.pack in pack_names
+
+        if not registered:
+            print(f"FAIL: {args.pack}", file=sys.stderr)
+            print(f"  assets are valid but pack is not registered in CLI", file=sys.stderr)
+            print(f"  add its PackSpec to _PACK_SPECS in cli.py", file=sys.stderr)
+            return 1
+
         print(f"OK: {args.pack}")
-        print(f"  discoverable: {args.pack in pack_names}")
+        print(f"  discoverable: {discoverable}")
         print(f"  registered in CLI: {registered}")
         return 0
 

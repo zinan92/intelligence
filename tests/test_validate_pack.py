@@ -24,6 +24,21 @@ class ValidatePackCLITests(unittest.TestCase):
         exit_code = main(["validate-pack", "nonexistent"])
         self.assertNotEqual(exit_code, 0)
 
+    def test_validate_valid_but_unregistered_pack_fails(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            packs_root = Path(tmpdir)
+            pack_root = packs_root / "orphan"
+            (pack_root / "config").mkdir(parents=True)
+            (pack_root / "config" / "project.yaml").write_text("name: orphan\n", encoding="utf-8")
+            (pack_root / "keywords").mkdir()
+            (pack_root / "keywords" / "seed_keywords.csv").write_text("group,keyword\ntest,value\n", encoding="utf-8")
+            (pack_root / "templates").mkdir()
+            (pack_root / "templates" / "report.md").write_text("# Report\n", encoding="utf-8")
+
+            with patch("intelligence.projects._PACKS_ROOT", packs_root):
+                exit_code = main(["validate-pack", "orphan"])
+            self.assertNotEqual(exit_code, 0)
+
     def test_validate_malformed_pack_fails(self) -> None:
         with TemporaryDirectory() as tmpdir:
             packs_root = Path(tmpdir)
@@ -119,14 +134,22 @@ class ValidateProjectPackTests(unittest.TestCase):
 class ExampleOutputTests(unittest.TestCase):
     """Tests that example outputs exist for both packs."""
 
+    _EXPECTED_OUTPUTS = (
+        "normalized_samples.json",
+        "scored_samples.json",
+        "report.json",
+        "report.md",
+        "report.html",
+    )
+
     def test_jade_example_outputs_exist(self) -> None:
         example_dir = Path(__file__).resolve().parents[1] / "examples" / "jade" / "sample_output"
-        for filename in ("normalized_samples.json", "scored_samples.json", "report.json", "report.md"):
+        for filename in self._EXPECTED_OUTPUTS:
             self.assertTrue((example_dir / filename).is_file(), f"missing: {filename}")
 
     def test_streetwear_example_outputs_exist(self) -> None:
         example_dir = Path(__file__).resolve().parents[1] / "examples" / "designer_streetwear" / "sample_output"
-        for filename in ("normalized_samples.json", "scored_samples.json", "report.json", "report.md"):
+        for filename in self._EXPECTED_OUTPUTS:
             self.assertTrue((example_dir / filename).is_file(), f"missing: {filename}")
 
 
