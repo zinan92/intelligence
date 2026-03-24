@@ -13,8 +13,11 @@ CASE_STUDY_ROOT = ROOT / "docs" / "case-studies" / "jade"
 
 
 class ProjectPackDiscoveryTests(unittest.TestCase):
-    def test_list_project_packs_includes_jade(self) -> None:
-        self.assertEqual(list_project_packs(), ("jade",))
+    def test_list_project_packs_includes_both_packs(self) -> None:
+        packs = list_project_packs()
+        self.assertIn("jade", packs)
+        self.assertIn("designer_streetwear", packs)
+        self.assertEqual(len(packs), 2)
 
     def test_list_project_packs_uses_asset_layout_without_init_file(self) -> None:
         with TemporaryDirectory() as tmpdir:

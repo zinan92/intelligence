@@ -1,0 +1,16 @@
+name: designer_streetwear
+domain: xiaohongshu
+purpose: streetwear_trend_research
+contract:
+  config: config/project.yaml
+  keywords: keywords/seed_keywords.csv
+  templates: templates/
+  examples: optional
+keyword_groups:
+  - silhouette_and_fit
+  - graphic_language
+  - layering_and_styling
+  - brand_and_collab
+  - material_and_fabric
+  - scene_and_occasion
+  - price_and_commerce
