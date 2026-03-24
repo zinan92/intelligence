@@ -15,6 +15,13 @@
 
 从小红书、抖音等平台采集到大量内容后，数据散落在不同格式的 JSONL 文件中，无法直接用于趋势判断或产品决策。手动整理耗时且不可复现，不同品类的研究逻辑又各不相同，难以沉淀为可复用的分析框架。
 
+## Project Packs
+
+| Pack | Category | Scoring buckets |
+|------|----------|-----------------|
+| `jade` | Jade jewelry trends | jade_signal, modernity, commerce |
+| `designer_streetwear` | Streetwear / apparel trends | silhouette, graphic, layering, brand, material, commerce |
+
 ## 解决方案
 
 `intelligence` 是一个多品类研究引擎，位于采集工具（MediaCrawler、抖音/小红书下载器）和最终展示层之间。它将上游采集的原始内容归一化为统一 schema，通过可配置的评分引擎打分，最终输出 JSON / Markdown / HTML 三种格式的决策报告。品类研究逻辑通过 **Project Pack** 机制隔离——引擎通用，配置专属。
@@ -241,6 +248,10 @@ results = [engine.score(compute_buckets(s)) for s in samples]
 | MediaCrawler | 小红书/抖音等平台的采集引擎（上游数据源） | — |
 | quant-data-pipeline | 量化数据管道（同生态系统） | [GitHub](https://github.com/zinan92/quant-data-pipeline) |
 | qualitative-data-pipeline | 定性数据管道（同生态系统） | [GitHub](https://github.com/zinan92/qualitative-data-pipeline) |
+
+## Adding a new pack
+
+See [docs/adding-a-pack.md](docs/adding-a-pack.md) for the full pack authoring contract.
 
 ## License
 
