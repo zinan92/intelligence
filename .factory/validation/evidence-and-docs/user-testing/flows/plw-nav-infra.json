@@ -1,0 +1,155 @@
+{
+  "groupId": "plw-nav-infra",
+  "milestone": "evidence-and-docs",
+  "testedAt": "2026-03-25T00:00:00.000Z",
+  "isolation": {
+    "appUrl": "http://localhost:8765/",
+    "browserSessionPrefix": "5eb39754b1fc__plw",
+    "sessionUsed": "5eb39754b1fc__plw_main"
+  },
+  "toolsUsed": ["agent-browser"],
+  "assertions": [
+    {
+      "id": "VAL-PLW-001",
+      "title": "All four product lines displayed",
+      "status": "pass",
+      "steps": [
+        { "action": "Navigate to http://localhost:8765/product-line.html", "expected": "Product Line Watch page loads", "observed": "Page loaded with title 产品线观察 - 翡翠信号图谱" },
+        { "action": "Take full-page snapshot", "expected": "All 4 product lines visible: 项链/吊坠, 耳饰, 戒指, 手串/叠戴", "observed": "All 4 product line sections displayed as h2 headings: 项链/吊坠, 耳饰, 戒指, 手串/叠戴" }
+      ],
+      "evidence": {
+        "screenshots": ["evidence-and-docs/plw-nav-infra/VAL-PLW-001-product-line-overview.png", "evidence-and-docs/plw-nav-infra/VAL-PLW-001-full-page.png"],
+        "consoleErrors": "none",
+        "network": "All resources loaded successfully"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-PLW-002",
+      "title": "Strengthening and weakening directions per line",
+      "status": "pass",
+      "steps": [
+        { "action": "Inspect each product line section in snapshot", "expected": "Each shows 助推方向 (strengthening) and 拖累方向 (weakening) with direction names and rationale", "observed": "Each product line has 📈 助推方向 and 📉 拖累方向 subsections. 项链/吊坠: 2 strengthening (18K 金镶翡翠, 冰感小件吊坠), 0 weakening. 耳饰: 1 strengthening (多巴胺色系耳饰), 0 weakening. 戒指: 0 strengthening, 1 weakening (18K 金镶翡翠). 手串/叠戴: 1 strengthening (沉香 + 翡翠叠戴), 0 weakening. Each direction shows name, heat percentage, judgment tag, and brief rationale." }
+      ],
+      "evidence": {
+        "screenshots": ["evidence-and-docs/plw-nav-infra/VAL-PLW-001-full-page.png"],
+        "consoleErrors": "none",
+        "network": "N/A"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-PLW-003",
+      "title": "Opportunity and risk levels visible",
+      "status": "pass",
+      "steps": [
+        { "action": "Inspect each product line section", "expected": "Each displays opportunity level and risk level with visual indicators", "observed": "Each product line has color-coded badges: 项链/吊坠 (机会: 高, 风险: 低中), 耳饰 (机会: 中高, 风险: 中), 戒指 (机会: 中, 风险: 中高), 手串/叠戴 (机会: 中, 风险: 中). Badges use green for opportunity and orange/red tones for risk." }
+      ],
+      "evidence": {
+        "screenshots": ["evidence-and-docs/plw-nav-infra/VAL-PLW-001-full-page.png"],
+        "consoleErrors": "none",
+        "network": "N/A"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-PLW-004",
+      "title": "Product Line Watch content is entirely in Chinese",
+      "status": "pass",
+      "steps": [
+        { "action": "Review all visible text on product-line.html via snapshot and screenshot", "expected": "All text in Chinese, no English UI labels", "observed": "All content is in Chinese: page title 产品线观察, product line names, status labels (整体状态: 上升/高潜但不稳定/证据不足/当前人群更稳), section headers (助推方向/拖累方向), badge text (机会/风险), direction names, rationale text. Navigation is in Chinese. No English UI labels found." }
+      ],
+      "evidence": {
+        "screenshots": ["evidence-and-docs/plw-nav-infra/VAL-PLW-001-full-page.png"],
+        "consoleErrors": "none",
+        "network": "N/A"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-CROSS-003",
+      "title": "Product line snapshot links to product line watch",
+      "status": "pass",
+      "steps": [
+        { "action": "Navigate to homepage and find product line snapshot module", "expected": "Product line links visible in snapshot module", "observed": "Product line snapshot module shows 项链/吊坠, 耳饰, 戒指, 手串/叠戴 as clickable links" },
+        { "action": "Click 项链/吊坠 link", "expected": "Navigates to product-line.html", "observed": "Navigated to http://localhost:8765/product-line.html?id=pl_001" }
+      ],
+      "evidence": {
+        "screenshots": ["evidence-and-docs/plw-nav-infra/VAL-CROSS-003-homepage-snapshot.png", "evidence-and-docs/plw-nav-infra/VAL-CROSS-003-plw-after-click.png"],
+        "consoleErrors": "none",
+        "network": "GET /product-line.html?id=pl_001 -> 200"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-NAV-002",
+      "title": "Navigation links work between pages",
+      "status": "pass",
+      "steps": [
+        { "action": "From homepage, click 方向地图", "expected": "Navigates to direction-map.html", "observed": "Navigated to http://localhost:8765/direction-map.html" },
+        { "action": "Click 产品线观察", "expected": "Navigates to product-line.html", "observed": "Navigated to http://localhost:8765/product-line.html" },
+        { "action": "Click 证据库", "expected": "Navigates to evidence.html", "observed": "Navigated to http://localhost:8765/evidence.html" },
+        { "action": "Click 首页", "expected": "Returns to index.html", "observed": "Navigated to http://localhost:8765/index.html" }
+      ],
+      "evidence": {
+        "screenshots": ["evidence-and-docs/plw-nav-infra/VAL-NAV-002-homepage-start.png", "evidence-and-docs/plw-nav-infra/VAL-NAV-002-direction-map.png", "evidence-and-docs/plw-nav-infra/VAL-NAV-002-product-line.png", "evidence-and-docs/plw-nav-infra/VAL-NAV-002-evidence.png", "evidence-and-docs/plw-nav-infra/VAL-NAV-002-back-to-homepage.png"],
+        "consoleErrors": "none",
+        "network": "All page navigations returned 200"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-LANG-001",
+      "title": "Judgment state vocabulary is consistent across pages",
+      "status": "pass",
+      "steps": [
+        { "action": "Check homepage Movement Board for judgment labels", "expected": "Only 值得跟, 观察中, 短热噪音, 需要补证据 used", "observed": "Homepage uses: 值得跟, 观察中, 需要补证据, 短热噪音. No non-canonical judgment labels found." },
+        { "action": "Check Direction Map for judgment labels", "expected": "Same 4 canonical states", "observed": "Direction Map uses: 值得跟, 观察中, 需要补证据, 短热噪音 as badge filters and card labels." },
+        { "action": "Check Direction Detail for judgment labels", "expected": "Same canonical state displayed", "observed": "Direction Detail (dir_001) uses: 值得跟 in hero and in product-line decision cards. Only canonical labels present." }
+      ],
+      "evidence": {
+        "screenshots": ["evidence-and-docs/plw-nav-infra/VAL-LANG-001-homepage.png", "evidence-and-docs/plw-nav-infra/VAL-LANG-001-direction-map.png", "evidence-and-docs/plw-nav-infra/VAL-LANG-001-direction-detail.png"],
+        "consoleErrors": "none",
+        "network": "N/A"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-LANG-002",
+      "title": "Judgment states use consistent visual color coding",
+      "status": "pass",
+      "steps": [
+        { "action": "Extract computed styles for judgment badges on homepage", "expected": "Each state has distinct, consistent color", "observed": "值得跟: green (rgb(16,185,129) on rgb(209,250,229)), 观察中: blue (rgb(59,130,246) on rgb(219,234,254)), 短热噪音: orange (rgb(245,158,11) on rgb(254,243,199)), 需要补证据: gray (rgb(107,114,128) on rgb(229,231,235))" },
+        { "action": "Extract computed styles for judgment badges on Direction Map", "expected": "Same colors as homepage", "observed": "Identical colors: 值得跟 green, 观察中 blue, 短热噪音 orange, 需要补证据 gray — exact same RGB values" },
+        { "action": "Extract computed styles for judgment badges on Direction Detail", "expected": "Same color identity maintained", "observed": "值得跟 uses same green color. Hero area variant uses white-on-transparent for contrast on dark green background, but the color identity (green) is maintained. Standard badge uses identical rgb(16,185,129) on rgb(209,250,229)." }
+      ],
+      "evidence": {
+        "screenshots": ["evidence-and-docs/plw-nav-infra/VAL-LANG-001-homepage.png", "evidence-and-docs/plw-nav-infra/VAL-LANG-001-direction-map.png", "evidence-and-docs/plw-nav-infra/VAL-LANG-001-direction-detail.png"],
+        "consoleErrors": "none",
+        "network": "N/A"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-INFRA-001",
+      "title": "No JavaScript console errors on any page",
+      "status": "pass",
+      "steps": [
+        { "action": "Load http://localhost:8765/index.html and check console errors", "expected": "Zero errors", "observed": "Zero JavaScript console errors" },
+        { "action": "Load http://localhost:8765/direction-map.html and check console errors", "expected": "Zero errors", "observed": "Zero JavaScript console errors" },
+        { "action": "Load http://localhost:8765/direction-detail.html?id=dir_001 and check console errors", "expected": "Zero errors", "observed": "Zero JavaScript console errors" },
+        { "action": "Load http://localhost:8765/product-line.html and check console errors", "expected": "Zero errors", "observed": "Zero JavaScript console errors" },
+        { "action": "Load http://localhost:8765/evidence.html and check console errors", "expected": "Zero errors", "observed": "Zero JavaScript console errors" }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "none on all 5 pages (homepage, direction-map, direction-detail, product-line, evidence)",
+        "network": "All 5 pages loaded without errors"
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 9 assertions: all 9 passed. Product Line Watch displays all 4 product lines with strengthening/weakening directions, opportunity/risk levels, and fully Chinese content. Navigation works across all pages. Judgment state vocabulary (值得跟, 观察中, 短热噪音, 需要补证据) and color coding are consistent across homepage, direction map, and direction detail. Zero JavaScript console errors on all 5 pages."
+}

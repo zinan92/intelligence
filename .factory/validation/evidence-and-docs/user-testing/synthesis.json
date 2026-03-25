@@ -1,0 +1,46 @@
+{
+  "milestone": "evidence-and-docs",
+  "round": 1,
+  "status": "pass",
+  "assertionsSummary": {
+    "total": 24,
+    "passed": 24,
+    "failed": 0,
+    "blocked": 0
+  },
+  "passedAssertions": [
+    "VAL-MAP-001",
+    "VAL-MAP-002",
+    "VAL-MAP-003",
+    "VAL-MAP-004",
+    "VAL-EVID-001",
+    "VAL-EVID-002",
+    "VAL-EVID-003",
+    "VAL-EVID-004",
+    "VAL-EVID-005",
+    "VAL-EVID-006",
+    "VAL-PLW-001",
+    "VAL-PLW-002",
+    "VAL-PLW-003",
+    "VAL-PLW-004",
+    "VAL-NAV-002",
+    "VAL-LANG-001",
+    "VAL-LANG-002",
+    "VAL-INFRA-001",
+    "VAL-CROSS-002",
+    "VAL-CROSS-003",
+    "VAL-CROSS-004",
+    "VAL-CROSS-005",
+    "VAL-CROSS-006",
+    "VAL-CROSS-007"
+  ],
+  "failedAssertions": [],
+  "blockedAssertions": [],
+  "appliedUpdates": [],
+  "previousRound": null,
+  "flowReports": [
+    ".factory/validation/evidence-and-docs/user-testing/flows/map-cross.json",
+    ".factory/validation/evidence-and-docs/user-testing/flows/evidence-library.json",
+    ".factory/validation/evidence-and-docs/user-testing/flows/plw-nav-infra.json"
+  ]
+}

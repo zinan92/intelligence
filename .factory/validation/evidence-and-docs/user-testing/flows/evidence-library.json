@@ -1,0 +1,122 @@
+{
+  "groupId": "evidence-library",
+  "milestone": "evidence-and-docs",
+  "testedAt": "2026-03-25T12:00:00Z",
+  "isolation": {
+    "appUrl": "http://localhost:8765/",
+    "evidenceLibraryPage": "http://localhost:8765/evidence.html",
+    "directionDetailPage": "http://localhost:8765/direction-detail.html?id=dir_001",
+    "browserSessionPrefix": "5eb39754b1fc__evid"
+  },
+  "toolsUsed": ["agent-browser"],
+  "assertions": [
+    {
+      "id": "VAL-EVID-001",
+      "title": "Three-panel layout",
+      "status": "pass",
+      "steps": [
+        { "action": "Navigate to http://localhost:8765/evidence.html", "expected": "Evidence library page loads", "observed": "Page loaded with title '证据库 - 翡翠信号图谱'" },
+        { "action": "Take screenshot of full page", "expected": "3-panel layout visible: left filters, center cards, right detail", "observed": "Screenshot confirms three distinct panels: left panel with filter checkboxes (方向, 产品线, 时间范围, 证据类型), center panel with evidence card list (7 cards), right panel with evidence detail view (证据详情)" },
+        { "action": "Verify DOM structure", "expected": "Three complementary/main sections", "observed": "DOM shows: aside (complementary) for left filters, main for center card list, aside (complementary) for right detail panel" }
+      ],
+      "evidence": {
+        "screenshots": ["evidence-and-docs/evidence-library/VAL-EVID-001-three-panel-layout.png"],
+        "consoleErrors": "none",
+        "network": "N/A"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-EVID-002",
+      "title": "Filter options present",
+      "status": "pass",
+      "steps": [
+        { "action": "Inspect left filter panel via snapshot", "expected": "Filters for 方向, 产品线, 时间范围, 证据类型 present with Chinese labels", "observed": "Left panel contains: heading '方向' with checkboxes (18K 金镶翡翠, 多巴胺色系耳饰, 沉香 + 翡翠叠戴, 冰感小件吊坠), heading '产品线' with checkboxes (项链/吊坠, 耳饰, 戒指, 手串/叠戴), heading '时间范围' with checkboxes (最近7天, 最近14天, 最近30天, 最近60天), heading '证据类型' with checkboxes (📝 笔记, 🖼️ 图片, 💬 评论)" },
+        { "action": "Verify all filter labels are in Chinese", "expected": "Chinese filter labels", "observed": "All filter section headings (方向, 产品线, 时间范围, 证据类型) and option labels are in Chinese" }
+      ],
+      "evidence": {
+        "screenshots": ["evidence-and-docs/evidence-library/VAL-EVID-001-three-panel-layout.png"],
+        "consoleErrors": "none",
+        "network": "N/A"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-EVID-003",
+      "title": "Evidence cards with type, source, freshness",
+      "status": "pass",
+      "steps": [
+        { "action": "Inspect center panel evidence cards via snapshot", "expected": "Cards show type indicator, source, freshness, and description", "observed": "7 evidence cards displayed. Example card: type emoji '📝', title '30岁+的优雅选择：18K金镶翡翠项链', metadata '笔记 · 小红书用户 @优雅姐姐 · 最近7天', description '展示成熟客群对金镶工艺和翡翠质感的双重需求'. All cards include: evidence type indicator (📝笔记/🖼️图片/💬评论), source (小红书用户/抖音评论区/小红书评论区), freshness (最近7天/最近3天/最近30天/最近14天), and brief description." }
+      ],
+      "evidence": {
+        "screenshots": ["evidence-and-docs/evidence-library/VAL-EVID-001-three-panel-layout.png"],
+        "consoleErrors": "none",
+        "network": "N/A"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-EVID-004",
+      "title": "Detail panel shows context and relevance",
+      "status": "pass",
+      "steps": [
+        { "action": "Check right panel on initial page load", "expected": "First evidence card auto-selected, detail displayed with why cited, direction supported, freshness, weight", "observed": "First card (30岁+的优雅选择：18K金镶翡翠项链) has CSS class 'selected'. Right panel shows: heading '证据详情', title '30岁+的优雅选择：18K金镶翡翠项链', tags '笔记 权重: 高 最近7天', section '为什么被引用' with '展示成熟客群对金镶工艺和翡翠质感的双重需求', section '支持的方向' with link '18K 金镶翡翠', section '产品线' with '项链/吊坠', section '来源' with '小红书用户 @优雅姐姐', section '时间戳' with '2026-03-18'" }
+      ],
+      "evidence": {
+        "screenshots": ["evidence-and-docs/evidence-library/VAL-EVID-001-three-panel-layout.png"],
+        "consoleErrors": "none",
+        "network": "N/A"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-EVID-005",
+      "title": "Filters actually filter the evidence list",
+      "status": "pass",
+      "steps": [
+        { "action": "Count evidence cards before filter", "expected": "All cards visible (7 total)", "observed": "7 evidence-card-item elements visible, all displayed" },
+        { "action": "Check '18K 金镶翡翠' direction filter checkbox", "expected": "Filter applied, card count reduces", "observed": "After checking '18K 金镶翡翠' filter, card count reduced from 7 to 2. Only cards related to '18K 金镶翡翠' direction remain visible." },
+        { "action": "Take before and after screenshots", "expected": "Visual confirmation of filtering", "observed": "Before screenshot shows 7 cards, after screenshot shows only 2 cards with '18K 金镶翡翠' checkbox checked" }
+      ],
+      "evidence": {
+        "screenshots": ["evidence-and-docs/evidence-library/VAL-EVID-005-before-filter.png", "evidence-and-docs/evidence-library/VAL-EVID-005-after-filter.png"],
+        "consoleErrors": "none",
+        "network": "N/A"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-EVID-006",
+      "title": "Evidence library content is entirely in Chinese",
+      "status": "pass",
+      "steps": [
+        { "action": "Inspect all visible UI text via snapshot and screenshot", "expected": "All text in Chinese", "observed": "All UI text is in Chinese: page title '证据库', subtitle '每条证据都经过策展，展示其对趋势判断的支撑作用', filter headings (方向, 产品线, 时间范围, 证据类型), filter options (Chinese direction/product names, time ranges), card titles and descriptions (all Chinese), detail panel headers (证据详情, 为什么被引用, 支持的方向, 产品线, 来源, 时间戳), nav labels (首页, 方向地图, 产品线观察, 证据库). No English UI labels found in the main content area." }
+      ],
+      "evidence": {
+        "screenshots": ["evidence-and-docs/evidence-library/VAL-EVID-001-three-panel-layout.png"],
+        "consoleErrors": "none",
+        "network": "N/A"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-CROSS-002",
+      "title": "Direction detail evidence links to evidence library",
+      "status": "pass",
+      "steps": [
+        { "action": "Navigate to direction detail page at http://localhost:8765/direction-detail.html?id=dir_001", "expected": "Direction detail page loads", "observed": "Page loaded with title '方向详情 - 翡翠信号图谱', showing direction '18K 金镶翡翠'" },
+        { "action": "Locate evidence entry points in section '06. 证据入口'", "expected": "Clickable evidence entries present", "observed": "Found 2 clickable evidence entry points with cursor:pointer and onclick: '📝 30岁+的优雅选择：18K金镶翡翠项链 笔记 · 最近7天' and '🖼️ 18K金镶翡翠耳饰细节图 图片 · 最近14天'" },
+        { "action": "Click first evidence entry point", "expected": "Navigates to evidence library, ideally filtered to relevant direction", "observed": "Navigated to http://localhost:8765/evidence.html?direction=18K%20金镶翡翠. Evidence library loaded with '18K 金镶翡翠' filter pre-checked, showing 2 filtered evidence cards." }
+      ],
+      "evidence": {
+        "screenshots": ["evidence-and-docs/evidence-library/VAL-CROSS-002-direction-detail-evidence-section.png", "evidence-and-docs/evidence-library/VAL-CROSS-002-evidence-library-after-click.png"],
+        "consoleErrors": "none",
+        "network": "N/A"
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 7 assertions: all 7 passed. Evidence library displays a clear 3-panel layout with left filters (方向, 产品线, 时间范围, 证据类型), center evidence card list (7 cards with type/source/freshness), and right detail panel (auto-selects first card with context and relevance). Filters work correctly (7→2 cards when filtering by direction). All UI text is in Chinese. Cross-page navigation from direction detail evidence entry points correctly links to evidence library with direction filter pre-applied."
+}

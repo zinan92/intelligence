@@ -1,0 +1,201 @@
+{
+  "group": "map-cross",
+  "milestone": "evidence-and-docs",
+  "testedAt": "2026-03-25T00:00:00Z",
+  "isolation": {
+    "appUrl": "http://localhost:8765/",
+    "directionMapPage": "http://localhost:8765/direction-map.html",
+    "directionDetailPage": "http://localhost:8765/direction-detail.html?id=dir_001",
+    "homepage": "http://localhost:8765/index.html",
+    "evidenceLibrary": "http://localhost:8765/evidence.html",
+    "productLineWatch": "http://localhost:8765/product-line.html",
+    "browserSessionPrefix": "5eb39754b1fc__map"
+  },
+  "toolsUsed": ["agent-browser"],
+  "assertions": {
+    "VAL-MAP-001": {
+      "status": "pass",
+      "title": "Direction Map page exists and is reachable",
+      "steps": [
+        {
+          "action": "Navigate to homepage at http://localhost:8765/index.html",
+          "expected": "Homepage loads with navigation bar",
+          "observed": "Homepage loaded with title '首页 - 翡翠信号图谱' and nav bar showing 首页, 方向地图, 产品线观察, 证据库"
+        },
+        {
+          "action": "Click 方向地图 in the navigation bar",
+          "expected": "Direction Map page loads",
+          "observed": "Navigated to http://localhost:8765/direction-map.html with title '方向地图 - 翡翠信号图谱', page shows heading '方向地图' and description '所有追踪方向的完整列表与对比视图'"
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "evidence-and-docs/map-cross/VAL-MAP-001-direction-map.png"
+        ],
+        "consoleErrors": "none",
+        "network": "GET /direction-map.html -> 200"
+      },
+      "issues": null,
+      "notes": "Direction Map page loads successfully with no console errors. Navigation from homepage works correctly."
+    },
+    "VAL-MAP-002": {
+      "status": "pass",
+      "title": "All directions displayed with key metrics",
+      "steps": [
+        {
+          "action": "Inspect the Direction Map page table via accessibility snapshot",
+          "expected": "All 4 directions from data file listed with name, heat/magnitude, confidence, judgment state, and classification",
+          "observed": "Table shows 4 rows: (1) 18K 金镶翡翠 — ↑ +32%, 信心: 高, 值得跟, 已确认延续; (2) 多巴胺色系耳饰 — ↑ +24%, 信心: 中, 观察中, 观察实验; (3) 沉香 + 翡翠叠戴 — ↑ +18%, 信心: 中高, 需要补证据, 观察实验; (4) 冰感小件吊坠 — ↑ +12%, 信心: 中, 短热噪音, 暂缓. Additional columns: 受众适配 and 价格带."
+        },
+        {
+          "action": "Take full-page screenshot to verify all 4 directions are visible",
+          "expected": "All 4 rows visible",
+          "observed": "Full page screenshot confirms all 4 direction rows are visible in the table"
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "evidence-and-docs/map-cross/VAL-MAP-002-full-page.png"
+        ],
+        "consoleErrors": "none",
+        "snapshot": "All 4 directions confirmed with columns: 方向名称, 热度, 置信度, 判断状态, 分类, 受众适配, 价格带"
+      },
+      "issues": null,
+      "notes": "All 4 directions are displayed with complete metrics including name, heat, confidence, judgment state, and classification."
+    },
+    "VAL-MAP-003": {
+      "status": "pass",
+      "title": "Sort or comparison controls",
+      "steps": [
+        {
+          "action": "Identify sort and filter controls on the page",
+          "expected": "At least 2 sort or comparison controls",
+          "observed": "Found 3 sort buttons (按热度排序, 按置信度排序, 按名称排序) and 5 filter buttons (全部, 值得跟, 观察中, 短热噪音, 需要补证据) — total 8 controls"
+        },
+        {
+          "action": "Click '按置信度排序' sort button",
+          "expected": "Table rows reorder by confidence level",
+          "observed": "Table reordered: 18K 金镶翡翠 (高) → 沉香 + 翡翠叠戴 (中高) → 多巴胺色系耳饰 (中) → 冰感小件吊坠 (中). Order changed from heat-sorted to confidence-sorted."
+        },
+        {
+          "action": "Click '值得跟' filter button",
+          "expected": "Only directions with 值得跟 judgment visible",
+          "observed": "Table filtered to show only 1 row: 18K 金镶翡翠 (the only 值得跟 direction). Other 3 rows hidden."
+        },
+        {
+          "action": "Click '全部' to reset filter",
+          "expected": "All directions visible again",
+          "observed": "All 4 directions restored in the table"
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "evidence-and-docs/map-cross/VAL-MAP-003-before-sort.png",
+          "evidence-and-docs/map-cross/VAL-MAP-003-after-sort-confidence.png",
+          "evidence-and-docs/map-cross/VAL-MAP-003-after-filter-zhideGen.png"
+        ],
+        "consoleErrors": "none",
+        "snapshot": "3 sort buttons + 5 filter buttons confirmed via interactive snapshot"
+      },
+      "issues": null,
+      "notes": "Page provides 3 sort controls and 5 filter controls (8 total, well exceeding the minimum of 2). Both sort and filter functions work correctly — sort reorders the table, filter shows/hides rows based on judgment state."
+    },
+    "VAL-MAP-004": {
+      "status": "pass",
+      "title": "Direction Map content is entirely in Chinese",
+      "steps": [
+        {
+          "action": "Review all visible text on Direction Map via accessibility snapshot and screenshot",
+          "expected": "All UI text in Chinese",
+          "observed": "All text confirmed Chinese: page heading '方向地图', description '所有追踪方向的完整列表与对比视图', summary stats '追踪方向总数/值得跟/观察中/短热噪音', sort buttons '按热度排序/按置信度排序/按名称排序', filter buttons '全部/值得跟/观察中/短热噪音/需要补证据', table headers '方向名称/热度/置信度/判断状态/分类/受众适配/价格带', direction names, classification text, audience descriptions. No English UI text present."
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "evidence-and-docs/map-cross/VAL-MAP-001-direction-map.png",
+          "evidence-and-docs/map-cross/VAL-MAP-002-full-page.png"
+        ],
+        "consoleErrors": "none",
+        "snapshot": "Full accessibility tree shows all labels, headers, buttons, and content in Chinese. Only non-Chinese text: numbers (+32%, +24%, +18%, +12%) and 'K' in '18K', which is technical metadata."
+      },
+      "issues": null,
+      "notes": "All UI elements on the Direction Map page are in Chinese. Only acceptable non-Chinese characters are numbers and 'K' in product name '18K 金镶翡翠'."
+    },
+    "VAL-CROSS-006": {
+      "status": "pass",
+      "title": "Direction Map direction click navigates to detail",
+      "steps": [
+        {
+          "action": "On Direction Map page, identify direction links in the table",
+          "expected": "Direction names are clickable links",
+          "observed": "All 4 direction names are links: 18K 金镶翡翠 → direction-detail.html?id=dir_001, 多巴胺色系耳饰 → dir_002, 沉香 + 翡翠叠戴 → dir_003, 冰感小件吊坠 → dir_004"
+        },
+        {
+          "action": "Click '18K 金镶翡翠' link on the Direction Map",
+          "expected": "Navigate to direction detail page for dir_001",
+          "observed": "Navigated to http://localhost:8765/direction-detail.html?id=dir_001. Page shows heading '18K 金镶翡翠' with full detail content including 方向总览, 一句话建议, 产品线决策卡, etc."
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "evidence-and-docs/map-cross/VAL-CROSS-006-map-before-click.png",
+          "evidence-and-docs/map-cross/VAL-CROSS-006-detail-after-click.png"
+        ],
+        "consoleErrors": "none",
+        "network": "GET /direction-detail.html?id=dir_001 -> 200"
+      },
+      "issues": null,
+      "notes": "Clicking a direction on the Direction Map correctly navigates to that direction's detail page with the correct content."
+    },
+    "VAL-CROSS-004": {
+      "status": "pass",
+      "title": "Consistent visual style across all pages",
+      "steps": [
+        {
+          "action": "Visit all 5 pages and take screenshots for visual comparison",
+          "expected": "Same navigation bar, card styling, heading sizes, and color scheme across all pages",
+          "observed": "All 5 pages share: (1) Same green-and-white navigation bar with '翡翠信号图谱' branding on left and 4 nav items (首页/方向地图/产品线观察/证据库) on right; (2) Active page is highlighted with a bordered/outlined button style in the nav; (3) Consistent green accent color (#059669 or similar) used for links, tags, and highlights; (4) Same card styling with light backgrounds, subtle borders, and rounded corners; (5) Consistent heading hierarchy and font sizes; (6) Consistent color-coded judgment badges (green for 值得跟, blue for 观察中, orange for 短热噪音, gray for 需要补证据). No page looks like it belongs to a different product."
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "evidence-and-docs/map-cross/VAL-CROSS-004-homepage.png",
+          "evidence-and-docs/map-cross/VAL-CROSS-004-detail.png",
+          "evidence-and-docs/map-cross/VAL-CROSS-004-direction-map.png",
+          "evidence-and-docs/map-cross/VAL-CROSS-004-evidence.png",
+          "evidence-and-docs/map-cross/VAL-CROSS-004-product-line.png"
+        ],
+        "consoleErrors": "none"
+      },
+      "issues": null,
+      "notes": "All 5 pages demonstrate consistent visual identity: same nav bar, card design, color scheme, typography, and judgment state color coding."
+    },
+    "VAL-CROSS-005": {
+      "status": "pass",
+      "title": "All pages use Chinese language throughout",
+      "steps": [
+        {
+          "action": "Visit all 5 pages and examine text via accessibility snapshots",
+          "expected": "Chinese as default language for all UI elements — navigation, headers, labels, content, buttons. No English UI text.",
+          "observed": "All 5 pages confirmed Chinese throughout: (1) Homepage: 实时异动榜, 今日判断, 值得关注方向, 风险提醒, 最近证据, 产品线观察, 14天变化 — all Chinese; (2) Direction Map: 方向地图, 排序方式, 筛选判断, 按热度排序, etc. — all Chinese; (3) Direction Detail: 方向总览, 一句话建议, 产品线决策卡, 为什么会涨, 风险提醒, 证据入口 — all Chinese; (4) Evidence Library: 证据库, 方向, 产品线, 时间范围, 证据类型, 证据详情, 为什么被引用, etc. — all Chinese; (5) Product Line Watch: 产品线观察, 助推方向, 拖累方向, 整体状态 — all Chinese. Only non-Chinese text: numbers, percentages, and dates (technical metadata)."
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "evidence-and-docs/map-cross/VAL-CROSS-004-homepage.png",
+          "evidence-and-docs/map-cross/VAL-CROSS-004-detail.png",
+          "evidence-and-docs/map-cross/VAL-CROSS-004-direction-map.png",
+          "evidence-and-docs/map-cross/VAL-CROSS-004-evidence.png",
+          "evidence-and-docs/map-cross/VAL-CROSS-004-product-line.png"
+        ],
+        "consoleErrors": "none",
+        "snapshots": "Full accessibility snapshots of all 5 pages confirm all UI labels, headers, buttons, and content in Chinese"
+      },
+      "issues": null,
+      "notes": "All 5 pages use Chinese throughout. The only non-Chinese characters are numbers (+32%, 2026-03-18) and 'K' in '18K', which are acceptable technical metadata."
+    }
+  },
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 7 assertions: 7 passed, 0 failed, 0 blocked. Direction Map page loads correctly with all 4 directions showing complete metrics. Sort (3 options) and filter (5 options) controls work correctly. Clicking a direction navigates to its detail page. All 5 pages share consistent visual style and use Chinese throughout."
+}
