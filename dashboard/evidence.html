@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>证据库 - 翡翠信号图谱</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Page-specific styles for Evidence Library */
+    .evidence-container {
+      display: grid;
+      grid-template-columns: 280px 1fr 400px;
+      gap: var(--space-lg);
+      min-height: calc(100vh - 180px);
+    }
+    
+    @media (max-width: 1280px) {
+      .evidence-container {
+        grid-template-columns: 240px 1fr 360px;
+      }
+    }
+    
+    @media (max-width: 968px) {
+      .evidence-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .filter-panel,
+      .detail-panel {
+        display: none;
+      }
+    }
+    
+    /* === Left Panel: Filters === */
+    .filter-panel {
+      background-color: var(--color-bg-primary);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      height: fit-content;
+      position: sticky;
+      top: calc(var(--space-xl) + 60px);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .filter-section {
+      margin-bottom: var(--space-xl);
+    }
+    
+    .filter-section:last-child {
+      margin-bottom: 0;
+    }
+    
+    .filter-section-title {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-md);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .filter-options {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    
+    .filter-option {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    
+    .filter-option:hover {
+      background-color: var(--color-bg-secondary);
+    }
+    
+    .filter-option input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .filter-option label {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      flex: 1;
+    }
+    
+    .filter-option.active {
+      background-color: var(--color-judgment-zhidegeng-light);
+    }
+    
+    .filter-option.active label {
+      color: var(--color-brand-primary);
+      font-weight: var(--font-weight-medium);
+    }
+    
+    .filter-clear {
+      margin-top: var(--space-lg);
+      padding: var(--space-sm) var(--space-md);
+      background-color: var(--color-bg-secondary);
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-md);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      width: 100%;
+    }
+    
+    .filter-clear:hover {
+      background-color: var(--color-bg-tertiary);
+      border-color: var(--color-brand-primary);
+      color: var(--color-brand-primary);
+    }
+    
+    /* === Center Panel: Evidence Card List === */
+    .card-list-panel {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+    }
+    
+    .card-list-header {
+      background-color: var(--color-bg-primary);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .card-list-header h1 {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-xs);
+    }
+    
+    .card-list-header .subtitle {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+    }
+    
+    .evidence-cards {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    
+    .evidence-card-item {
+      background-color: var(--color-bg-primary);
+      border: 2px solid var(--color-border-light);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+    
+    .evidence-card-item:hover {
+      border-color: var(--color-brand-primary);
+      box-shadow: var(--shadow-md);
+      transform: translateX(4px);
+    }
+    
+    .evidence-card-item.selected {
+      border-color: var(--color-brand-primary);
+      background-color: var(--color-judgment-zhidegeng-light);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .evidence-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+    
+    .evidence-type-icon {
+      font-size: var(--font-size-3xl);
+      flex-shrink: 0;
+    }
+    
+    .evidence-card-title-area {
+      flex: 1;
+    }
+    
+    .evidence-card-title {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-xs);
+      line-height: var(--line-height-tight);
+    }
+    
+    .evidence-card-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+    }
+    
+    .evidence-card-meta .separator {
+      color: var(--color-border-medium);
+    }
+    
+    .evidence-card-description {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-relaxed);
+    }
+    
+    .no-results {
+      background-color: var(--color-bg-primary);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2xl);
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .no-results h3 {
+      font-size: var(--font-size-xl);
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-md);
+    }
+    
+    .no-results p {
+      font-size: var(--font-size-base);
+      color: var(--color-text-tertiary);
+    }
+    
+    /* === Right Panel: Evidence Detail === */
+    .detail-panel {
+      background-color: var(--color-bg-primary);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      height: fit-content;
+      position: sticky;
+      top: calc(var(--space-xl) + 60px);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .detail-panel-title {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-lg);
+    }
+    
+    .detail-section {
+      margin-bottom: var(--space-xl);
+    }
+    
+    .detail-section:last-child {
+      margin-bottom: 0;
+    }
+    
+    .detail-section-heading {
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-brand-primary);
+      margin-bottom: var(--space-sm);
+    }
+    
+    .detail-section-content {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-relaxed);
+    }
+    
+    .detail-badge-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    
+    .detail-empty {
+      text-align: center;
+      padding: var(--space-2xl) 0;
+    }
+    
+    .detail-empty-icon {
+      font-size: var(--font-size-4xl);
+      margin-bottom: var(--space-md);
+    }
+    
+    .detail-empty-text {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-tertiary);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation bar will be auto-injected by nav.js -->
+  <div id="nav-container"></div>
+
+  <div class="container">
+    <div class="evidence-container">
+      <!-- === LEFT PANEL: Filters === -->
+      <aside class="filter-panel">
+        <div class="filter-section">
+          <h3 class="filter-section-title">方向</h3>
+          <div class="filter-options" id="filter-direction">
+            <!-- Will be populated by JavaScript -->
+          </div>
+        </div>
+        
+        <div class="filter-section">
+          <h3 class="filter-section-title">产品线</h3>
+          <div class="filter-options" id="filter-product-line">
+            <!-- Will be populated by JavaScript -->
+          </div>
+        </div>
+        
+        <div class="filter-section">
+          <h3 class="filter-section-title">时间范围</h3>
+          <div class="filter-options" id="filter-time">
+            <div class="filter-option" data-filter-type="time" data-filter-value="最近7天">
+              <input type="checkbox" id="time-7d">
+              <label for="time-7d">最近7天</label>
+            </div>
+            <div class="filter-option" data-filter-type="time" data-filter-value="最近14天">
+              <input type="checkbox" id="time-14d">
+              <label for="time-14d">最近14天</label>
+            </div>
+            <div class="filter-option" data-filter-type="time" data-filter-value="最近30天">
+              <input type="checkbox" id="time-30d">
+              <label for="time-30d">最近30天</label>
+            </div>
+            <div class="filter-option" data-filter-type="time" data-filter-value="最近60天">
+              <input type="checkbox" id="time-60d">
+              <label for="time-60d">最近60天</label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="filter-section">
+          <h3 class="filter-section-title">证据类型</h3>
+          <div class="filter-options" id="filter-type">
+            <div class="filter-option" data-filter-type="type" data-filter-value="笔记">
+              <input type="checkbox" id="type-note">
+              <label for="type-note">📝 笔记</label>
+            </div>
+            <div class="filter-option" data-filter-type="type" data-filter-value="图片">
+              <input type="checkbox" id="type-image">
+              <label for="type-image">🖼️ 图片</label>
+            </div>
+            <div class="filter-option" data-filter-type="type" data-filter-value="评论">
+              <input type="checkbox" id="type-comment">
+              <label for="type-comment">💬 评论</label>
+            </div>
+          </div>
+        </div>
+        
+        <button class="filter-clear" id="clear-filters">清除所有筛选</button>
+      </aside>
+      
+      <!-- === CENTER PANEL: Evidence Card List === -->
+      <main class="card-list-panel">
+        <div class="card-list-header">
+          <h1>证据库</h1>
+          <p class="subtitle">每条证据都经过策展，展示其对趋势判断的支撑作用</p>
+        </div>
+        
+        <div class="evidence-cards" id="evidence-cards">
+          <!-- Will be populated by JavaScript -->
+        </div>
+      </main>
+      
+      <!-- === RIGHT PANEL: Evidence Detail === -->
+      <aside class="detail-panel">
+        <h3 class="detail-panel-title">证据详情</h3>
+        <div id="evidence-detail">
+          <div class="detail-empty">
+            <div class="detail-empty-icon">📋</div>
+            <p class="detail-empty-text">选择一条证据查看详细信息</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Load shared JavaScript modules -->
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/nav.js"></script>
+
+  <!-- Page-specific initialization -->
+  <script>
+    // Global state
+    let allEvidence = [];
+    let filteredEvidence = [];
+    let selectedEvidenceId = null;
+    let activeFilters = {
+      direction: [],
+      productLine: [],
+      time: [],
+      type: []
+    };
+    
+    /**
+     * Get direction name from URL parameter (for pre-filtering)
+     */
+    function getDirectionFromUrl() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('direction') || null;
+    }
+    
+    /**
+     * Initialize the Evidence Library page
+     */
+    async function initEvidenceLibrary() {
+      try {
+        // Load dashboard data
+        const data = await loadDashboardData();
+        
+        // Store all evidence
+        allEvidence = getEvidenceEntries(data);
+        
+        // Initialize filters
+        initializeFilters(data);
+        
+        // Check for direction pre-filter from URL
+        const directionParam = getDirectionFromUrl();
+        if (directionParam) {
+          // Pre-select the direction filter
+          activeFilters.direction = [directionParam];
+          const directionCheckbox = document.querySelector(`input[value="${directionParam}"]`);
+          if (directionCheckbox) {
+            directionCheckbox.checked = true;
+            directionCheckbox.closest('.filter-option').classList.add('active');
+          }
+        }
+        
+        // Apply filters and render
+        applyFilters();
+        
+        // Auto-select first evidence if available
+        if (filteredEvidence.length > 0) {
+          selectEvidence(filteredEvidence[0].id);
+        }
+        
+        // Set up filter event listeners
+        setupFilterListeners();
+        
+      } catch (error) {
+        console.error('Failed to initialize evidence library:', error);
+      }
+    }
+    
+    /**
+     * Initialize filter options
+     */
+    function initializeFilters(data) {
+      // Get unique directions
+      const directions = getTrendDirections(data);
+      const directionContainer = document.getElementById('filter-direction');
+      
+      directionContainer.innerHTML = directions.map((dir, index) => `
+        <div class="filter-option" data-filter-type="direction" data-filter-value="${dir.name}">
+          <input type="checkbox" id="dir-${index}" value="${dir.name}">
+          <label for="dir-${index}">${dir.name}</label>
+        </div>
+      `).join('');
+      
+      // Get unique product lines
+      const productLines = getProductLines(data);
+      const productLineContainer = document.getElementById('filter-product-line');
+      
+      productLineContainer.innerHTML = productLines.map((pl, index) => `
+        <div class="filter-option" data-filter-type="productLine" data-filter-value="${pl.name}">
+          <input type="checkbox" id="pl-${index}" value="${pl.name}">
+          <label for="pl-${index}">${pl.name}</label>
+        </div>
+      `).join('');
+    }
+    
+    /**
+     * Set up filter event listeners
+     */
+    function setupFilterListeners() {
+      // Listen to all filter checkboxes
+      document.querySelectorAll('.filter-option input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', handleFilterChange);
+      });
+      
+      // Listen to filter option clicks (not just checkbox)
+      document.querySelectorAll('.filter-option').forEach(option => {
+        option.addEventListener('click', (e) => {
+          if (e.target.tagName !== 'INPUT') {
+            const checkbox = option.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            checkbox.dispatchEvent(new Event('change'));
+          }
+        });
+      });
+      
+      // Clear filters button
+      document.getElementById('clear-filters').addEventListener('click', clearAllFilters);
+    }
+    
+    /**
+     * Handle filter change
+     */
+    function handleFilterChange(event) {
+      const checkbox = event.target;
+      const filterOption = checkbox.closest('.filter-option');
+      const filterType = filterOption.dataset.filterType;
+      const filterValue = filterOption.dataset.filterValue;
+      
+      // Update active state
+      if (checkbox.checked) {
+        filterOption.classList.add('active');
+        if (!activeFilters[filterType].includes(filterValue)) {
+          activeFilters[filterType].push(filterValue);
+        }
+      } else {
+        filterOption.classList.remove('active');
+        activeFilters[filterType] = activeFilters[filterType].filter(v => v !== filterValue);
+      }
+      
+      // Re-apply filters
+      applyFilters();
+      
+      // Auto-select first evidence after filtering
+      if (filteredEvidence.length > 0) {
+        selectEvidence(filteredEvidence[0].id);
+      } else {
+        // Clear detail panel if no results
+        selectedEvidenceId = null;
+        renderDetailPanel(null);
+      }
+    }
+    
+    /**
+     * Clear all filters
+     */
+    function clearAllFilters() {
+      // Reset active filters
+      activeFilters = {
+        direction: [],
+        productLine: [],
+        time: [],
+        type: []
+      };
+      
+      // Uncheck all checkboxes
+      document.querySelectorAll('.filter-option input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = false;
+      });
+      
+      // Remove active class
+      document.querySelectorAll('.filter-option').forEach(option => {
+        option.classList.remove('active');
+      });
+      
+      // Re-apply filters (show all)
+      applyFilters();
+      
+      // Auto-select first evidence
+      if (filteredEvidence.length > 0) {
+        selectEvidence(filteredEvidence[0].id);
+      }
+    }
+    
+    /**
+     * Apply filters to evidence list
+     */
+    function applyFilters() {
+      filteredEvidence = allEvidence.filter(evidence => {
+        // Direction filter
+        if (activeFilters.direction.length > 0) {
+          if (!activeFilters.direction.includes(evidence.related_direction)) {
+            return false;
+          }
+        }
+        
+        // Product line filter
+        if (activeFilters.productLine.length > 0) {
+          if (!activeFilters.productLine.includes(evidence.product_line)) {
+            return false;
+          }
+        }
+        
+        // Time filter
+        if (activeFilters.time.length > 0) {
+          if (!activeFilters.time.includes(evidence.freshness)) {
+            return false;
+          }
+        }
+        
+        // Type filter
+        if (activeFilters.type.length > 0) {
+          if (!activeFilters.type.includes(evidence.type)) {
+            return false;
+          }
+        }
+        
+        return true;
+      });
+      
+      // Render the filtered list
+      renderEvidenceCards();
+    }
+    
+    /**
+     * Render evidence cards in center panel
+     */
+    function renderEvidenceCards() {
+      const container = document.getElementById('evidence-cards');
+      
+      if (filteredEvidence.length === 0) {
+        container.innerHTML = `
+          <div class="no-results">
+            <h3>未找到匹配的证据</h3>
+            <p>请尝试调整筛选条件</p>
+          </div>
+        `;
+        return;
+      }
+      
+      const typeIconMap = {
+        '笔记': '📝',
+        '图片': '🖼️',
+        '评论': '💬'
+      };
+      
+      container.innerHTML = filteredEvidence.map(evidence => {
+        const typeIcon = typeIconMap[evidence.type] || '📄';
+        const isSelected = evidence.id === selectedEvidenceId;
+        
+        return `
+          <div class="evidence-card-item ${isSelected ? 'selected' : ''}" 
+               data-evidence-id="${evidence.id}"
+               onclick="selectEvidence('${evidence.id}')">
+            <div class="evidence-card-header">
+              <div class="evidence-type-icon">${typeIcon}</div>
+              <div class="evidence-card-title-area">
+                <h3 class="evidence-card-title">${evidence.title}</h3>
+                <div class="evidence-card-meta">
+                  <span>${evidence.type}</span>
+                  <span class="separator">•</span>
+                  <span>${evidence.source}</span>
+                  <span class="separator">•</span>
+                  <span>${evidence.freshness}</span>
+                </div>
+              </div>
+            </div>
+            <p class="evidence-card-description">
+              ${evidence.relevance_explanation}
+            </p>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    /**
+     * Select an evidence card and show detail
+     */
+    function selectEvidence(evidenceId) {
+      selectedEvidenceId = evidenceId;
+      
+      // Update card selection state
+      document.querySelectorAll('.evidence-card-item').forEach(card => {
+        if (card.dataset.evidenceId === evidenceId) {
+          card.classList.add('selected');
+        } else {
+          card.classList.remove('selected');
+        }
+      });
+      
+      // Find the evidence object
+      const evidence = allEvidence.find(e => e.id === evidenceId);
+      
+      // Render detail panel
+      renderDetailPanel(evidence);
+    }
+    
+    /**
+     * Render evidence detail in right panel
+     */
+    function renderDetailPanel(evidence) {
+      const container = document.getElementById('evidence-detail');
+      
+      if (!evidence) {
+        container.innerHTML = `
+          <div class="detail-empty">
+            <div class="detail-empty-icon">📋</div>
+            <p class="detail-empty-text">选择一条证据查看详细信息</p>
+          </div>
+        `;
+        return;
+      }
+      
+      const typeIconMap = {
+        '笔记': '📝',
+        '图片': '🖼️',
+        '评论': '💬'
+      };
+      
+      const weightBadgeMap = {
+        'high': 'badge-success',
+        'medium': 'badge-warning',
+        'low': 'badge-info'
+      };
+      
+      const weightLabelMap = {
+        'high': '高',
+        'medium': '中',
+        'low': '低'
+      };
+      
+      const typeIcon = typeIconMap[evidence.type] || '📄';
+      const weightBadge = weightBadgeMap[evidence.weight] || 'badge-warning';
+      const weightLabel = weightLabelMap[evidence.weight] || '中';
+      
+      container.innerHTML = `
+        <div class="detail-section">
+          <div style="font-size: var(--font-size-3xl); margin-bottom: var(--space-md);">
+            ${typeIcon}
+          </div>
+          <h2 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); margin-bottom: var(--space-md); line-height: var(--line-height-tight);">
+            ${evidence.title}
+          </h2>
+          <div class="detail-badge-group">
+            <span class="badge badge-info">${evidence.type}</span>
+            <span class="badge ${weightBadge}">权重: ${weightLabel}</span>
+            <span class="freshness">${evidence.freshness}</span>
+          </div>
+        </div>
+        
+        <div class="detail-section">
+          <h4 class="detail-section-heading">为什么被引用</h4>
+          <p class="detail-section-content">${evidence.relevance_explanation}</p>
+        </div>
+        
+        <div class="detail-section">
+          <h4 class="detail-section-heading">支持的方向</h4>
+          <p class="detail-section-content">
+            <a href="direction-detail.html?id=${getDirectionIdByName(evidence.related_direction)}" 
+               style="color: var(--color-brand-primary); font-weight: var(--font-weight-medium);">
+              ${evidence.related_direction}
+            </a>
+          </p>
+        </div>
+        
+        <div class="detail-section">
+          <h4 class="detail-section-heading">产品线</h4>
+          <p class="detail-section-content">${evidence.product_line}</p>
+        </div>
+        
+        <div class="detail-section">
+          <h4 class="detail-section-heading">来源</h4>
+          <p class="detail-section-content">${evidence.source}</p>
+        </div>
+        
+        <div class="detail-section">
+          <h4 class="detail-section-heading">时间戳</h4>
+          <p class="detail-section-content">${evidence.timestamp || '未知'}</p>
+        </div>
+      `;
+    }
+    
+    /**
+     * Helper function to get direction ID by name
+     */
+    function getDirectionIdByName(directionName) {
+      const directionIdMap = {
+        '18K 金镶翡翠': 'dir_001',
+        '多巴胺色系耳饰': 'dir_002',
+        '沉香 + 翡翠叠戴': 'dir_003',
+        '冰感小件吊坠': 'dir_004'
+      };
+      return directionIdMap[directionName] || 'dir_001';
+    }
+    
+    // Initialize on page load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initEvidenceLibrary);
+    } else {
+      initEvidenceLibrary();
+    }
+  </script>
+</body>
+</html>
