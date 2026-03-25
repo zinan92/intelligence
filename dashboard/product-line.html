@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>产品线观察 - 翡翠信号图谱</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navigation bar will be auto-injected by nav.js -->
+  <div id="nav-container"></div>
+
+  <div class="container">
+    <div class="module">
+      <h1 class="module-title">产品线观察</h1>
+      <p class="module-subtitle text-muted">从产品线视角看市场趋势 — 哪些方向在助推，哪些在拖累</p>
+    </div>
+
+    <!-- Product line sections container -->
+    <div id="product-line-sections" style="display: flex; flex-direction: column; gap: 2rem;">
+      <!-- Will be populated by JavaScript -->
+    </div>
+  </div>
+
+  <!-- Load shared JavaScript modules -->
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/nav.js"></script>
+
+  <!-- Page-specific initialization -->
+  <script>
+    /**
+     * Initialize the Product Line Watch page
+     */
+    async function initProductLineWatch() {
+      try {
+        // Load dashboard data
+        const data = await loadDashboardData();
+        
+        // Render all product line sections
+        renderProductLineSections(data);
+        
+      } catch (error) {
+        console.error('Failed to initialize product line watch:', error);
+      }
+    }
+
+    /**
+     * Render all product line sections
+     */
+    function renderProductLineSections(data) {
+      const productLines = getProductLines(data);
+      const directions = getTrendDirections(data);
+      const container = document.getElementById('product-line-sections');
+      
+      if (!container) return;
+      
+      // Build a map from direction name to direction object for quick lookup
+      const directionMap = {};
+      directions.forEach(dir => {
+        directionMap[dir.name] = dir;
+      });
+      
+      container.innerHTML = productLines.map(line => {
+        // Get strengthening and weakening directions
+        const strengtheningDirections = line.strengthening_directions || [];
+        const weakeningDirections = line.weakening_directions || [];
+        
+        return `
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title text-2xl">${line.name}</h2>
+              <div style="display: flex; gap: 0.75rem; margin-top: 0.75rem;">
+                ${renderOpportunityRiskLevel(line.opportunity_level, 'opportunity')}
+                ${renderOpportunityRiskLevel(line.risk_level, 'risk')}
+              </div>
+            </div>
+            
+            <div class="card-body">
+              <!-- Overall status -->
+              <div style="margin-bottom: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-weight: 600; color: var(--color-text-primary);">整体状态:</span>
+                  <span style="font-weight: 600; color: var(--color-brand-primary);">${line.movement_status}</span>
+                </div>
+                <p class="text-sm text-secondary">${line.reasoning}</p>
+              </div>
+
+              <!-- Two-column layout for strengthening/weakening -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                
+                <!-- Strengthening directions -->
+                <div>
+                  <h3 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); color: var(--color-success); margin-bottom: 1rem;">
+                    📈 助推方向 (${strengtheningDirections.length})
+                  </h3>
+                  ${strengtheningDirections.length > 0 ? `
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                      ${strengtheningDirections.map(dirName => {
+                        const dir = directionMap[dirName];
+                        if (!dir) {
+                          return `
+                            <div style="padding: 1rem; background: var(--color-bg-secondary); border-radius: var(--radius-md); border-left: 3px solid var(--color-success);">
+                              <div style="font-weight: 600; margin-bottom: 0.25rem;">${dirName}</div>
+                              <p class="text-sm text-secondary">此方向正在助推该产品线</p>
+                            </div>
+                          `;
+                        }
+                        
+                        // Get product line breakdown rationale
+                        const productLineBreakdown = dir.product_line_breakdown || {};
+                        const lineBreakdown = productLineBreakdown[line.name];
+                        const rationale = lineBreakdown?.rationale || dir.description;
+                        
+                        return `
+                          <div style="padding: 1rem; background: var(--color-bg-secondary); border-radius: var(--radius-md); border-left: 3px solid var(--color-success);">
+                            <div style="margin-bottom: 0.5rem;">
+                              <a href="direction-detail.html?id=${dir.id}" style="font-weight: 600; color: var(--color-brand-primary); text-decoration: none;">
+                                ${dir.name}
+                              </a>
+                              <div style="margin-top: 0.25rem;">
+                                ${renderHeatIndicator(dir.heat_magnitude)}
+                                ${renderJudgmentBadge(dir.judgment_state)}
+                              </div>
+                            </div>
+                            <p class="text-sm text-secondary">${rationale}</p>
+                          </div>
+                        `;
+                      }).join('')}
+                    </div>
+                  ` : `
+                    <p class="text-sm text-muted">暂无明确助推方向</p>
+                  `}
+                </div>
+
+                <!-- Weakening directions -->
+                <div>
+                  <h3 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); color: var(--color-danger); margin-bottom: 1rem;">
+                    📉 拖累方向 (${weakeningDirections.length})
+                  </h3>
+                  ${weakeningDirections.length > 0 ? `
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                      ${weakeningDirections.map(dirName => {
+                        const dir = directionMap[dirName];
+                        if (!dir) {
+                          return `
+                            <div style="padding: 1rem; background: var(--color-bg-secondary); border-radius: var(--radius-md); border-left: 3px solid var(--color-danger);">
+                              <div style="font-weight: 600; margin-bottom: 0.25rem;">${dirName}</div>
+                              <p class="text-sm text-secondary">此方向可能拖累该产品线</p>
+                            </div>
+                          `;
+                        }
+                        
+                        // Get product line breakdown rationale
+                        const productLineBreakdown = dir.product_line_breakdown || {};
+                        const lineBreakdown = productLineBreakdown[line.name];
+                        const rationale = lineBreakdown?.rationale || dir.description;
+                        
+                        return `
+                          <div style="padding: 1rem; background: var(--color-bg-secondary); border-radius: var(--radius-md); border-left: 3px solid var(--color-danger);">
+                            <div style="margin-bottom: 0.5rem;">
+                              <a href="direction-detail.html?id=${dir.id}" style="font-weight: 600; color: var(--color-brand-primary); text-decoration: none;">
+                                ${dir.name}
+                              </a>
+                              <div style="margin-top: 0.25rem;">
+                                ${renderHeatIndicator(dir.heat_magnitude)}
+                                ${renderJudgmentBadge(dir.judgment_state)}
+                              </div>
+                            </div>
+                            <p class="text-sm text-secondary">${rationale}</p>
+                          </div>
+                        `;
+                      }).join('')}
+                    </div>
+                  ` : `
+                    <p class="text-sm text-muted">暂无明确拖累方向</p>
+                  `}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Initialize on page load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initProductLineWatch);
+    } else {
+      initProductLineWatch();
+    }
+  </script>
+</body>
+</html>
