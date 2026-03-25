@@ -647,7 +647,9 @@
               <span>${evidence.freshness}</span>
             </div>
             <p class="text-sm text-secondary" style="margin-top: var(--space-sm);">
-              ${evidence.relevance_explanation.substring(0, 60)}...
+              ${evidence.relevance_explanation.length > 60 
+                ? evidence.relevance_explanation.substring(0, 60) + '...'
+                : evidence.relevance_explanation}
             </p>
           </div>
         `;

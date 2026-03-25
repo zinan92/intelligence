@@ -193,7 +193,9 @@
       
       tbody.innerHTML = sortedDirections.map(dir => {
         // Extract brief reason from description or use short text
-        const briefReason = dir.description.substring(0, 40) + '...';
+        const briefReason = dir.description.length > 40 
+          ? dir.description.substring(0, 40) + '...'
+          : dir.description;
         
         return `
           <tr>
@@ -232,9 +234,9 @@
       
       if (!container) return;
       
-      // Get directions marked as 值得跟 or 观察中 - these are worth watching
+      // Show all directions except short-term noise - these are worth watching
       const watchlist = directions.filter(d => 
-        d.judgment_state === '值得跟' || d.judgment_state === '观察中'
+        d.judgment_state !== '短热噪音'
       ).slice(0, 6); // Limit to 6 cards
       
       container.innerHTML = watchlist.map(dir => `
@@ -356,7 +358,9 @@
                 <strong class="text-xs text-primary">相关方向:</strong>
                 <span class="text-xs text-secondary">${evid.related_direction}</span>
               </div>
-              <p class="text-xs text-tertiary">${evid.relevance_explanation.substring(0, 60)}...</p>
+              <p class="text-xs text-tertiary">${evid.relevance_explanation.length > 60 
+                ? evid.relevance_explanation.substring(0, 60) + '...'
+                : evid.relevance_explanation}</p>
             </div>
           </div>
         `;
