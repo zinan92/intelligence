@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>首页 - 翡翠信号图谱</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navigation bar will be auto-injected by nav.js -->
+  <div id="nav-container"></div>
+
+  <div class="container">
+    <!-- Row 1: Movement Board (wider) + Judgment Summary (narrower) — 2-column -->
+    <div class="grid grid-2" style="grid-template-columns: 1.5fr 1fr;">
+      
+      <!-- Module 01: 实时异动榜 (Real-time Movement Board) -->
+      <div class="module">
+        <h2 class="module-title">实时异动榜</h2>
+        <p class="module-subtitle text-muted">最近有哪些方向正在异动 - 信号优先</p>
+        
+        <div class="card">
+          <table class="table" id="movement-board">
+            <thead>
+              <tr>
+                <th>方向名称</th>
+                <th>热度变化</th>
+                <th>时间窗口</th>
+                <th>置信度</th>
+                <th>判断标签</th>
+                <th>异动原因</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Will be populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Module 02: 今日判断 (Today's Judgment Summary) -->
+      <div class="module">
+        <h2 class="module-title">今日判断</h2>
+        <p class="module-subtitle text-muted">聚合判断统计</p>
+        
+        <div class="card">
+          <div class="card-body">
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--color-judgment-zhidegeng-light); border-radius: var(--radius-md);">
+                <span class="font-semibold" style="color: var(--color-judgment-zhidegeng);">值得跟</span>
+                <span class="text-2xl font-bold" style="color: var(--color-judgment-zhidegeng);" id="count-zhidegeng">0</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--color-judgment-duanrezaoyin-light); border-radius: var(--radius-md);">
+                <span class="font-semibold" style="color: var(--color-judgment-duanrezaoyin);">短热噪音</span>
+                <span class="text-2xl font-bold" style="color: var(--color-judgment-duanrezaoyin);" id="count-duanrezaoyin">0</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--color-judgment-xuyaobuzhengjyu-light); border-radius: var(--radius-md);">
+                <span class="font-semibold" style="color: var(--color-judgment-xuyaobuzhengjyu);">需要补证据</span>
+                <span class="text-2xl font-bold" style="color: var(--color-judgment-xuyaobuzhengjyu);" id="count-xuyaobuzhengjyu">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: Watchlist Cards + Risk Alerts + Evidence Feed — 3-column -->
+    <div class="grid grid-3">
+      
+      <!-- Module 03: 值得关注方向 (Watchlist Cards) -->
+      <div class="module">
+        <h2 class="module-title">值得关注方向</h2>
+        <p class="module-subtitle text-muted">当前重点关注</p>
+        <div id="watchlist-cards" style="display: flex; flex-direction: column; gap: 1rem;">
+          <!-- Will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Module 04: 风险提醒 (Risk Alerts) -->
+      <div class="module">
+        <h2 class="module-title">风险提醒</h2>
+        <p class="module-subtitle text-muted">需要注意的风险点</p>
+        <div id="risk-alerts" style="display: flex; flex-direction: column; gap: 1rem;">
+          <!-- Will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Module 05: 最近证据 (Recent Evidence Feed) -->
+      <div class="module">
+        <h2 class="module-title">最近证据</h2>
+        <p class="module-subtitle text-muted">新增高价值证据</p>
+        <div id="evidence-feed" style="display: flex; flex-direction: column; gap: 1rem;">
+          <!-- Will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3: Product Line Snapshot + 14-Day Change — 2-column -->
+    <div class="grid grid-2">
+      
+      <!-- Module 06: 产品线观察 (Product Line Snapshot) -->
+      <div class="module">
+        <h2 class="module-title">产品线观察</h2>
+        <p class="module-subtitle text-muted">四条产品线的状态快照</p>
+        <div id="product-line-snapshot" style="display: flex; flex-direction: column; gap: 1rem;">
+          <!-- Will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Module 07: 14天变化 (14-Day Change) -->
+      <div class="module">
+        <h2 class="module-title">14天变化</h2>
+        <p class="module-subtitle text-muted">升温 / 降温 / 新出现</p>
+        
+        <div class="card">
+          <div class="card-body">
+            <div style="margin-bottom: 1.5rem;">
+              <h3 class="text-lg font-semibold mb-sm" style="color: var(--color-success);">📈 升温</h3>
+              <div id="changes-rising" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <!-- Will be populated by JavaScript -->
+              </div>
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+              <h3 class="text-lg font-semibold mb-sm" style="color: var(--color-danger);">📉 降温</h3>
+              <div id="changes-cooling" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <!-- Will be populated by JavaScript -->
+              </div>
+            </div>
+            
+            <div>
+              <h3 class="text-lg font-semibold mb-sm" style="color: var(--color-info);">✨ 新出现</h3>
+              <div id="changes-emerging" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <!-- Will be populated by JavaScript -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load shared JavaScript modules -->
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/nav.js"></script>
+
+  <!-- Page-specific initialization -->
+  <script>
+    // Initialize the homepage
+    async function initHomepage() {
+      try {
+        // Load dashboard data
+        const data = await loadDashboardData();
+        
+        // Module 01: Movement Board
+        renderMovementBoard(data);
+        
+        // Module 02: Today's Judgment Summary
+        renderJudgmentSummary(data);
+        
+        // Module 03: Watchlist Cards
+        renderWatchlistCards(data);
+        
+        // Module 04: Risk Alerts
+        renderRiskAlerts(data);
+        
+        // Module 05: Evidence Feed
+        renderEvidenceFeed(data);
+        
+        // Module 06: Product Line Snapshot
+        renderProductLineSnapshot(data);
+        
+        // Module 07: 14-Day Changes
+        render14DayChanges(data);
+        
+      } catch (error) {
+        console.error('Failed to initialize homepage:', error);
+      }
+    }
+
+    /**
+     * Render Movement Board (Module 01)
+     */
+    function renderMovementBoard(data) {
+      const directions = getTrendDirections(data);
+      const tbody = document.querySelector('#movement-board tbody');
+      
+      if (!tbody) return;
+      
+      // Sort by heat magnitude (descending)
+      const sortedDirections = sortByHeat(directions);
+      
+      tbody.innerHTML = sortedDirections.map(dir => {
+        // Extract brief reason from description or use short text
+        const briefReason = dir.description.substring(0, 40) + '...';
+        
+        return `
+          <tr>
+            <td>
+              <a href="direction-detail.html?id=${dir.id}" style="font-weight: 600; color: var(--color-brand-primary);">
+                ${dir.name}
+              </a>
+            </td>
+            <td>${renderHeatIndicator(dir.heat_magnitude)}</td>
+            <td><span class="text-sm text-secondary">${dir.time_window}</span></td>
+            <td>${renderConfidenceBadge(dir.confidence_level)}</td>
+            <td>${renderJudgmentBadge(dir.judgment_state)}</td>
+            <td><span class="text-sm text-secondary">${briefReason}</span></td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    /**
+     * Render Today's Judgment Summary (Module 02)
+     */
+    function renderJudgmentSummary(data) {
+      const judgments = getTodayJudgments(data);
+      
+      document.getElementById('count-zhidegeng').textContent = judgments['值得跟'] || 0;
+      document.getElementById('count-duanrezaoyin').textContent = judgments['短热噪音'] || 0;
+      document.getElementById('count-xuyaobuzhengjyu').textContent = judgments['需要补证据'] || 0;
+    }
+
+    /**
+     * Render Watchlist Cards (Module 03)
+     */
+    function renderWatchlistCards(data) {
+      const directions = getTrendDirections(data);
+      const container = document.getElementById('watchlist-cards');
+      
+      if (!container) return;
+      
+      // Get directions marked as 值得跟 or 观察中 - these are worth watching
+      const watchlist = directions.filter(d => 
+        d.judgment_state === '值得跟' || d.judgment_state === '观察中'
+      ).slice(0, 6); // Limit to 6 cards
+      
+      container.innerHTML = watchlist.map(dir => `
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title text-base">
+              <a href="direction-detail.html?id=${dir.id}">${dir.name}</a>
+            </h3>
+            ${renderJudgmentBadge(dir.judgment_state)}
+          </div>
+          <div class="card-body">
+            <div class="mb-sm">
+              <strong class="text-sm text-primary">为何关注:</strong>
+              <p class="text-sm text-secondary">${dir.why_it_matters}</p>
+            </div>
+            <div class="mb-sm">
+              <strong class="text-sm text-primary">受众适配:</strong>
+              <span class="text-sm text-secondary">${dir.audience_fit}</span>
+            </div>
+            <div class="mb-sm">
+              <strong class="text-sm text-primary">价格带:</strong>
+              <span class="text-sm text-secondary">${dir.price_band_fit}</span>
+            </div>
+            <div>
+              <strong class="text-sm text-primary">产品线影响:</strong>
+              <span class="text-sm text-secondary">${dir.one_line_recommendation}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /**
+     * Render Risk Alerts (Module 04)
+     */
+    function renderRiskAlerts(data) {
+      const directions = getTrendDirections(data);
+      const container = document.getElementById('risk-alerts');
+      
+      if (!container) return;
+      
+      // Collect all risks from all directions
+      const allRisks = [];
+      directions.forEach(dir => {
+        if (dir.risks && Array.isArray(dir.risks)) {
+          dir.risks.forEach(risk => {
+            allRisks.push({
+              ...risk,
+              directionName: dir.name
+            });
+          });
+        }
+      });
+      
+      // Show top high/medium severity risks
+      const topRisks = allRisks
+        .filter(r => r.severity === 'high' || r.severity === 'medium')
+        .slice(0, 4); // Show up to 4 risk cards
+      
+      container.innerHTML = topRisks.map(risk => `
+        <div class="card">
+          <div class="card-header">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span>⚠️</span>
+              <h4 class="card-title text-base">${risk.description}</h4>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="mb-sm">
+              <strong class="text-sm text-primary">相关方向:</strong>
+              <span class="text-sm text-secondary">${risk.directionName}</span>
+            </div>
+            ${risk.mitigation ? `
+              <div>
+                <strong class="text-sm text-primary">缓解措施:</strong>
+                <span class="text-sm text-secondary">${risk.mitigation}</span>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /**
+     * Render Evidence Feed (Module 05)
+     */
+    function renderEvidenceFeed(data) {
+      const evidenceEntries = getEvidenceEntries(data);
+      const container = document.getElementById('evidence-feed');
+      
+      if (!container) return;
+      
+      // Sort by timestamp descending and take the most recent 6
+      const recentEvidence = evidenceEntries
+        .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+        .slice(0, 6);
+      
+      const typeIconMap = {
+        '笔记': '📝',
+        '图片': '🖼️',
+        '评论': '💬'
+      };
+      
+      container.innerHTML = recentEvidence.map(evid => {
+        const typeIcon = typeIconMap[evid.type] || '📄';
+        
+        return `
+          <div class="card">
+            <div class="card-header">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span>${typeIcon}</span>
+                <span class="badge badge-info text-xs">${evid.type}</span>
+                ${renderFreshnessIndicator(evid.freshness)}
+              </div>
+            </div>
+            <div class="card-body">
+              <p class="text-sm font-medium mb-xs">${evid.title}</p>
+              <div class="mb-sm">
+                <strong class="text-xs text-primary">相关方向:</strong>
+                <span class="text-xs text-secondary">${evid.related_direction}</span>
+              </div>
+              <p class="text-xs text-tertiary">${evid.relevance_explanation.substring(0, 60)}...</p>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    /**
+     * Render Product Line Snapshot (Module 06)
+     */
+    function renderProductLineSnapshot(data) {
+      const productLines = getProductLines(data);
+      const container = document.getElementById('product-line-snapshot');
+      
+      if (!container) return;
+      
+      container.innerHTML = productLines.map(line => `
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title text-base">
+              <a href="product-line.html?id=${line.id}">${line.name}</a>
+            </h3>
+            <div style="margin-top: 0.5rem;">
+              ${renderOpportunityRiskLevel(line.opportunity_level, 'opportunity')}
+              ${renderOpportunityRiskLevel(line.risk_level, 'risk')}
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="mb-sm">
+              <strong class="text-sm text-primary">状态:</strong>
+              <span class="text-sm font-semibold" style="color: var(--color-brand-primary);">${line.movement_status}</span>
+            </div>
+            <p class="text-sm text-secondary">${line.reasoning}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /**
+     * Render 14-Day Changes (Module 07)
+     */
+    function render14DayChanges(data) {
+      const changes = getFourteenDayChanges(data);
+      
+      // Rising
+      const risingContainer = document.getElementById('changes-rising');
+      if (risingContainer && changes.rising) {
+        risingContainer.innerHTML = changes.rising.map(item => `
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: var(--color-bg-secondary); border-radius: var(--radius-sm);">
+            <span class="text-sm font-medium">${item.direction}</span>
+            <span class="text-sm font-semibold" style="color: var(--color-success);">${item.change}</span>
+          </div>
+          <p class="text-xs text-tertiary" style="margin-top: 0.25rem;">${item.reason}</p>
+        `).join('');
+      }
+      
+      // Cooling
+      const coolingContainer = document.getElementById('changes-cooling');
+      if (coolingContainer && changes.cooling) {
+        coolingContainer.innerHTML = changes.cooling.map(item => `
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: var(--color-bg-secondary); border-radius: var(--radius-sm);">
+            <span class="text-sm font-medium">${item.direction}</span>
+            <span class="text-sm font-semibold" style="color: var(--color-danger);">${item.change}</span>
+          </div>
+          <p class="text-xs text-tertiary" style="margin-top: 0.25rem;">${item.reason}</p>
+        `).join('');
+      }
+      
+      // Newly emerging
+      const emergingContainer = document.getElementById('changes-emerging');
+      if (emergingContainer && changes.newly_emerging) {
+        emergingContainer.innerHTML = changes.newly_emerging.map(item => `
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: var(--color-bg-secondary); border-radius: var(--radius-sm);">
+            <span class="text-sm font-medium">${item.direction}</span>
+            <span class="text-sm font-semibold" style="color: var(--color-info);">${item.change}</span>
+          </div>
+          <p class="text-xs text-tertiary" style="margin-top: 0.25rem;">${item.reason}</p>
+        `).join('');
+      }
+    }
+
+    // Initialize on page load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initHomepage);
+    } else {
+      initHomepage();
+    }
+  </script>
+</body>
+</html>
