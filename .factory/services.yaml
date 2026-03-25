@@ -1,0 +1,13 @@
+commands:
+  test: python3 -m pytest tests/ -x -q
+  typecheck: echo "No typecheck configured (static HTML prototype)"
+  lint: echo "No lint configured (static HTML prototype)"
+  validate_json: python3 -c "import json; json.load(open('dashboard/data/jade_dashboard.json')); print('JSON valid')"
+
+services:
+  dashboard:
+    start: cd /Users/wendy/work/content-co/intelligence && python3 -m http.server 8765 --directory dashboard
+    stop: lsof -ti :8765 | xargs kill 2>/dev/null || true
+    healthcheck: curl -sf http://localhost:8765/
+    port: 8765
+    depends_on: []
