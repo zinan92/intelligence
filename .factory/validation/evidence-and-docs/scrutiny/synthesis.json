@@ -1,0 +1,96 @@
+{
+  "milestone": "evidence-and-docs",
+  "round": 1,
+  "status": "pass",
+  "validatorsRun": {
+    "test": { "passed": true, "command": "python3 -m pytest tests/ -x -q", "exitCode": 0 },
+    "typecheck": { "passed": true, "command": "echo \"No typecheck configured (static HTML prototype)\"", "exitCode": 0 },
+    "lint": { "passed": true, "command": "echo \"No lint configured (static HTML prototype)\"", "exitCode": 0 },
+    "validate_json": { "passed": true, "command": "python3 -c \"import json; json.load(open('dashboard/data/jade_dashboard.json')); print('JSON valid')\"", "exitCode": 0 }
+  },
+  "reviewsSummary": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0,
+    "failedFeatures": []
+  },
+  "blockingIssues": [],
+  "nonBlockingIssues": [
+    {
+      "featureId": "direction-map-page",
+      "severity": "non_blocking",
+      "description": "Stats summary grid shows 3 judgment states but omits 需要补证据 (data has 1 direction with this state). Filter button exists but stat box is missing."
+    },
+    {
+      "featureId": "cross-page-polish-and-docs",
+      "severity": "non_blocking",
+      "description": "Homepage 今日判断 module only renders 3 of 4 judgment states — missing 观察中. Data has '观察中': 1 in today_judgments. Pre-existing from homepage build, not caught by polish pass."
+    },
+    {
+      "featureId": "evidence-library-page",
+      "severity": "non_blocking",
+      "description": "Hardcoded direction name-to-ID map in getDirectionIdByName(). If data changes, links to direction-detail.html could break silently."
+    },
+    {
+      "featureId": "evidence-library-page",
+      "severity": "non_blocking",
+      "description": "Time filter uses exact string matching on freshness field. Selecting '最近14天' won't include '最近7天' evidence — may surprise users expecting inclusive range semantics."
+    },
+    {
+      "featureId": "evidence-library-page",
+      "severity": "non_blocking",
+      "description": "At mobile widths (<968px), filter and detail panels are hidden with no toggle/drawer alternative. Desktop-first acceptable for prototype."
+    },
+    {
+      "featureId": "product-line-watch-page",
+      "severity": "non_blocking",
+      "description": "Homepage generates links like product-line.html?id=pl_001 but the page ignores the query parameter — no scroll-to or highlight of the targeted product line."
+    },
+    {
+      "featureId": "product-line-watch-page",
+      "severity": "non_blocking",
+      "description": "Heavy inline style attributes in template literals instead of reusable CSS classes. Inconsistent with other pages that use .grid and .card classes from style.css."
+    },
+    {
+      "featureId": "multiple",
+      "severity": "non_blocking",
+      "description": "All pages interpolate JSON data into innerHTML via template literals without HTML escaping. Acceptable for a prototype with local-only data but would be a security concern if data source changes."
+    }
+  ],
+  "appliedUpdates": [],
+  "suggestedGuidanceUpdates": [
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Add convention: 'Pages that receive query parameters from other pages (e.g., ?id= or ?direction=) MUST handle them — at minimum scroll-to or highlight the relevant section. If a page generates outbound links with params, the target page must consume them.'",
+      "evidence": "Homepage links to product-line.html?id=pl_001 but product-line.html ignores it. Direction-detail.html handles ?id= correctly, but this expectation isn't documented.",
+      "isSystemic": false
+    },
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Add convention: 'When a module lists judgment state counts (e.g., 今日判断), all 4 canonical judgment states (值得跟, 观察中, 短热噪音, 需要补证据) must be enumerated even if the count is 0. This ensures visual consistency and makes the count comparison meaningful.'",
+      "evidence": "Homepage 今日判断 shows only 3 of 4 states (missing 观察中). Direction-map stats grid shows 3 of 4 (missing 需要补证据). Both omissions are cosmetic but create an incomplete picture.",
+      "isSystemic": true
+    },
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Add convention: 'Prefer CSS classes in style.css over inline style attributes in JS template literals for layout patterns (grids, cards) that appear on multiple pages. Inline styles are acceptable only for truly dynamic values computed at render time.'",
+      "evidence": "product-line.html uses extensive inline styles for grid layouts and card styling that index.html achieves with .grid and .card CSS classes. Creates maintenance inconsistency.",
+      "isSystemic": false
+    }
+  ],
+  "rejectedObservations": [
+    {
+      "observation": "Page-specific rendering vs extending shared components.js convention not documented",
+      "reason": "ambiguous — the distinction between page-specific rendering (evidence.html's 3-panel cards) and reusable components (components.js) is context-dependent. For a static prototype with 5 pages, formalizing this adds overhead without clear benefit. Reject until the prototype grows."
+    },
+    {
+      "observation": "CSS class name collisions across pages (.detail-section uses different values in evidence.html vs direction-detail.html)",
+      "reason": "already-documented — AGENTS.md specifies inline <style> for page-specific overrides. Since each page has its own <style> block, class names are effectively scoped per page. No actual collision occurs in practice."
+    },
+    {
+      "observation": "Skill should include cross-page consistency checklist for judgment state enumeration",
+      "reason": "The skill (prototype-worker) is generic for building pages. Cross-page consistency is explicitly the domain of the polish feature, not per-page workers. The issue is better addressed via AGENTS.md guidance (already suggested above) than changing the build skill."
+    }
+  ],
+  "previousRound": null
+}

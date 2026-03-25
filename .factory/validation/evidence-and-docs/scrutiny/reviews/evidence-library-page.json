@@ -1,0 +1,51 @@
+{
+  "featureId": "evidence-library-page",
+  "reviewedAt": "2026-03-25T10:05:00.000Z",
+  "commitId": "251011c49b9c87a4b15b3a31fee4f522fd85a2dc",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The Evidence Library page is a well-structured 3-panel evidence exploration surface that meets all feature requirements. The implementation properly loads data from jade_dashboard.json, renders 4 filter categories (方向, 产品线, 时间范围, 证据类型), auto-selects the first evidence card on load, supports URL parameter pre-filtering for direction, and shows detailed evidence information in the right panel. All text is in Chinese. Code follows the project's conventions: semantic HTML, CSS custom properties, vanilla JS, and the shared data.js/components.js/nav.js pattern. The 793-line single-file implementation is clean and self-contained.",
+    "issues": [
+      {
+        "file": "dashboard/evidence.html",
+        "line": 665,
+        "severity": "non_blocking",
+        "description": "getDirectionIdByName() uses a hardcoded map of direction names to IDs. If the data in jade_dashboard.json were ever modified, this map would silently produce incorrect links to direction-detail.html. A more robust approach would be to look up the direction ID from the loaded data. Acceptable for a static mock prototype."
+      },
+      {
+        "file": "dashboard/evidence.html",
+        "line": 561,
+        "severity": "non_blocking",
+        "description": "Time filter uses exact string matching on evidence.freshness (e.g., '最近7天'). Selecting '最近14天' filter will NOT show evidence marked '最近7天', even though 7-day evidence logically falls within a 14-day window. Users may expect inclusive date range semantics. This is a UX subtlety — the current behavior matches the data model but may surprise users."
+      },
+      {
+        "file": "dashboard/evidence.html",
+        "line": 578,
+        "severity": "non_blocking",
+        "description": "renderEvidenceCards() and renderDetailPanel() inject data fields directly into innerHTML via template literals without HTML escaping. Since data comes from a local JSON file this is acceptable for a prototype, but would be a security concern in production."
+      },
+      {
+        "file": "dashboard/evidence.html",
+        "line": 27,
+        "severity": "non_blocking",
+        "description": "At @media (max-width: 968px), filter-panel and detail-panel are hidden with display:none. The user is left with only the center card list with no way to access filters or details on mobile. No toggle/drawer alternative is provided. Acceptable for a desktop-first prototype."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "The evidence.html page defines its own renderEvidenceCards() and renderDetailPanel() inline rather than reusing or extending the existing renderEvidenceCard() function from components.js. This is justified by the different UX (selection state, onclick handlers, 3-panel layout), but AGENTS.md doesn't document when page-specific rendering is preferred over extending shared components.js. As more pages are built, this pattern distinction would benefit from documentation.",
+      "evidence": "dashboard/evidence.html lines 578-655 define custom card rendering. dashboard/js/components.js lines 167-215 has renderEvidenceCard() with a different signature/layout. Both render evidence cards but with different structures."
+    },
+    {
+      "area": "conventions",
+      "observation": "The worker used inline <style> for all page-specific CSS (approximately 200 lines), consistent with the AGENTS.md guidance ('inline <style> only for truly page-specific overrides'). However, some CSS class names like .detail-section overlap with direction-detail.html's .detail-section class name, with different property values. This hasn't caused issues since styles are scoped per-page, but AGENTS.md could mention avoiding class name collisions across pages.",
+      "evidence": "dashboard/evidence.html uses .detail-section with margin-bottom: var(--space-xl). dashboard/direction-detail.html uses .detail-section with margin-bottom: var(--space-2xl). Different values, same class name."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Evidence Library page passes review. The implementation correctly delivers a 3-panel evidence exploration surface with all required features: 4 filter categories, evidence card list with type indicators, auto-selection on load, detail panel with why-cited and direction links, URL parameter pre-filtering, and Chinese text throughout. Four non-blocking issues were noted: hardcoded direction ID map, exact-match time filtering semantics, innerHTML injection without escaping, and mobile responsiveness gaps. All are acceptable for a static prototype. The worker followed the prototype-worker skill procedure correctly and the code aligns with project conventions."
+}

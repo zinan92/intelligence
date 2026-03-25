@@ -1,0 +1,39 @@
+{
+  "featureId": "product-line-watch-page",
+  "reviewedAt": "2026-03-25T10:05:00.000Z",
+  "commitId": "4dd466b",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The product-line.html page correctly implements all required functionality: 4 product line sections with opportunity/risk badges, strengthening/weakening direction lists with rationale from product_line_breakdown data, clickable direction links to direction-detail.html, navigation bar with 产品线观察 highlighted, and all Chinese text. Uses shared JS modules (data.js, components.js, nav.js) properly. Graceful fallback for missing direction data and empty arrays. Two non-blocking issues found: the ?id= query parameter from homepage links is ignored (no scroll-to or highlight), and excessive inline styles instead of CSS classes.",
+    "issues": [
+      {
+        "file": "dashboard/product-line.html",
+        "line": 42,
+        "severity": "non_blocking",
+        "description": "The page does not handle the ?id= query parameter passed from homepage product-line snapshot links (e.g., product-line.html?id=pl_001). The homepage renders links with line IDs, but this page ignores the param — all 4 sections are always shown without scrolling to or highlighting the targeted product line. The page still works (all content is visible), but the navigation intent is partially lost."
+      },
+      {
+        "file": "dashboard/product-line.html",
+        "line": 20,
+        "severity": "non_blocking",
+        "description": "Heavy use of inline style attributes throughout the template literals (e.g., style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;\", style=\"padding: 1rem; background: var(--color-bg-secondary); ...\"). AGENTS.md conventions specify CSS custom properties and shared classes, and SKILL.md says 'inline <style> only for truly page-specific overrides'. Other pages like index.html use a mix of classes and inline styles, but this page leans more heavily on inline styles for layout and card styling that could be reusable CSS classes."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "The page ignores the ?id= query parameter from homepage links. The homepage generates links like product-line.html?id=pl_001, but the product-line page does not use URLSearchParams to scroll to or highlight the targeted section. Other pages in the project (direction-detail.html) do handle query params. This convention — that linked-to pages should handle query params from referring pages — is not documented in AGENTS.md.",
+      "evidence": "dashboard/index.html line 383 generates href='product-line.html?id=${line.id}', but dashboard/product-line.html has no URLSearchParams usage anywhere in its script."
+    },
+    {
+      "area": "conventions",
+      "observation": "The page uses extensive inline style attributes for layout and card styling that could be shared CSS classes. While AGENTS.md mentions CSS custom properties and shared style.css, it doesn't explicitly prohibit inline styles in template literals. The pattern is inconsistent — some reusable layout patterns (two-column grid, direction cards with left border) are defined inline rather than as CSS classes in style.css.",
+      "evidence": "dashboard/product-line.html lines 87-93 define a grid layout inline; lines 100-106 define card styling inline. Compare to index.html which uses .grid and .card classes from style.css for similar patterns."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "PASS. The product-line-watch-page feature is correctly implemented with all 4 product line sections, opportunity/risk badges, strengthening/weakening direction lists with rationale, clickable direction links, Chinese-only content, and proper navigation. The implementation uses shared JS modules correctly and has good error handling. Two non-blocking issues: (1) the ?id= query parameter from homepage links is not handled (no scroll-to behavior), and (2) excessive inline styles instead of reusable CSS classes. Neither issue blocks functionality — all expected behavior requirements are met."
+}
