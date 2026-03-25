@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>方向详情 - 翡翠信号图谱</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Page-specific styles for direction detail */
+    .detail-hero {
+      background: linear-gradient(135deg, var(--color-brand-primary), var(--color-brand-secondary));
+      color: var(--color-text-inverse);
+      padding: var(--space-2xl) var(--space-xl);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-xl);
+    }
+    
+    .detail-hero h1 {
+      font-size: var(--font-size-4xl);
+      font-weight: var(--font-weight-bold);
+      margin-bottom: var(--space-md);
+    }
+    
+    .detail-hero .badges {
+      display: flex;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-md);
+    }
+    
+    .detail-hero .badge {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: var(--color-text-inverse);
+      font-weight: var(--font-weight-semibold);
+    }
+    
+    .detail-section {
+      margin-bottom: var(--space-2xl);
+    }
+    
+    .detail-section-title {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-lg);
+      padding-bottom: var(--space-md);
+      border-bottom: 2px solid var(--color-brand-primary);
+    }
+    
+    .advice-box {
+      background: linear-gradient(135deg, #fef3c7, #fed7aa);
+      border-left: 4px solid var(--color-warning);
+      padding: var(--space-xl);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-xl);
+    }
+    
+    .advice-box .advice-text {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-relaxed);
+    }
+    
+    .product-line-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-lg);
+    }
+    
+    @media (max-width: 1280px) {
+      .product-line-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .product-line-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .product-line-card {
+      background-color: var(--color-bg-primary);
+      border: 2px solid var(--color-border-light);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      transition: all var(--transition-base);
+    }
+    
+    .product-line-card:hover {
+      border-color: var(--color-brand-primary);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-4px);
+    }
+    
+    .product-line-card h3 {
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-md);
+      text-align: center;
+    }
+    
+    .product-line-card .levels {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    
+    .product-line-card .rationale {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-relaxed);
+      text-align: center;
+    }
+    
+    .why-section {
+      background-color: var(--color-bg-primary);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .why-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .why-section li {
+      padding: var(--space-md);
+      margin-bottom: var(--space-md);
+      background-color: var(--color-bg-secondary);
+      border-radius: var(--radius-md);
+      border-left: 3px solid var(--color-brand-primary);
+    }
+    
+    .why-section li:last-child {
+      margin-bottom: 0;
+    }
+    
+    .risk-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-lg);
+    }
+    
+    @media (max-width: 768px) {
+      .risk-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .risk-card {
+      background-color: var(--color-bg-primary);
+      border: 2px solid var(--color-danger);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+    }
+    
+    .risk-card .risk-title {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-danger);
+      margin-bottom: var(--space-sm);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    
+    .risk-card .risk-mitigation {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-relaxed);
+      margin-top: var(--space-sm);
+      padding-top: var(--space-sm);
+      border-top: 1px solid var(--color-border-light);
+    }
+    
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+    }
+    
+    @media (max-width: 1280px) {
+      .evidence-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .evidence-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .evidence-card {
+      background-color: var(--color-bg-primary);
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      transition: all var(--transition-base);
+      cursor: pointer;
+    }
+    
+    .evidence-card:hover {
+      border-color: var(--color-brand-primary);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    
+    .evidence-card .evidence-type {
+      font-size: var(--font-size-2xl);
+      margin-bottom: var(--space-sm);
+    }
+    
+    .evidence-card .evidence-title {
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-sm);
+    }
+    
+    .evidence-card .evidence-meta {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+    }
+    
+    .overview-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-lg);
+      margin-top: var(--space-lg);
+    }
+    
+    @media (max-width: 768px) {
+      .overview-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    .stat-card {
+      background-color: var(--color-bg-primary);
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      text-align: center;
+    }
+    
+    .stat-card .stat-label {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-sm);
+    }
+    
+    .stat-card .stat-value {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-brand-primary);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation bar will be auto-injected by nav.js -->
+  <div id="nav-container"></div>
+
+  <div class="container">
+    <!-- Hero section with direction name and overview -->
+    <div class="detail-hero" id="hero-section">
+      <!-- Will be populated by JavaScript -->
+    </div>
+    
+    <!-- Section 01: 方向总览 (Direction Overview) -->
+    <section class="detail-section">
+      <h2 class="detail-section-title">01. 方向总览</h2>
+      <div id="direction-overview">
+        <!-- Will be populated by JavaScript -->
+      </div>
+    </section>
+    
+    <!-- Section 02: 一句话建议 (One-Sentence Action Advice) -->
+    <section class="detail-section">
+      <h2 class="detail-section-title">02. 一句话建议</h2>
+      <div class="advice-box" id="advice-box">
+        <!-- Will be populated by JavaScript -->
+      </div>
+    </section>
+    
+    <!-- Section 03: 产品线决策卡 (Product Line Decision Cards) -->
+    <section class="detail-section">
+      <h2 class="detail-section-title">03. 产品线决策卡</h2>
+      <div class="product-line-grid" id="product-line-cards">
+        <!-- Will be populated by JavaScript -->
+      </div>
+    </section>
+    
+    <!-- Section 04: 为什么会涨 (Why It Is Moving) -->
+    <section class="detail-section">
+      <h2 class="detail-section-title">04. 为什么会涨</h2>
+      <div class="why-section" id="why-moving">
+        <!-- Will be populated by JavaScript -->
+      </div>
+    </section>
+    
+    <!-- Section 05: 风险提醒 (Risk Warnings) -->
+    <section class="detail-section">
+      <h2 class="detail-section-title">05. 风险提醒</h2>
+      <div class="risk-grid" id="risk-warnings">
+        <!-- Will be populated by JavaScript -->
+      </div>
+    </section>
+    
+    <!-- Section 06: 证据入口 (Evidence Entry Points) -->
+    <section class="detail-section">
+      <h2 class="detail-section-title">06. 证据入口</h2>
+      <div class="evidence-grid" id="evidence-entries">
+        <!-- Will be populated by JavaScript -->
+      </div>
+    </section>
+  </div>
+
+  <!-- Load shared JavaScript modules -->
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/nav.js"></script>
+
+  <!-- Page-specific initialization -->
+  <script>
+    // Get direction ID from URL query parameter
+    function getDirectionIdFromUrl() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const directionId = urlParams.get('id');
+      
+      // Default to the primary direction if no ID is provided
+      return directionId || 'dir_001'; // 18K 金镶翡翠
+    }
+    
+    // Initialize the direction detail page
+    async function initDirectionDetail() {
+      try {
+        // Load dashboard data
+        const data = await loadDashboardData();
+        
+        // Get the direction ID from URL
+        const directionId = getDirectionIdFromUrl();
+        
+        // Find the direction
+        const direction = getDirectionById(data, directionId);
+        
+        if (!direction) {
+          console.error('Direction not found:', directionId);
+          document.querySelector('.container').innerHTML = `
+            <div class="card">
+              <div class="card-body">
+                <h2>方向未找到</h2>
+                <p>无法找到指定的方向。</p>
+                <a href="index.html">返回首页</a>
+              </div>
+            </div>
+          `;
+          return;
+        }
+        
+        // Render all sections
+        renderHeroSection(direction);
+        renderDirectionOverview(direction);
+        renderActionAdvice(direction);
+        renderProductLineCards(direction);
+        renderWhyMoving(direction);
+        renderRiskWarnings(direction);
+        renderEvidenceEntries(direction, data);
+        
+      } catch (error) {
+        console.error('Failed to initialize direction detail page:', error);
+      }
+    }
+    
+    /**
+     * Render Hero Section
+     */
+    function renderHeroSection(direction) {
+      const hero = document.getElementById('hero-section');
+      
+      if (!hero) return;
+      
+      hero.innerHTML = `
+        <h1>${direction.name}</h1>
+        <div class="badges">
+          ${renderJudgmentBadge(direction.judgment_state)}
+          ${renderConfidenceBadge(direction.confidence_level)}
+          ${renderHeatIndicator(direction.heat_magnitude)}
+          ${renderFreshnessIndicator(direction.freshness)}
+        </div>
+        <p style="font-size: var(--font-size-lg); line-height: var(--line-height-relaxed); opacity: 0.95;">
+          ${direction.description}
+        </p>
+      `;
+    }
+    
+    /**
+     * Render Direction Overview (Section 01)
+     */
+    function renderDirectionOverview(direction) {
+      const container = document.getElementById('direction-overview');
+      
+      if (!container) return;
+      
+      container.innerHTML = `
+        <div class="overview-stats">
+          <div class="stat-card">
+            <div class="stat-label">当前热度</div>
+            <div class="stat-value">${direction.heat_magnitude}</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">14天变化</div>
+            <div class="stat-value" style="color: var(--color-success);">${direction.time_window}</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">置信度</div>
+            <div class="stat-value">${direction.confidence_level}</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">判断状态</div>
+            <div class="stat-value" style="font-size: var(--font-size-lg);">
+              ${renderJudgmentBadge(direction.judgment_state)}
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-top: var(--space-lg);">
+          <div class="card-body">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl);">
+              <div>
+                <h4 class="text-lg font-semibold mb-sm" style="color: var(--color-brand-primary);">受众适配</h4>
+                <p class="text-base text-secondary">${direction.audience_fit}</p>
+              </div>
+              <div>
+                <h4 class="text-lg font-semibold mb-sm" style="color: var(--color-brand-primary);">价格带匹配</h4>
+                <p class="text-base text-secondary">${direction.price_band_fit}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    
+    /**
+     * Render Action Advice (Section 02)
+     */
+    function renderActionAdvice(direction) {
+      const container = document.getElementById('advice-box');
+      
+      if (!container) return;
+      
+      container.innerHTML = `
+        <div class="advice-text">
+          💡 ${direction.one_line_recommendation}
+        </div>
+      `;
+    }
+    
+    /**
+     * Render Product Line Decision Cards (Section 03)
+     */
+    function renderProductLineCards(direction) {
+      const container = document.getElementById('product-line-cards');
+      
+      if (!container) return;
+      
+      const productLines = [
+        { name: '项链/吊坠', key: '项链/吊坠' },
+        { name: '耳饰', key: '耳饰' },
+        { name: '戒指', key: '戒指' },
+        { name: '手串/叠戴', key: '手串/叠戴' }
+      ];
+      
+      container.innerHTML = productLines.map(line => {
+        const breakdown = direction.product_line_breakdown[line.key];
+        
+        if (!breakdown) {
+          return `
+            <div class="product-line-card">
+              <h3>${line.name}</h3>
+              <div class="levels">
+                <span class="badge badge-info">暂无数据</span>
+              </div>
+              <p class="rationale">暂无产品线分析数据</p>
+            </div>
+          `;
+        }
+        
+        return `
+          <div class="product-line-card">
+            <h3>${line.name}</h3>
+            <div class="levels">
+              ${renderOpportunityRiskLevel(breakdown.opportunity, 'opportunity')}
+              ${renderOpportunityRiskLevel(breakdown.risk, 'risk')}
+            </div>
+            <p class="rationale">${breakdown.rationale}</p>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    /**
+     * Render Why It Is Moving (Section 04)
+     */
+    function renderWhyMoving(direction) {
+      const container = document.getElementById('why-moving');
+      
+      if (!container) return;
+      
+      // Extract content cues and proof snapshot
+      const contentCues = direction.content_cues || {};
+      const proofSnapshot = direction.proof_snapshot || {};
+      
+      container.innerHTML = `
+        <div style="margin-bottom: var(--space-xl);">
+          <p class="text-lg text-primary" style="line-height: var(--line-height-relaxed); margin-bottom: var(--space-lg);">
+            ${direction.why_it_matters || ''}
+          </p>
+        </div>
+        
+        <ul>
+          ${proofSnapshot.comment_themes ? `
+            <li>
+              <strong style="color: var(--color-brand-primary);">评论主题：</strong>
+              <span class="text-secondary">${proofSnapshot.comment_themes.join('、')}</span>
+            </li>
+          ` : ''}
+          
+          ${proofSnapshot.cross_category_support ? `
+            <li>
+              <strong style="color: var(--color-brand-primary);">跨类目支持：</strong>
+              <span class="text-secondary">${proofSnapshot.cross_category_support}</span>
+            </li>
+          ` : ''}
+          
+          ${contentCues.how_to_photograph ? `
+            <li>
+              <strong style="color: var(--color-brand-primary);">视觉呈现：</strong>
+              <span class="text-secondary">${contentCues.how_to_photograph}</span>
+            </li>
+          ` : ''}
+          
+          ${contentCues.how_to_narrate ? `
+            <li>
+              <strong style="color: var(--color-brand-primary);">内容叙事：</strong>
+              <span class="text-secondary">${contentCues.how_to_narrate}</span>
+            </li>
+          ` : ''}
+          
+          ${contentCues.what_not_to_do ? `
+            <li>
+              <strong style="color: var(--color-brand-primary);">避免事项：</strong>
+              <span class="text-secondary">${contentCues.what_not_to_do}</span>
+            </li>
+          ` : ''}
+        </ul>
+        
+        ${proofSnapshot.sample_count ? `
+          <div style="margin-top: var(--space-lg); padding: var(--space-md); background-color: var(--color-bg-secondary); border-radius: var(--radius-md);">
+            <span class="text-sm text-secondary">
+              📊 证据样本数量：<strong>${proofSnapshot.sample_count}</strong> 个高质量证据
+            </span>
+          </div>
+        ` : ''}
+      `;
+    }
+    
+    /**
+     * Render Risk Warnings (Section 05)
+     */
+    function renderRiskWarnings(direction) {
+      const container = document.getElementById('risk-warnings');
+      
+      if (!container) return;
+      
+      const risks = direction.risks || [];
+      
+      if (risks.length === 0) {
+        container.innerHTML = `
+          <div class="card">
+            <div class="card-body">
+              <p class="text-secondary">暂无特定风险提醒。</p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+      
+      container.innerHTML = risks.map(risk => `
+        <div class="risk-card">
+          <div class="risk-title">
+            <span>⚠️</span>
+            <span>${risk.description}</span>
+          </div>
+          ${risk.mitigation ? `
+            <div class="risk-mitigation">
+              <strong style="color: var(--color-brand-primary);">缓解措施：</strong>
+              ${risk.mitigation}
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
+    }
+    
+    /**
+     * Render Evidence Entry Points (Section 06)
+     */
+    function renderEvidenceEntries(direction, data) {
+      const container = document.getElementById('evidence-entries');
+      
+      if (!container) return;
+      
+      // Get evidence entries related to this direction
+      const evidenceEntries = getEvidenceByDirection(data, direction.name);
+      
+      if (evidenceEntries.length === 0) {
+        container.innerHTML = `
+          <div class="card">
+            <div class="card-body">
+              <p class="text-secondary">暂无相关证据。</p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+      
+      const typeIconMap = {
+        '笔记': '📝',
+        '图片': '🖼️',
+        '评论': '💬'
+      };
+      
+      container.innerHTML = evidenceEntries.slice(0, 6).map(evidence => {
+        const typeIcon = typeIconMap[evidence.type] || '📄';
+        
+        return `
+          <div class="evidence-card" onclick="window.location.href='evidence.html?direction=${encodeURIComponent(direction.name)}'">
+            <div class="evidence-type">${typeIcon}</div>
+            <div class="evidence-title">${evidence.title}</div>
+            <div class="evidence-meta">
+              <span>${evidence.type}</span> · 
+              <span>${evidence.freshness}</span>
+            </div>
+            <p class="text-sm text-secondary" style="margin-top: var(--space-sm);">
+              ${evidence.relevance_explanation.substring(0, 60)}...
+            </p>
+          </div>
+        `;
+      }).join('');
+      
+      // Add a "view all" card if there are more evidence entries
+      if (evidenceEntries.length > 6) {
+        container.innerHTML += `
+          <div class="evidence-card" onclick="window.location.href='evidence.html?direction=${encodeURIComponent(direction.name)}'" style="display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px dashed var(--color-border-medium);">
+            <div style="font-size: var(--font-size-2xl); margin-bottom: var(--space-sm);">📚</div>
+            <div class="evidence-title">查看全部证据</div>
+            <div class="text-sm text-secondary">共 ${evidenceEntries.length} 条证据</div>
+          </div>
+        `;
+      }
+    }
+    
+    // Initialize on page load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initDirectionDetail);
+    } else {
+      initDirectionDetail();
+    }
+  </script>
+</body>
+</html>
