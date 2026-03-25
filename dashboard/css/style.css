@@ -25,13 +25,13 @@
   --color-judgment-zhidegeng: #10b981; /* 值得跟 - green */
   --color-judgment-guanchazu: #3b82f6; /* 观察中 - blue */
   --color-judgment-duanrezaoyin: #f59e0b; /* 短热噪音 - orange */
-  --color-judgment-xuyaobuzhengjyu: #6b7280; /* 需要补证据 - gray */
+  --color-judgment-xuyaobuzhengju: #6b7280; /* 需要补证据 - gray */
   
   /* Judgment state light backgrounds */
   --color-judgment-zhidegeng-light: #d1fae5;
   --color-judgment-guanchazu-light: #dbeafe;
   --color-judgment-duanrezaoyin-light: #fef3c7;
-  --color-judgment-xuyaobuzhengjyu-light: #e5e7eb;
+  --color-judgment-xuyaobuzhengju-light: #e5e7eb;
   
   /* Semantic colors */
   --color-success: #10b981;
@@ -272,9 +272,9 @@ body {
   color: var(--color-judgment-duanrezaoyin);
 }
 
-.badge-xuyaobuzhengjyu {
-  background-color: var(--color-judgment-xuyaobuzhengjyu-light);
-  color: var(--color-judgment-xuyaobuzhengjyu);
+.badge-xuyaobuzhengju {
+  background-color: var(--color-judgment-xuyaobuzhengju-light);
+  color: var(--color-judgment-xuyaobuzhengju);
 }
 
 /* Semantic badges */

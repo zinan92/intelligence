@@ -54,9 +54,9 @@
                 <span class="font-semibold" style="color: var(--color-judgment-duanrezaoyin);">短热噪音</span>
                 <span class="text-2xl font-bold" style="color: var(--color-judgment-duanrezaoyin);" id="count-duanrezaoyin">0</span>
               </div>
-              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--color-judgment-xuyaobuzhengjyu-light); border-radius: var(--radius-md);">
-                <span class="font-semibold" style="color: var(--color-judgment-xuyaobuzhengjyu);">需要补证据</span>
-                <span class="text-2xl font-bold" style="color: var(--color-judgment-xuyaobuzhengjyu);" id="count-xuyaobuzhengjyu">0</span>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--color-judgment-xuyaobuzhengju-light); border-radius: var(--radius-md);">
+                <span class="font-semibold" style="color: var(--color-judgment-xuyaobuzhengju);">需要补证据</span>
+                <span class="text-2xl font-bold" style="color: var(--color-judgment-xuyaobuzhengju);" id="count-xuyaobuzhengju">0</span>
               </div>
             </div>
           </div>
@@ -222,7 +222,7 @@
       
       document.getElementById('count-zhidegeng').textContent = judgments['值得跟'] || 0;
       document.getElementById('count-duanrezaoyin').textContent = judgments['短热噪音'] || 0;
-      document.getElementById('count-xuyaobuzhengjyu').textContent = judgments['需要补证据'] || 0;
+      document.getElementById('count-xuyaobuzhengju').textContent = judgments['需要补证据'] || 0;
     }
 
     /**

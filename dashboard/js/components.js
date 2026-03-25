@@ -10,10 +10,10 @@ function renderJudgmentBadge(judgmentState) {
     '值得跟': 'badge-zhidegeng',
     '观察中': 'badge-guanchazu',
     '短热噪音': 'badge-duanrezaoyin',
-    '需要补证据': 'badge-xuyaobuzhengjyu'
+    '需要补证据': 'badge-xuyaobuzhengju'
   };
   
-  const badgeClass = badgeClassMap[judgmentState] || 'badge-xuyaobuzhengjyu';
+  const badgeClass = badgeClassMap[judgmentState] || 'badge-xuyaobuzhengju';
   return `<span class="badge ${badgeClass}">${judgmentState}</span>`;
 }
 
