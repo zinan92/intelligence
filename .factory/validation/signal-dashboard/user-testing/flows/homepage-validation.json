@@ -1,0 +1,94 @@
+{
+  "groupId": "homepage-validation",
+  "testedAt": "2026-03-25T00:00:00Z",
+  "isolation": {
+    "appUrl": "http://localhost:8765/index.html",
+    "browserSession": "6c7a7e7a0e55__homepage",
+    "viewport": "1280x800",
+    "readOnly": true
+  },
+  "toolsUsed": ["agent-browser"],
+  "assertions": {
+    "VAL-HOME-001": {
+      "status": "pass",
+      "evidence": "实时异动榜 displays a table with 4 directions: 18K 金镶翡翠 (+32%, 最近30天, 高, 值得跟), 多巴胺色系耳饰 (+24%, 最近14天, 中, 观察中), 沉香 + 翡翠叠戴 (+18%, 最近60天, 中高, 需要补证据), 冰感小件吊坠 (+12%, 最近7天, 中, 短热噪音). All required fields present: direction name, heat change %, time window, confidence level, judgment tag, and brief reason.",
+      "details": "Table columns: 方向名称, 热度变化, 时间窗口, 置信度, 判断标签, 异动原因. All 4 directions have complete data.",
+      "screenshots": ["signal-dashboard/homepage-validation/homepage-viewport-1280x800.png", "signal-dashboard/homepage-validation/homepage-full-page.png"]
+    },
+    "VAL-HOME-002": {
+      "status": "pass",
+      "evidence": "今日判断 module displays aggregated counts: 值得跟 2, 短热噪音 1, 需要补证据 3. Color-coded badges visible (green for 值得跟, orange for 短热噪音, yellow for 需要补证据).",
+      "details": "All three judgment categories present with numerical counts. Layout is card-style with colored backgrounds.",
+      "screenshots": ["signal-dashboard/homepage-validation/homepage-viewport-1280x800.png"]
+    },
+    "VAL-HOME-003": {
+      "status": "pass",
+      "evidence": "值得关注方向 displays 3 cards: 18K 金镶翡翠 (值得跟), 多巴胺色系耳饰 (观察中), 沉香 + 翡翠叠戴 (需要补证据). Each card shows: direction name, 为何关注 (why it matters), 受众适配 (audience fit), 价格带 (price-band), 产品线影响 (product-line implication).",
+      "details": "3 cards shown (within 3-6 range). Each has all 5 required fields with substantive Chinese content. Example: 18K 金镶翡翠 card shows audience '30-45 稳定，25-35 有增长潜力', price '高/低中', product line '项链/吊坠先行，耳饰选择性探索，戒指暂缓'.",
+      "screenshots": ["signal-dashboard/homepage-validation/homepage-full-page.png"]
+    },
+    "VAL-HOME-004": {
+      "status": "pass",
+      "evidence": "风险提醒 module displays 4 risk warning cards: (1) 金工复杂度影响毛利 (related to 18K 金镶翡翠), (2) 热度高但转化弱 (related to 多巴胺色系耳饰), (3) 评论好看但价格不匹配 (related to 多巴胺色系耳饰), (4) 视觉新鲜但供应链复杂 (related to 沉香 + 翡翠叠戴). Each has mitigation measures.",
+      "details": "4 risk cards present (exceeds minimum of 2). Each shows ⚠️ icon, risk title, related direction, and 缓解措施 (mitigation). Includes both specified examples from the assertion.",
+      "screenshots": ["signal-dashboard/homepage-validation/homepage-full-page.png"]
+    },
+    "VAL-HOME-005": {
+      "status": "pass",
+      "evidence": "最近证据 displays 6 evidence items with source type indicators (🖼️ 图片, 📝 笔记, 💬 评论), freshness indicators (🕐 最近3天, 最近7天, 最近14天, 最近30天), brief descriptions, and related directions.",
+      "details": "Evidence items: (1) 多巴胺色系耳饰合集 (图片, 最近3天), (2) 30岁+的优雅选择：18K金镶翡翠项链 (笔记, 最近7天), (3) 冰种小吊坠，入门首选 (笔记, 最近7天), (4) 多巴胺耳饰好看但有点贵 (评论, 最近7天), (5) 18K金镶翡翠耳饰细节图 (图片, 最近14天), (6) 沉香手串搭配翡翠珠串的文化感 (笔记, 最近30天). All required fields present.",
+      "screenshots": ["signal-dashboard/homepage-validation/homepage-full-page.png"]
+    },
+    "VAL-HOME-006": {
+      "status": "pass",
+      "evidence": "产品线观察 displays all 4 product lines: 项链/吊坠 (状态: 上升), 耳饰 (状态: 高潜但不稳定), 戒指 (状态: 证据不足), 手串/叠戴 (状态: 当前人群更稳). Each shows opportunity level, risk level, and descriptive text.",
+      "details": "All 4 product lines present with correct Chinese movement phrases matching the assertion specification exactly. Each also shows 机会 and 风险 levels.",
+      "screenshots": ["signal-dashboard/homepage-validation/homepage-full-page.png"]
+    },
+    "VAL-HOME-007": {
+      "status": "pass",
+      "evidence": "14天变化 module displays three categories: 📈 升温 (18K 金镶翡翠 +8%, 多巴胺色系耳饰 +12%), 📉 降温 (传统素金镯 -15%), ✨ 新出现 (冰感小件吊坠 +12%). Each has brief rationale text.",
+      "details": "All three change categories present with direction names, percentage changes, and explanatory text.",
+      "screenshots": ["signal-dashboard/homepage-validation/homepage-full-page.png"]
+    },
+    "VAL-HOME-008": {
+      "status": "pass",
+      "evidence": "All visible text on the homepage is in Chinese. Module titles (实时异动榜, 今日判断, 值得关注方向, 风险提醒, 最近证据, 产品线观察, 14天变化), navigation labels (首页, 方向地图, 产品线观察, 证据库), data labels, direction names, judgment tags, risk descriptions — all in Chinese. No English UI labels in the main content area.",
+      "details": "Full accessibility snapshot confirmed all text nodes are Chinese. Brand name 翡翠信号图谱 is Chinese. Column headers (方向名称, 热度变化, etc.) are Chinese.",
+      "screenshots": ["signal-dashboard/homepage-validation/homepage-full-page.png"]
+    },
+    "VAL-HOME-009": {
+      "status": "pass",
+      "evidence": "At 1280x800 viewport, 实时异动榜 (Real-time Movement Board) is the first visible content module, positioned top-left above the fold. The homepage uses a multi-column card-grid layout with 实时异动榜 on the left and 今日判断 on the right (2 columns visible). Color-coded judgment state badges are visible: green for 值得跟, blue/teal for 观察中, orange for 短热噪音, gray for 需要补证据.",
+      "details": "Signal movement is clearly the visual entry point. The movement board table dominates the above-fold content. Judgment summary sits to the right. Below-fold modules (值得关注方向, 风险提醒) also use multi-column layout.",
+      "screenshots": ["signal-dashboard/homepage-validation/homepage-viewport-1280x800.png"]
+    },
+    "VAL-NAV-001": {
+      "status": "pass",
+      "evidence": "Navigation bar displays all required items: 首页, 方向地图, 产品线观察, 证据库. All labels are in Chinese. The brand name 翡翠信号图谱 appears as a logo/link on the left side of the nav bar.",
+      "details": "Snapshot confirmed 4 nav links with correct Chinese labels and URLs: index.html, direction-map.html, product-line.html, evidence.html.",
+      "screenshots": ["signal-dashboard/homepage-validation/homepage-viewport-1280x800.png"]
+    },
+    "VAL-NAV-003": {
+      "status": "pass",
+      "evidence": "The current page (首页) has distinct active styling: green background (rgb(209, 250, 229)), green text (rgb(10, 95, 78)), font-weight 600. Other nav items have transparent background, gray text (rgb(74, 80, 86)), font-weight 500.",
+      "details": "Verified via computed styles comparison between active (首页) and inactive (方向地图) nav items. Clear visual distinction through background color, text color, and font weight.",
+      "screenshots": ["signal-dashboard/homepage-validation/homepage-viewport-1280x800.png"]
+    },
+    "VAL-VISUAL-001": {
+      "status": "pass",
+      "evidence": "At 1280x800 viewport, all homepage modules are visible (scrollable), text is readable, no horizontal overflow detected, and no critical text truncation observed. The movement board table, judgment summary, and module headings are all fully visible.",
+      "details": "Screenshot taken at exact 1280x800 viewport confirms clean layout. Table columns fit within the viewport width. Card layouts are responsive and content flows naturally. Full-page screenshot shows all 7 modules render correctly.",
+      "screenshots": ["signal-dashboard/homepage-validation/homepage-viewport-1280x800.png"]
+    },
+    "VAL-CROSS-007": {
+      "status": "pass",
+      "evidence": "The product name '翡翠信号图谱' appears as a branding element in the navigation bar (first link, positioned on the left side). It links to index.html and is visually distinct as the product identity.",
+      "details": "Confirmed in both screenshot (visible in top-left of nav bar) and accessibility snapshot (link '翡翠信号图谱' as first nav element).",
+      "screenshots": ["signal-dashboard/homepage-validation/homepage-viewport-1280x800.png"]
+    }
+  },
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 13 assertions: all 13 passed. Homepage displays all 7 modules with complete content, Chinese language throughout, signal-first visual hierarchy, working navigation with active indicator, product branding, and readable layout at 1280x800."
+}

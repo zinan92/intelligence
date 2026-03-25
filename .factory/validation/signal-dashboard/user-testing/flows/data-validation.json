@@ -1,0 +1,45 @@
+{
+  "groupId": "data-validation",
+  "testedAt": "2026-03-25T00:00:00Z",
+  "isolation": {
+    "server": "http://localhost:8765/",
+    "dataFile": "http://localhost:8765/data/jade_dashboard.json",
+    "diskPath": "/Users/wendy/work/content-co/intelligence/dashboard/data/jade_dashboard.json"
+  },
+  "toolsUsed": ["curl", "python3"],
+  "assertions": {
+    "VAL-DATA-001": {
+      "status": "pass",
+      "evidence": "signal-dashboard/data-validation/VAL-DATA-001-curl-fetch.txt",
+      "details": "curl fetch returned HTTP 200 with Content-Type application/json (16599 bytes). JSON parsed successfully with python3 json.load(). Top-level keys: product_name, timestamp, executive_summary, today_judgments, trend_directions, product_lines, fourteen_day_changes, evidence_entries, scoring_model, keyword_groups."
+    },
+    "VAL-DATA-002": {
+      "status": "pass",
+      "evidence": "signal-dashboard/data-validation/VAL-DATA-002-directions.txt",
+      "details": "4 trend directions found (minimum 4 required). All have complete fields: name (Chinese), heat_magnitude (+32%, +24%, +18%, +12%), confidence_level (高, 中, 中高, 中), time_window, judgment_state (值得跟, 观察中, 需要补证据, 短热噪音), audience_fit, and price_band_fit. All judgment states and confidence levels are valid values."
+    },
+    "VAL-DATA-003": {
+      "status": "pass",
+      "evidence": "signal-dashboard/data-validation/VAL-DATA-003-product-lines.txt",
+      "details": "All 4 required product lines present: 项链/吊坠 (opportunity=高, risk=低中, movement=上升), 耳饰 (opportunity=中高, risk=中, movement=高潜但不稳定), 戒指 (opportunity=中, risk=中高, movement=证据不足), 手串/叠戴 (opportunity=中, risk=中, movement=当前人群更稳). Each has opportunity_level, risk_level, movement_status, and reasoning text."
+    },
+    "VAL-DATA-004": {
+      "status": "pass",
+      "evidence": "signal-dashboard/data-validation/VAL-DATA-004-evidence-entries.txt",
+      "details": "7 evidence entries found (minimum 6 required). All have required fields: type (笔记×3, 图片×2, 评论×2 — all valid types), related_direction, source, timestamp AND freshness indicator, and relevance_explanation."
+    },
+    "VAL-DATA-005": {
+      "status": "pass",
+      "evidence": "signal-dashboard/data-validation/VAL-DATA-005-fourteen-day-changes.txt",
+      "details": "14-day change data present with all three categories: rising/升温 (2 entries: 18K 金镶翡翠 +8%, 多巴胺色系耳饰 +12%), cooling/降温 (1 entry: 传统素金镯 -15%), newly_emerging/新出现 (1 entry: 冰感小件吊坠 +12%). Each entry has direction name, change percentage, and reason."
+    },
+    "VAL-DATA-006": {
+      "status": "pass",
+      "evidence": "signal-dashboard/data-validation/VAL-DATA-006-freshness-metadata.txt",
+      "details": "All 4 directions have freshness indicators (最近30天, 最近14天, 最近60天, 最近7天). All 7 evidence entries have freshness indicators (最近7天, 最近3天, 最近30天, 最近14天). No missing freshness metadata."
+    }
+  },
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 6 assertions: all 6 passed. JSON data file is valid, fetchable (HTTP 200), contains 4 trend directions with complete fields, all 4 product lines with required data, 7 evidence entries (≥6 required) with all required fields, 14-day change data with rising/cooling/emerging categories, and freshness metadata on all directions and evidence items."
+}

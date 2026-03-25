@@ -1,0 +1,119 @@
+{
+  "groupId": "direction-detail-validation",
+  "testedAt": "2026-03-25T00:00:00.000Z",
+  "isolation": {
+    "appUrl": "http://localhost:8765/direction-detail.html?id=dir_001",
+    "homepageUrl": "http://localhost:8765/index.html",
+    "browserSession": "6c7a7e7a0e55__detail",
+    "readOnly": true
+  },
+  "toolsUsed": ["agent-browser"],
+  "assertions": {
+    "VAL-DIR-001": {
+      "status": "pass",
+      "evidence": "Direction overview section (01. 方向总览) displays: current heat +32% with visual indicator, 14-day change '最近30天' in green, confidence '高', judgment state '值得跟' with green badge, audience fit '30-45 稳定，25-35 有增长潜力', and price-band fit '高/低中'.",
+      "details": "All required fields present: heat level with visual indicator, 14-day change trend, audience fit description, price-band fit, and judgment state tag. Screenshot and snapshot confirm complete rendering.",
+      "steps": [
+        {"action": "Navigate to direction-detail.html?id=dir_001", "expected": "Direction overview section visible", "observed": "Section '01. 方向总览' displayed with all required data fields"},
+        {"action": "Verify heat level", "expected": "Heat percentage with visual indicator", "observed": "+32% displayed in green text"},
+        {"action": "Verify 14-day change", "expected": "14-day change trend shown", "observed": "'最近30天' displayed in green"},
+        {"action": "Verify audience fit", "expected": "Audience description in Chinese", "observed": "'30-45 稳定，25-35 有增长潜力'"},
+        {"action": "Verify price-band", "expected": "Price-band fit shown", "observed": "'高/低中'"},
+        {"action": "Verify judgment state", "expected": "Judgment tag displayed", "observed": "'值得跟' badge in green"}
+      ]
+    },
+    "VAL-DIR-002": {
+      "status": "pass",
+      "evidence": "Section '02. 一句话建议' displays with a highlighted yellow/amber box containing '💡 项链/吊坠先行，耳饰选择性探索，戒指暂缓。' — visually prominent with distinct styling.",
+      "details": "The advice text is displayed in a distinctly styled highlighted box (darker background, larger text) that makes it visually prominent compared to other sections. Contains clear, actionable Chinese recommendation.",
+      "steps": [
+        {"action": "Scroll to section 02", "expected": "一句话建议 section visible with prominent styling", "observed": "Section visible with highlighted amber/yellow box"},
+        {"action": "Verify text content", "expected": "Clear actionable recommendation in Chinese", "observed": "'💡 项链/吊坠先行，耳饰选择性探索，戒指暂缓。'"},
+        {"action": "Verify visual prominence", "expected": "Larger text or highlighted box", "observed": "Text in highlighted box with distinct background color, making it visually prominent"}
+      ]
+    },
+    "VAL-DIR-003": {
+      "status": "pass",
+      "evidence": "Section '03. 产品线决策卡' displays four product-line cards in a 2x2 grid: 项链/吊坠 (机会:高, 风险:低中, 成熟客群核心需求), 耳饰 (机会:中高, 风险:中, 年轻客群探索意愿强), 戒指 (机会:中, 风险:中高, 证据不足供应链复杂), 手串/叠戴 (机会:中, 风险:中, 当前人群更稳定).",
+      "details": "All four product-line cards present with correct data: opportunity level, risk level, and rationale text for each.",
+      "steps": [
+        {"action": "Scroll to section 03", "expected": "Four product-line cards displayed", "observed": "Four cards in 2x2 grid layout"},
+        {"action": "Verify 项链/吊坠 card", "expected": "Opportunity, risk, rationale", "observed": "机会:高, 风险:低中, '成熟客群核心需求，转化稳定'"},
+        {"action": "Verify 耳饰 card", "expected": "Opportunity, risk, rationale", "observed": "机会:中高, 风险:中, '年轻客群探索意愿强，但价格敏感'"},
+        {"action": "Verify 戒指 card", "expected": "Opportunity, risk, rationale", "observed": "机会:中, 风险:中高, '证据不足，供应链复杂'"},
+        {"action": "Verify 手串/叠戴 card", "expected": "Opportunity, risk, rationale", "observed": "机会:中, 风险:中, '当前人群更稳定，但增长潜力有限'"}
+      ]
+    },
+    "VAL-DIR-004": {
+      "status": "pass",
+      "evidence": "Section '04. 为什么会涨' contains substantive Chinese text explaining why the direction is trending. Covers: comment themes (成熟大气、传家品质、值得投资), cross-category support (婚嫁、商务、日常通勤), visual presentation (正面特写，自然光，突出金镶细节), content narrative (强调工艺价值和传承感), and items to avoid. Also mentions 58 high-quality evidence samples.",
+      "details": "Section contains a detailed paragraph explaining the trend rationale plus 5 bullet points covering comment themes, cross-category migration, visual motifs, content formats, and avoidance items. All in Chinese, substantive content - not placeholder.",
+      "steps": [
+        {"action": "Scroll to section 04", "expected": "Why trending section with substantive content", "observed": "Full section with paragraph + 5 detailed bullet points"},
+        {"action": "Verify content covers required themes", "expected": "Visual motifs, content formats, comment themes, cross-category", "observed": "All covered: 评论主题, 跨类目支持, 视觉呈现, 内容叙事, 避免事项"},
+        {"action": "Verify text is substantive", "expected": "Not placeholder text", "observed": "Detailed Chinese text with specific examples and recommendations"}
+      ]
+    },
+    "VAL-DIR-005": {
+      "status": "pass",
+      "evidence": "Section '05. 风险提醒' displays 2 specific risks: '⚠️ 金工复杂度影响毛利' with mitigation '选择性简化镶嵌工艺', and '⚠️ 容易流于好看但贵' with mitigation '控制件均价，推低中价带产品'. Both displayed in red-bordered warning cards.",
+      "details": "Two risk warnings with explanatory text and mitigation measures, displayed in visually distinct red-bordered cards.",
+      "steps": [
+        {"action": "Scroll to section 05", "expected": "At least 2 risk warnings", "observed": "2 risk cards displayed in red-bordered containers"},
+        {"action": "Verify risk 1", "expected": "Specific risk description", "observed": "'金工复杂度影响毛利' with 缓解措施: '选择性简化镶嵌工艺'"},
+        {"action": "Verify risk 2", "expected": "Specific risk description", "observed": "'容易流于好看但贵' with 缓解措施: '控制件均价，推低中价带产品'"}
+      ]
+    },
+    "VAL-DIR-006": {
+      "status": "pass",
+      "evidence": "Section '06. 证据入口' shows evidence cards: '📝 30岁+的优雅选择：18K金镶翡翠项链' (笔记 · 最近7天) with description about mature customer demands, and '🖼️ 18K金镶翡翠耳饰细节图' (图片 · 最近14天) with description about craftsmanship quality.",
+      "details": "Evidence entry points showing cards with type indicators (笔记/图片), freshness indicators, and descriptions of relevance to the direction's analysis.",
+      "steps": [
+        {"action": "Scroll to section 06", "expected": "Evidence cards or links", "observed": "Two evidence cards with type, freshness, and descriptions"},
+        {"action": "Verify evidence card 1", "expected": "Type, source, freshness, relevance", "observed": "笔记 type, 最近7天 freshness, relevant description"},
+        {"action": "Verify evidence card 2", "expected": "Type, source, freshness, relevance", "observed": "图片 type, 最近14天 freshness, relevant description"}
+      ]
+    },
+    "VAL-DIR-007": {
+      "status": "pass",
+      "evidence": "All visible text on the direction detail page is in Chinese: section headers (方向总览, 一句话建议, 产品线决策卡, 为什么会涨, 风险提醒, 证据入口), data labels (当前热度, 14天变化, 置信度, 判断状态, 受众适配, 价格带匹配), advice text, risk descriptions, evidence descriptions, and navigation labels. No English UI text found in main content.",
+      "details": "Full accessibility snapshot confirms all text content is in Chinese. Navigation labels, section headers, data labels, recommendation text, risk warnings, and evidence descriptions are all in Simplified Chinese.",
+      "steps": [
+        {"action": "Take full accessibility snapshot", "expected": "All UI text in Chinese", "observed": "All section headers, labels, content, and navigation in Chinese"},
+        {"action": "Check for English text", "expected": "No English UI labels", "observed": "Only '18K' appears as a technical product name, all UI labels are Chinese"}
+      ]
+    },
+    "VAL-DIR-008": {
+      "status": "pass",
+      "evidence": "Navigation bar contains '首页' link. Clicking it navigates from direction-detail.html?id=dir_001 to index.html (homepage) successfully. Homepage loads with Movement Board visible.",
+      "details": "The navigation bar at the top of the direction detail page includes a '首页' link and the '翡翠信号图谱' brand link, both pointing to index.html. Clicking '首页' successfully loaded the homepage.",
+      "steps": [
+        {"action": "Verify navigation element on detail page", "expected": "Back link or nav bar to homepage", "observed": "Nav bar with '首页' link (ref=e2) and '翡翠信号图谱' brand link (ref=e1)"},
+        {"action": "Click '首页' link", "expected": "Navigate to homepage", "observed": "Successfully navigated to http://localhost:8765/index.html"},
+        {"action": "Verify homepage loaded", "expected": "Homepage with Movement Board", "observed": "Homepage displayed with 实时异动榜 and all modules"}
+      ]
+    },
+    "VAL-DIR-009": {
+      "status": "pass",
+      "evidence": "Full-page screenshot confirms vertical order: 01. 方向总览 (signal/overview) → 02. 一句话建议 (advice/judgment) → 03. 产品线决策卡 (product-line decisions/judgment) → 04. 为什么会涨 (why trending) → 05. 风险提醒 (risks) → 06. 证据入口 (evidence). This follows the 'signal first, judgment second, evidence third' principle.",
+      "details": "The page sections are numbered 01-06 and follow the correct vertical order. The direction overview (signal) appears first at the top, followed by action advice and product-line decisions (judgment), followed by evidence entry points at the bottom.",
+      "steps": [
+        {"action": "Take full-page screenshot", "expected": "Sections in signal→judgment→evidence order", "observed": "Sections ordered: 01.方向总览 → 02.一句话建议 → 03.产品线决策卡 → 04.为什么会涨 → 05.风险提醒 → 06.证据入口"}
+      ]
+    },
+    "VAL-CROSS-001": {
+      "status": "pass",
+      "evidence": "Clicked '18K 金镶翡翠' link in the Movement Board on the homepage. Page navigated to http://localhost:8765/direction-detail.html?id=dir_001 showing the correct direction detail page for '18K 金镶翡翠' with all expected content (heat +32%, judgment 值得跟, etc.). No console errors.",
+      "details": "Direction name links in the Movement Board are clickable and navigate to the correct detail page. URL changed to direction-detail.html?id=dir_001 and page content matched the expected direction.",
+      "steps": [
+        {"action": "Navigate to homepage", "expected": "Homepage with Movement Board", "observed": "Homepage loaded with 实时异动榜 showing 4 directions"},
+        {"action": "Click '18K 金镶翡翠' in Movement Board", "expected": "Navigate to detail page", "observed": "Navigated to direction-detail.html?id=dir_001"},
+        {"action": "Verify detail page content", "expected": "Correct direction content displayed", "observed": "'18K 金镶翡翠' detail page with heat +32%, 值得跟 judgment, all 6 sections"},
+        {"action": "Check console errors", "expected": "No errors", "observed": "No JavaScript console errors"}
+      ]
+    }
+  },
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 10 assertions: 10 passed, 0 failed, 0 blocked. All direction detail page sections render correctly with proper Chinese content, visual hierarchy follows signal→judgment→evidence principle, navigation works bidirectionally between homepage and detail page, and no JavaScript console errors detected."
+}

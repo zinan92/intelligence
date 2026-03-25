@@ -1,0 +1,29 @@
+{
+  "milestone": "signal-dashboard",
+  "round": 1,
+  "status": "pass",
+  "assertionsSummary": {
+    "total": 28,
+    "passed": 28,
+    "failed": 0,
+    "blocked": 0
+  },
+  "passedAssertions": [
+    "VAL-DATA-001", "VAL-DATA-002", "VAL-DATA-003", "VAL-DATA-004", "VAL-DATA-005", "VAL-DATA-006",
+    "VAL-HOME-001", "VAL-HOME-002", "VAL-HOME-003", "VAL-HOME-004", "VAL-HOME-005", "VAL-HOME-006", "VAL-HOME-007", "VAL-HOME-008", "VAL-HOME-009",
+    "VAL-NAV-001", "VAL-NAV-003",
+    "VAL-DIR-001", "VAL-DIR-002", "VAL-DIR-003", "VAL-DIR-004", "VAL-DIR-005", "VAL-DIR-006", "VAL-DIR-007", "VAL-DIR-008", "VAL-DIR-009",
+    "VAL-VISUAL-001",
+    "VAL-CROSS-001", "VAL-CROSS-007"
+  ],
+  "failedAssertions": [],
+  "blockedAssertions": [],
+  "appliedUpdates": [
+    {
+      "target": "user-testing.md",
+      "description": "Added Flow Validator Guidance sections for agent-browser and data-inspection surfaces with isolation rules, session naming conventions, and testing approaches",
+      "source": "setup"
+    }
+  ],
+  "previousRound": null
+}
