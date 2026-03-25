@@ -1,0 +1,45 @@
+{
+  "featureId": "direction-detail-page",
+  "reviewedAt": "2026-03-25T09:30:00.000Z",
+  "commitId": "5dc8359",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The direction detail page is a well-structured, single-file HTML page (676 lines) that implements all 6 required sections in the correct signal→judgment→evidence vertical order. It correctly reads direction ID from URL query parameters, defaults to dir_001, uses all shared JS utilities (loadDashboardData, getDirectionById, getEvidenceByDirection, renderJudgmentBadge, etc.), and renders all content in Chinese. The page has proper error handling for missing directions, responsive grid layouts for product cards/risk cards/evidence cards, hover effects, and appropriate visual prominence for the advice section. Navigation is auto-initialized by nav.js. The implementation follows all AGENTS.md conventions including semantic HTML5, CSS custom properties, vanilla JS, kebab-case CSS classes, camelCase JS variables, UTF-8 encoding, and zh-CN lang attribute.",
+    "issues": [
+      {
+        "file": "dashboard/direction-detail.html",
+        "line": 579,
+        "severity": "non_blocking",
+        "description": "Evidence card truncation uses `relevance_explanation.substring(0, 60) + '...'` which appends '...' even when the text is shorter than 60 characters (the actual evidence data has relevance_explanation values of ~14-19 chars). Should conditionally append the ellipsis: `evidence.relevance_explanation.length > 60 ? evidence.relevance_explanation.substring(0, 60) + '...' : evidence.relevance_explanation`."
+      },
+      {
+        "file": "dashboard/direction-detail.html",
+        "line": 416,
+        "severity": "non_blocking",
+        "description": "The overview stat card label '14天变化' is a fixed label, but the actual data field displayed is `direction.time_window` which has value '最近30天'. The label implies a 14-day metric but the value describes a 30-day window. This is a semantic mismatch between the UI label and the data — not a code bug per se, but could confuse users. The feature spec says 'Direction overview shows heat, 14-day change, audience fit, price-band, judgment tag' which this technically satisfies since it shows the time-window change data."
+      },
+      {
+        "file": "dashboard/direction-detail.html",
+        "line": 410,
+        "severity": "non_blocking",
+        "description": "The renderDirectionOverview function outputs `direction.heat_magnitude` ('+32%') as a raw string without using the shared `renderHeatIndicator()` function that provides color-coded positive/negative styling. The hero section uses renderHeatIndicator but the overview stat card does not, creating a slight visual inconsistency. Not blocking since the value is still displayed correctly."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "knowledge",
+      "observation": "The user-testing.md library file documents the direction detail URL as `direction-detail.html?id=18k-gold-jade` but the actual implementation and data use `direction-detail.html?id=dir_001`. The URL format in user-testing.md is stale/incorrect and could mislead future workers or validators who reference it.",
+      "evidence": ".factory/library/user-testing.md line 'http://localhost:8765/direction-detail.html?id=18k-gold-jade' vs actual data jade_dashboard.json where direction IDs are 'dir_001', 'dir_002', etc. Homepage links correctly use `direction-detail.html?id=${dir.id}` which produces `?id=dir_001`."
+    },
+    {
+      "area": "conventions",
+      "observation": "Page-specific CSS is placed in an inline <style> block within the HTML file. The AGENTS.md says 'inline <style> only for truly page-specific overrides' and the skill file says the same. This page has ~170 lines of CSS in the inline style block which is substantial. However, all classes (.detail-hero, .advice-box, .product-line-card, .risk-card, .evidence-card) are genuinely page-specific and not reused elsewhere, so the convention is technically followed. No action needed, but as more detail-style pages are added, extracting to a shared detail.css may be warranted.",
+      "evidence": "dashboard/direction-detail.html lines 10-195: ~170 lines of page-specific CSS including .detail-hero, .advice-box, .product-line-card, .product-line-grid, .risk-card, .risk-grid, .evidence-card, .evidence-grid, .overview-stats, .stat-card."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "The direction detail page passes review. All 6 required sections are implemented in the correct vertical order (overview → advice → product cards → why moving → risks → evidence). The page reads direction ID from URL query parameters, defaults to dir_001 (18K 金镶翡翠), uses shared data/component utilities consistently, renders all content in Chinese, has responsive layouts, proper error handling for missing directions, and navigation bar with back navigation to homepage. The worker followed the prototype-worker skill procedure correctly. Three non-blocking issues were identified: (1) evidence text truncation adds '...' even for short strings, (2) '14天变化' label doesn't match the '最近30天' data value semantically, (3) heat magnitude in overview stat card doesn't use the shared renderHeatIndicator for consistent styling. One shared state observation: the user-testing.md library file has an outdated URL format for this page."
+}

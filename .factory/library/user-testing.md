@@ -12,7 +12,7 @@ Testing surface, required testing skills/tools, resource cost classification per
 **URL:** http://localhost:8765/
 **Pages to test:**
 - http://localhost:8765/index.html (Homepage / 首页)
-- http://localhost:8765/direction-detail.html?id=18k-gold-jade (Direction Detail)
+- http://localhost:8765/direction-detail.html?id=dir_001 (Direction Detail — 18K 金镶翡翠)
 - http://localhost:8765/direction-map.html (Direction Map / 方向地图)
 - http://localhost:8765/evidence.html (Evidence Library / 证据库)
 - http://localhost:8765/product-line.html (Product Line Watch / 产品线观察)

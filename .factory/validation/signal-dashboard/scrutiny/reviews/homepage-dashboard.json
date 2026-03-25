@@ -1,0 +1,51 @@
+{
+  "featureId": "homepage-dashboard",
+  "reviewedAt": "2026-03-25T09:15:00.000Z",
+  "commitId": "1058ad74efb64d32cef04c0737c43aa27cc680a3",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The homepage implementation is solid and covers all 7 required modules with correct Chinese content, signal-first layout, color-coded judgment badges, clickable links, and multi-column grid layout. Two non-blocking issues were found: (1) the Today's Judgment Summary omits the '观察中' category that exists in the data (though the feature description only specifies 3 categories), and (2) only 2 Watchlist Cards are rendered instead of the specified 3-6 because the mock data only has 2 directions matching the filter criteria. The code architecture is clean, uses shared JS utilities properly, and follows the established patterns.",
+    "issues": [
+      {
+        "file": "dashboard/index.html",
+        "line": 48,
+        "severity": "non_blocking",
+        "description": "Today's Judgment Summary (Module 02) hard-codes only 3 categories (值得跟, 短热噪音, 需要补证据) but the data in jade_dashboard.json includes 4 categories — '观察中' with count=1 is missing. The feature description text lists only 3 categories, so this may be intentional, but it creates inconsistency with the data model and the '观察中' judgment state used elsewhere on the page."
+      },
+      {
+        "file": "dashboard/index.html",
+        "line": 236,
+        "severity": "non_blocking",
+        "description": "Watchlist Cards (Module 03) only renders 2 cards (dir_001=值得跟 and dir_002=观察中) because the mock data has only 2 directions matching the filter. The expectedBehavior states '3-6 direction cards with details'. The code logic is correct (.filter + .slice(0,6)), but the data doesn't have enough qualifying directions. Either the data needs more directions with 值得跟/观察中 states, or the filter should be broadened."
+      },
+      {
+        "file": "dashboard/index.html",
+        "line": 15,
+        "severity": "non_blocking",
+        "description": "First grid row uses inline style override: style='grid-template-columns: 1.5fr 1fr;' on a .grid-2 element. This deviates from the CSS grid system which defines .grid-2 as 'repeat(2, 1fr)'. While functional, it introduces an inconsistency — a dedicated CSS class (e.g., .grid-2-weighted) would be more maintainable and consistent with the convention of using CSS classes over inline styles."
+      },
+      {
+        "file": "dashboard/index.html",
+        "line": 196,
+        "severity": "non_blocking",
+        "description": "Movement Board 'brief reason' column truncates description at 40 characters with hardcoded substring: dir.description.substring(0, 40) + '...'. This could cut Chinese characters mid-thought and doesn't handle descriptions shorter than 40 chars gracefully (would still append '...'). Consider using CSS text-overflow: ellipsis or a smarter truncation that respects sentence boundaries."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "Worker used inline style attributes extensively for layout (flex containers, gaps, padding, grid-template-columns override). AGENTS.md says to use 'CSS custom properties for colors, spacing, fonts' and the CSS has grid utility classes, but doesn't explicitly prohibit or address inline styles for layout overrides. This pattern could grow inconsistent across pages if not documented.",
+      "evidence": "dashboard/index.html lines 15, 48-59, 88, 92, 110, 113, etc. — over 15 inline style attributes for layout, vs. CSS classes for typography and colors."
+    },
+    {
+      "area": "conventions",
+      "observation": "The feature description specified 'Watchlist Cards show 3-6 direction cards' but the mock data only supports 2. No convention exists for how to handle data-spec mismatches — should workers pad mock data to meet minimum counts, or should they flag the discrepancy?",
+      "evidence": "jade_dashboard.json has 4 trend_directions but only 2 have judgment_state of '值得跟' or '观察中'. Feature expectedBehavior says '3-6 direction cards with details'. Handoff says '2 direction cards' without flagging the gap."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Homepage dashboard implementation PASSES review. All 7 modules are present and functional with correct Chinese content, signal-first layout (Movement Board first), multi-column grid (2-3-2), color-coded judgment badges using CSS custom properties, clickable direction/product-line links, and navigation with active page highlighting. Two non-blocking issues: (1) '观察中' category missing from Today's Judgment Summary — though the feature spec only lists 3 categories; (2) only 2 Watchlist Cards rendered vs. the 3-6 specified, due to mock data limitations. Code quality is good: proper use of shared JS utilities (data.js, components.js, nav.js), async data loading with error handling, and consistent Chinese text throughout. No English UI labels detected. The worker followed the skill procedure fully and ran all required verification steps."
+}

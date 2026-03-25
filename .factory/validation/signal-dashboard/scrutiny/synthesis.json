@@ -1,0 +1,126 @@
+{
+  "milestone": "signal-dashboard",
+  "round": 1,
+  "status": "pass",
+  "validatorsRun": {
+    "test": {
+      "passed": true,
+      "command": "python3 -m pytest tests/ -x -q",
+      "exitCode": 0,
+      "details": "74 passed in 3.38s"
+    },
+    "typecheck": {
+      "passed": true,
+      "command": "echo \"No typecheck configured (static HTML prototype)\"",
+      "exitCode": 0,
+      "details": "No typecheck configured (static HTML prototype)"
+    },
+    "lint": {
+      "passed": true,
+      "command": "echo \"No lint configured (static HTML prototype)\"",
+      "exitCode": 0,
+      "details": "No lint configured (static HTML prototype)"
+    },
+    "validate_json": {
+      "passed": true,
+      "command": "python3 -c \"import json; json.load(open('dashboard/data/jade_dashboard.json')); print('JSON valid')\"",
+      "exitCode": 0,
+      "details": "JSON valid"
+    }
+  },
+  "reviewsSummary": {
+    "total": 3,
+    "passed": 3,
+    "failed": 0,
+    "failedFeatures": []
+  },
+  "blockingIssues": [],
+  "nonBlockingIssues": [
+    {
+      "featureId": "data-and-ui-foundation",
+      "severity": "non_blocking",
+      "description": "CSS variable --color-judgment-xuyaobuzhengjyu uses non-standard romanization for 需要补证据 (standard pinyin: xuyaobuzhengju). Internally consistent but could confuse future workers."
+    },
+    {
+      "featureId": "data-and-ui-foundation",
+      "severity": "non_blocking",
+      "description": "today_judgments includes extra 观察中:1 not in spec, but is internally consistent with data (多巴胺色系耳饰 has judgment_state=观察中)."
+    },
+    {
+      "featureId": "data-and-ui-foundation",
+      "severity": "non_blocking",
+      "description": "Fetch path '/data/jade_dashboard.json' uses absolute path from server root. Works with current services.yaml config but less portable than relative path."
+    },
+    {
+      "featureId": "homepage-dashboard",
+      "severity": "non_blocking",
+      "description": "Today's Judgment Summary omits 观察中 category (spec listed only 3 categories, but data has 4)."
+    },
+    {
+      "featureId": "homepage-dashboard",
+      "severity": "non_blocking",
+      "description": "Only 2 Watchlist Cards rendered vs. 3-6 specified, due to mock data having only 2 directions with qualifying judgment states."
+    },
+    {
+      "featureId": "homepage-dashboard",
+      "severity": "non_blocking",
+      "description": "Inline style overrides used for layout (grid-template-columns, flex containers) instead of CSS utility classes."
+    },
+    {
+      "featureId": "homepage-dashboard",
+      "severity": "non_blocking",
+      "description": "Movement Board truncates descriptions at 40 chars with hardcoded substring — always appends '...' even for short text."
+    },
+    {
+      "featureId": "direction-detail-page",
+      "severity": "non_blocking",
+      "description": "Evidence card truncation adds '...' even for short strings (relevance_explanation is 14-19 chars, threshold is 60)."
+    },
+    {
+      "featureId": "direction-detail-page",
+      "severity": "non_blocking",
+      "description": "Label '14天变化' in overview doesn't match data value '最近30天' — semantic mismatch between UI label and data field."
+    },
+    {
+      "featureId": "direction-detail-page",
+      "severity": "non_blocking",
+      "description": "Heat magnitude in overview stat card doesn't use shared renderHeatIndicator() for consistent color-coded styling."
+    }
+  ],
+  "appliedUpdates": [
+    {
+      "target": "library",
+      "description": "Fixed stale URL in .factory/library/user-testing.md: direction-detail.html?id=18k-gold-jade → direction-detail.html?id=dir_001. The actual data uses dir_001/dir_002/etc. as direction IDs, not slug-style IDs.",
+      "sourceFeature": "direction-detail-page"
+    }
+  ],
+  "suggestedGuidanceUpdates": [
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Add romanization convention for Chinese terms in CSS/JS identifiers. Recommend standard pinyin (e.g., xuyaobuzhengju not xuyaobuzhengjyu) for consistency across workers.",
+      "evidence": "data-and-ui-foundation: CSS variable --color-judgment-xuyaobuzhengjyu uses non-standard romanization. Other terms use standard pinyin (zhidegeng, guanchazu, duanrezaoyin). Without a convention, each worker may romanize differently.",
+      "isSystemic": false
+    },
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Add guidance on how workers should handle data-spec mismatches. When mock data doesn't support a spec minimum (e.g., spec says 3-6 cards but data only has 2 qualifying items), workers should either: (a) pad mock data to meet minimums, or (b) flag the gap in handoff notes.",
+      "evidence": "homepage-dashboard: Watchlist Cards shows 2 cards vs. spec minimum of 3, because mock data only has 2 directions with qualifying judgment states. Worker didn't flag the gap. This could recur across features that depend on shared data.",
+      "isSystemic": true
+    }
+  ],
+  "rejectedObservations": [
+    {
+      "observation": "Worker did not use agent-browser for visual verification of data-and-ui-foundation feature",
+      "reason": "Not applicable — this is a data/foundation feature (JSON, CSS, JS files) not a page feature. The prototype-worker skill says agent-browser is 'REQUIRED for page features' which correctly doesn't apply here."
+    },
+    {
+      "observation": "Inline styles usage convention should be documented in AGENTS.md",
+      "reason": "AGENTS.md already says 'CSS custom properties for colors, spacing, fonts' and the inline styles are for one-off layout overrides, not colors/spacing system values. The current convention is sufficient — inline styles for layout exceptions are a reasonable pattern in pure HTML/CSS prototypes."
+    },
+    {
+      "observation": "Page-specific CSS in inline <style> block is substantial (~170 lines) in direction-detail-page",
+      "reason": "Already follows AGENTS.md convention which allows 'inline <style> only for truly page-specific overrides'. All classes are genuinely page-specific. Extracting to a separate CSS file is premature until more detail-style pages share similar patterns."
+    }
+  ],
+  "previousRound": null
+}
