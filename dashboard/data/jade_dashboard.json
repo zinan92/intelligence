@@ -1,0 +1,429 @@
+{
+  "product_name": "翡翠信号图谱",
+  "timestamp": "2026-03-25",
+  "executive_summary": {
+    "one_line": "项链/吊坠先行，耳饰选择性探索，戒指暂缓。",
+    "key_opportunity": "18K 金镶翡翠在 30-45 人群稳定，价格带高/低中适配度好",
+    "key_risk": "多巴胺色系耳饰热度高但转化弱，需要补更多证据"
+  },
+  "today_judgments": {
+    "值得跟": 2,
+    "观察中": 1,
+    "短热噪音": 1,
+    "需要补证据": 3
+  },
+  "trend_directions": [
+    {
+      "id": "dir_001",
+      "name": "18K 金镶翡翠",
+      "description": "高品质金镶工艺搭配冰种/玻璃种翡翠，针对成熟客群的价值感表达",
+      "heat_magnitude": "+32%",
+      "time_window": "最近30天",
+      "confidence_level": "高",
+      "classification": "confirmed_continuation",
+      "judgment_state": "值得跟",
+      "audience_fit": "30-45 稳定，25-35 有增长潜力",
+      "price_band_fit": "高/低中",
+      "product_line_breakdown": {
+        "项链/吊坠": {
+          "opportunity": "高",
+          "risk": "低中",
+          "rationale": "成熟客群核心需求，转化稳定"
+        },
+        "耳饰": {
+          "opportunity": "中高",
+          "risk": "中",
+          "rationale": "年轻客群探索意愿强，但价格敏感"
+        },
+        "戒指": {
+          "opportunity": "中",
+          "risk": "中高",
+          "rationale": "证据不足，供应链复杂"
+        },
+        "手串/叠戴": {
+          "opportunity": "中",
+          "risk": "中",
+          "rationale": "当前人群更稳定，但增长潜力有限"
+        }
+      },
+      "risks": [
+        {
+          "description": "金工复杂度影响毛利",
+          "severity": "medium",
+          "mitigation": "选择性简化镶嵌工艺"
+        },
+        {
+          "description": "容易流于好看但贵",
+          "severity": "low",
+          "mitigation": "控制件均价，推低中价带产品"
+        }
+      ],
+      "evidence_summary": "58 个高质量笔记，评论聚焦'成熟'、'大气'、'传家'，跨类目支持强",
+      "proof_snapshot": {
+        "sample_count": 58,
+        "strongest_examples": ["小红书笔记 #001", "小红书笔记 #023", "抖音视频 #045"],
+        "comment_themes": ["成熟大气", "传家品质", "值得投资"],
+        "cross_category_support": "婚嫁、商务、日常通勤"
+      },
+      "one_line_recommendation": "项链/吊坠先行，耳饰选择性探索，戒指暂缓。",
+      "content_cues": {
+        "how_to_photograph": "正面特写，自然光，突出金镶细节和翡翠质感",
+        "how_to_narrate": "强调工艺价值和传承感，避免过度年轻化表达",
+        "what_not_to_do": "避免过度滤镜，避免快节奏短视频风格"
+      },
+      "why_it_matters": "18K 金镶翡翠结合了传统翡翠的文化价值和现代金工的精致感，满足 30-45 岁成熟客群对品质和价值感的双重需求。这一方向在最近 30 天的数据中显示出 +32% 的热度增长，且转化稳定，是当前最值得投入的产品方向。",
+      "freshness": "最近30天"
+    },
+    {
+      "id": "dir_002",
+      "name": "多巴胺色系耳饰",
+      "description": "明亮色彩翡翠（黄翡、紫罗兰、红翡）搭配简约金工，针对年轻客群的情绪表达",
+      "heat_magnitude": "+24%",
+      "time_window": "最近14天",
+      "confidence_level": "中",
+      "classification": "watchlist_experiment",
+      "judgment_state": "观察中",
+      "audience_fit": "18-28 增长快，30+ 接受度低",
+      "price_band_fit": "中高/中",
+      "product_line_breakdown": {
+        "项链/吊坠": {
+          "opportunity": "中",
+          "risk": "中",
+          "rationale": "年轻客群接受度高，但需控制价格"
+        },
+        "耳饰": {
+          "opportunity": "高",
+          "risk": "中高",
+          "rationale": "高潜但不稳定，评论多但转化弱"
+        },
+        "戒指": {
+          "opportunity": "低中",
+          "risk": "高",
+          "rationale": "证据不足，风险较大"
+        },
+        "手串/叠戴": {
+          "opportunity": "低",
+          "risk": "高",
+          "rationale": "与多巴胺色系不匹配"
+        }
+      },
+      "risks": [
+        {
+          "description": "热度高但转化弱",
+          "severity": "high",
+          "mitigation": "小批量测试，控制库存"
+        },
+        {
+          "description": "评论好看但价格不匹配",
+          "severity": "medium",
+          "mitigation": "推中价带产品，控制件均价"
+        }
+      ],
+      "evidence_summary": "42 个笔记，集中在 18-28 岁群体，评论聚焦'可爱'、'显白'、'减龄'",
+      "proof_snapshot": {
+        "sample_count": 42,
+        "strongest_examples": ["小红书笔记 #067", "小红书笔记 #089", "抖音视频 #102"],
+        "comment_themes": ["可爱减龄", "显白提气色", "日常百搭"],
+        "cross_category_support": "日常通勤、约会、休闲"
+      },
+      "one_line_recommendation": "小批量测试，重点观察转化率。",
+      "content_cues": {
+        "how_to_photograph": "45度侧光，自然场景，强调色彩明度",
+        "how_to_narrate": "强调情绪价值和日常搭配，避免过度正式",
+        "what_not_to_do": "避免过度修图，避免过度强调投资价值"
+      },
+      "why_it_matters": "多巴胺色系耳饰在最近 14 天显示出 +24% 的热度增长，主要集中在 18-28 岁年轻客群。虽然评论量大，但转化数据尚不稳定，需要进一步观察。如果转化率能提升，这将是打开年轻市场的重要突破口。",
+      "freshness": "最近14天"
+    },
+    {
+      "id": "dir_003",
+      "name": "沉香 + 翡翠叠戴",
+      "description": "沉香手串与翡翠珠串的混搭叠戴，针对小众高端客群的文化表达",
+      "heat_magnitude": "+18%",
+      "time_window": "最近60天",
+      "confidence_level": "中高",
+      "classification": "watchlist_experiment",
+      "judgment_state": "需要补证据",
+      "audience_fit": "35-50 小众高端，25-35 探索意愿低",
+      "price_band_fit": "高/中高",
+      "product_line_breakdown": {
+        "项链/吊坠": {
+          "opportunity": "低",
+          "risk": "中",
+          "rationale": "与叠戴场景不匹配"
+        },
+        "耳饰": {
+          "opportunity": "低",
+          "risk": "高",
+          "rationale": "与叠戴场景不匹配"
+        },
+        "戒指": {
+          "opportunity": "低中",
+          "risk": "中高",
+          "rationale": "证据不足"
+        },
+        "手串/叠戴": {
+          "opportunity": "中高",
+          "risk": "中",
+          "rationale": "当前人群更稳定，但需要更多证据"
+        }
+      },
+      "risks": [
+        {
+          "description": "视觉新鲜但供应链复杂",
+          "severity": "high",
+          "mitigation": "先测试单品供应链稳定性"
+        },
+        {
+          "description": "过于成熟会压缩年轻感",
+          "severity": "medium",
+          "mitigation": "选择性推广，避免过度强调传统感"
+        }
+      ],
+      "evidence_summary": "29 个笔记，集中在高端小众圈层，评论聚焦'文化感'、'气质'、'独特'",
+      "proof_snapshot": {
+        "sample_count": 29,
+        "strongest_examples": ["小红书笔记 #134", "小红书笔记 #156", "小红书笔记 #178"],
+        "comment_themes": ["文化气质", "独特品味", "小众高级"],
+        "cross_category_support": "茶艺、禅修、文化活动"
+      },
+      "one_line_recommendation": "补充更多证据，暂缓大规模投入。",
+      "content_cues": {
+        "how_to_photograph": "侧光或顶光，木质/茶席场景，突出文化氛围",
+        "how_to_narrate": "强调文化内涵和独特品味，避免过度商业化",
+        "what_not_to_do": "避免快节奏视频，避免过度年轻化表达"
+      },
+      "why_it_matters": "沉香+翡翠叠戴在最近 60 天显示出 +18% 的稳定增长，主要集中在 35-50 岁高端小众客群。虽然客单价高，但供应链复杂，需要更多证据验证转化稳定性后再考虑大规模投入。",
+      "freshness": "最近60天"
+    },
+    {
+      "id": "dir_004",
+      "name": "冰感小件吊坠",
+      "description": "冰种/玻璃种小件吊坠（豆粒大小），针对年轻客群的入门级产品",
+      "heat_magnitude": "+12%",
+      "time_window": "最近7天",
+      "confidence_level": "中",
+      "classification": "avoid_for_now",
+      "judgment_state": "短热噪音",
+      "audience_fit": "18-28 快速增长，30+ 兴趣低",
+      "price_band_fit": "中/低中",
+      "product_line_breakdown": {
+        "项链/吊坠": {
+          "opportunity": "中高",
+          "risk": "中",
+          "rationale": "年轻客群入门首选，但需控制价格"
+        },
+        "耳饰": {
+          "opportunity": "中",
+          "risk": "中高",
+          "rationale": "小件耳饰接受度高，但转化不稳定"
+        },
+        "戒指": {
+          "opportunity": "低",
+          "risk": "高",
+          "rationale": "小件戒指工艺复杂，毛利低"
+        },
+        "手串/叠戴": {
+          "opportunity": "低",
+          "risk": "高",
+          "rationale": "与小件吊坠场景不匹配"
+        }
+      },
+      "risks": [
+        {
+          "description": "短期热度，持续性存疑",
+          "severity": "high",
+          "mitigation": "观察 2-4 周，暂缓投入"
+        },
+        {
+          "description": "毛利低，供应链压力大",
+          "severity": "medium",
+          "mitigation": "优化供应链，控制成本"
+        }
+      ],
+      "evidence_summary": "35 个笔记，集中在最近 7 天，评论聚焦'简约'、'日常'、'不贵'",
+      "proof_snapshot": {
+        "sample_count": 35,
+        "strongest_examples": ["小红书笔记 #201", "小红书笔记 #223", "抖音视频 #245"],
+        "comment_themes": ["简约日常", "不贵入门", "百搭显气质"],
+        "cross_category_support": "日常通勤、学生党"
+      },
+      "one_line_recommendation": "短期热度，观察 2-4 周，暂缓大规模投入。",
+      "content_cues": {
+        "how_to_photograph": "正面特写，自然光，突出冰透质感",
+        "how_to_narrate": "强调日常百搭和入门价格，避免过度强调收藏价值",
+        "what_not_to_do": "避免过度滤镜，避免过度商业化"
+      },
+      "why_it_matters": "冰感小件吊坠在最近 7 天显示出 +12% 的快速增长，主要集中在 18-28 岁年轻客群的入门需求。但热度集中在短期内，持续性存疑，需要观察 2-4 周后再决定是否大规模投入。",
+      "freshness": "最近7天"
+    }
+  ],
+  "product_lines": [
+    {
+      "id": "pl_001",
+      "name": "项链/吊坠",
+      "opportunity_level": "高",
+      "risk_level": "低中",
+      "movement_status": "上升",
+      "reasoning": "成熟客群核心需求，18K 金镶翡翠方向转化稳定，冰感小件吊坠为年轻客群提供入门选择",
+      "strengthening_directions": ["18K 金镶翡翠", "冰感小件吊坠"],
+      "weakening_directions": []
+    },
+    {
+      "id": "pl_002",
+      "name": "耳饰",
+      "opportunity_level": "中高",
+      "risk_level": "中",
+      "movement_status": "高潜但不稳定",
+      "reasoning": "多巴胺色系耳饰热度高但转化弱，需要更多证据验证转化稳定性",
+      "strengthening_directions": ["多巴胺色系耳饰"],
+      "weakening_directions": []
+    },
+    {
+      "id": "pl_003",
+      "name": "戒指",
+      "opportunity_level": "中",
+      "risk_level": "中高",
+      "movement_status": "证据不足",
+      "reasoning": "各方向证据不足，供应链复杂，暂缓大规模投入",
+      "strengthening_directions": [],
+      "weakening_directions": ["18K 金镶翡翠"]
+    },
+    {
+      "id": "pl_004",
+      "name": "手串/叠戴",
+      "opportunity_level": "中",
+      "risk_level": "中",
+      "movement_status": "当前人群更稳",
+      "reasoning": "沉香+翡翠叠戴在高端小众客群稳定，但增长潜力有限",
+      "strengthening_directions": ["沉香 + 翡翠叠戴"],
+      "weakening_directions": []
+    }
+  ],
+  "fourteen_day_changes": {
+    "rising": [
+      {
+        "direction": "18K 金镶翡翠",
+        "change": "+8%",
+        "reason": "成熟客群持续增长，转化稳定"
+      },
+      {
+        "direction": "多巴胺色系耳饰",
+        "change": "+12%",
+        "reason": "年轻客群快速增长，但转化待验证"
+      }
+    ],
+    "cooling": [
+      {
+        "direction": "传统素金镯",
+        "change": "-15%",
+        "reason": "年轻化趋势下，传统款式热度下降"
+      }
+    ],
+    "newly_emerging": [
+      {
+        "direction": "冰感小件吊坠",
+        "change": "+12%",
+        "reason": "年轻客群入门需求快速增长"
+      }
+    ]
+  },
+  "evidence_entries": [
+    {
+      "id": "evid_001",
+      "type": "笔记",
+      "title": "30岁+的优雅选择：18K金镶翡翠项链",
+      "source": "小红书用户 @优雅姐姐",
+      "related_direction": "18K 金镶翡翠",
+      "freshness": "最近7天",
+      "relevance_explanation": "展示成熟客群对金镶工艺和翡翠质感的双重需求",
+      "weight": "high",
+      "product_line": "项链/吊坠",
+      "timestamp": "2026-03-18"
+    },
+    {
+      "id": "evid_002",
+      "type": "图片",
+      "title": "多巴胺色系耳饰合集",
+      "source": "小红书用户 @年轻潮流",
+      "related_direction": "多巴胺色系耳饰",
+      "freshness": "最近3天",
+      "relevance_explanation": "展示年轻客群对明亮色彩翡翠的接受度",
+      "weight": "medium",
+      "product_line": "耳饰",
+      "timestamp": "2026-03-22"
+    },
+    {
+      "id": "evid_003",
+      "type": "评论",
+      "title": "沉香+翡翠叠戴太有气质了！",
+      "source": "抖音评论区",
+      "related_direction": "沉香 + 翡翠叠戴",
+      "freshness": "最近30天",
+      "relevance_explanation": "展示高端小众客群对文化感和独特品味的追求",
+      "weight": "medium",
+      "product_line": "手串/叠戴",
+      "timestamp": "2026-02-25"
+    },
+    {
+      "id": "evid_004",
+      "type": "笔记",
+      "title": "冰种小吊坠，入门首选",
+      "source": "小红书用户 @学生党",
+      "related_direction": "冰感小件吊坠",
+      "freshness": "最近7天",
+      "relevance_explanation": "展示年轻客群入门需求和价格敏感性",
+      "weight": "low",
+      "product_line": "项链/吊坠",
+      "timestamp": "2026-03-18"
+    },
+    {
+      "id": "evid_005",
+      "type": "图片",
+      "title": "18K金镶翡翠耳饰细节图",
+      "source": "小红书用户 @工艺控",
+      "related_direction": "18K 金镶翡翠",
+      "freshness": "最近14天",
+      "relevance_explanation": "展示金镶工艺的精致感和高品质表达",
+      "weight": "high",
+      "product_line": "耳饰",
+      "timestamp": "2026-03-11"
+    },
+    {
+      "id": "evid_006",
+      "type": "评论",
+      "title": "多巴胺耳饰好看但有点贵",
+      "source": "小红书评论区",
+      "related_direction": "多巴胺色系耳饰",
+      "freshness": "最近7天",
+      "relevance_explanation": "展示年轻客群对价格的敏感性和转化障碍",
+      "weight": "medium",
+      "product_line": "耳饰",
+      "timestamp": "2026-03-18"
+    },
+    {
+      "id": "evid_007",
+      "type": "笔记",
+      "title": "沉香手串搭配翡翠珠串的文化感",
+      "source": "小红书用户 @茶艺爱好者",
+      "related_direction": "沉香 + 翡翠叠戴",
+      "freshness": "最近30天",
+      "relevance_explanation": "展示高端小众客群对文化内涵的重视",
+      "weight": "high",
+      "product_line": "手串/叠戴",
+      "timestamp": "2026-02-28"
+    }
+  ],
+  "scoring_model": {
+    "heat_weight": 0.3,
+    "confidence_weight": 0.25,
+    "audience_fit_weight": 0.25,
+    "price_band_fit_weight": 0.2
+  },
+  "keyword_groups": {
+    "成熟高端": ["成熟", "大气", "传家", "品质", "投资"],
+    "年轻时尚": ["可爱", "减龄", "显白", "日常", "百搭"],
+    "文化小众": ["文化", "气质", "独特", "小众", "高级"],
+    "入门简约": ["简约", "日常", "不贵", "入门", "百搭"]
+  }
+}
