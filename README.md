@@ -102,6 +102,25 @@ ScoringConfig(
 
 输出 `ScoringResult`：加权分数 + 置信度标签 + 分类标签。
 
+## Dashboard prototype — 翡翠信号图谱
+
+A high-fidelity Chinese dashboard prototype lives in `dashboard/`. This is the business-owner-facing signal product surface, separate from the compact evaluation reports.
+
+```bash
+# View the dashboard
+python3 -m http.server 8765 --directory dashboard
+# Open http://localhost:8765/ in your browser
+```
+
+**Pages:**
+- **首页** — Executive signal dashboard with 7 modules (movement board, judgment summary, watchlist, risk alerts, evidence feed, product line snapshot, 14-day change)
+- **方向地图** — Sortable/filterable direction comparison table
+- **方向详情** — Deep-dive on a specific trend direction with product-line decision cards
+- **产品线观察** — Market view by product line (which directions help/hurt each line)
+- **证据库** — 3-panel evidence exploration with filters
+
+The prototype uses local mock data (`dashboard/data/jade_dashboard.json`) with jade as the first content case. See `dashboard/README.md` for details.
+
 ### Project Pack
 
 每个品类是一个 pack 目录，包含：
