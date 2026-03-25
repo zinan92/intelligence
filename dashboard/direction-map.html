@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>方向地图 - 翡翠信号图谱</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Page-specific styles for direction map */
+    .page-header {
+      margin-bottom: var(--space-xl);
+    }
+    
+    .page-title {
+      font-size: var(--font-size-3xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-sm);
+    }
+    
+    .page-subtitle {
+      font-size: var(--font-size-lg);
+      color: var(--color-text-secondary);
+    }
+    
+    .controls-bar {
+      background-color: var(--color-bg-primary);
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+      display: flex;
+      align-items: center;
+      gap: var(--space-lg);
+      flex-wrap: wrap;
+    }
+    
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    
+    .control-label {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-secondary);
+    }
+    
+    .control-button {
+      padding: var(--space-sm) var(--space-md);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-secondary);
+      background-color: var(--color-bg-secondary);
+      border: 1px solid var(--color-border-medium);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    
+    .control-button:hover {
+      color: var(--color-brand-primary);
+      background-color: var(--color-bg-primary);
+      border-color: var(--color-brand-primary);
+    }
+    
+    .control-button.active {
+      color: var(--color-text-inverse);
+      background-color: var(--color-brand-primary);
+      border-color: var(--color-brand-primary);
+      font-weight: var(--font-weight-semibold);
+    }
+    
+    .direction-table-container {
+      background-color: var(--color-bg-primary);
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+    
+    .direction-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .direction-table thead {
+      background-color: var(--color-bg-secondary);
+      border-bottom: 2px solid var(--color-border-medium);
+    }
+    
+    .direction-table th {
+      padding: var(--space-md) var(--space-lg);
+      text-align: left;
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      white-space: nowrap;
+    }
+    
+    .direction-table tbody tr {
+      border-bottom: 1px solid var(--color-border-light);
+      transition: background-color var(--transition-fast);
+      cursor: pointer;
+    }
+    
+    .direction-table tbody tr:hover {
+      background-color: var(--color-bg-secondary);
+    }
+    
+    .direction-table tbody tr:last-child {
+      border-bottom: none;
+    }
+    
+    .direction-table td {
+      padding: var(--space-md) var(--space-lg);
+      font-size: var(--font-size-base);
+      vertical-align: middle;
+    }
+    
+    .direction-name {
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-brand-primary);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+    
+    .direction-name:hover {
+      color: var(--color-brand-secondary);
+      text-decoration: underline;
+    }
+    
+    .metrics-cell {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    
+    .metric-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    
+    .metric-label {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+      min-width: 4rem;
+    }
+    
+    .classification-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: var(--space-xs) var(--space-sm);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-medium);
+      border-radius: var(--radius-sm);
+      background-color: var(--color-bg-secondary);
+      color: var(--color-text-secondary);
+      border: 1px solid var(--color-border-light);
+    }
+    
+    .stats-summary {
+      background-color: var(--color-bg-primary);
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-lg);
+    }
+    
+    @media (max-width: 1280px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .direction-table {
+        font-size: var(--font-size-sm);
+      }
+      
+      .direction-table th,
+      .direction-table td {
+        padding: var(--space-sm);
+      }
+    }
+    
+    .stat-box {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: var(--font-size-3xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-brand-primary);
+      margin-bottom: var(--space-xs);
+    }
+    
+    .stat-label {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation bar will be auto-injected by nav.js -->
+  <div id="nav-container"></div>
+
+  <div class="container">
+    <!-- Page header -->
+    <header class="page-header">
+      <h1 class="page-title">方向地图</h1>
+      <p class="page-subtitle">所有追踪方向的完整列表与对比视图</p>
+    </header>
+    
+    <!-- Stats summary -->
+    <div class="stats-summary">
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-value" id="total-directions">0</div>
+          <div class="stat-label">追踪方向总数</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" style="color: var(--color-judgment-zhidegeng);" id="count-zhidegeng">0</div>
+          <div class="stat-label">值得跟</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" style="color: var(--color-judgment-guanchazu);" id="count-guanchazu">0</div>
+          <div class="stat-label">观察中</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" style="color: var(--color-judgment-duanrezaoyin);" id="count-duanrezaoyin">0</div>
+          <div class="stat-label">短热噪音</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Controls bar with sort and filter options -->
+    <div class="controls-bar">
+      <div class="control-group">
+        <span class="control-label">排序方式:</span>
+        <button class="control-button active" data-sort="heat" id="sort-heat">按热度排序</button>
+        <button class="control-button" data-sort="confidence" id="sort-confidence">按置信度排序</button>
+        <button class="control-button" data-sort="name" id="sort-name">按名称排序</button>
+      </div>
+      
+      <div class="control-group">
+        <span class="control-label">筛选判断:</span>
+        <button class="control-button active" data-filter="all" id="filter-all">全部</button>
+        <button class="control-button" data-filter="值得跟" id="filter-zhidegeng">值得跟</button>
+        <button class="control-button" data-filter="观察中" id="filter-guanchazu">观察中</button>
+        <button class="control-button" data-filter="短热噪音" id="filter-duanrezaoyin">短热噪音</button>
+        <button class="control-button" data-filter="需要补证据" id="filter-xuyaobuzhengjyu">需要补证据</button>
+      </div>
+    </div>
+    
+    <!-- Direction table -->
+    <div class="direction-table-container">
+      <table class="direction-table">
+        <thead>
+          <tr>
+            <th>方向名称</th>
+            <th>热度</th>
+            <th>置信度</th>
+            <th>判断状态</th>
+            <th>分类</th>
+            <th>受众适配</th>
+            <th>价格带</th>
+          </tr>
+        </thead>
+        <tbody id="directions-tbody">
+          <!-- Will be populated by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Load shared JavaScript modules -->
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/nav.js"></script>
+
+  <!-- Page-specific initialization -->
+  <script>
+    let allDirections = [];
+    let currentSort = 'heat';
+    let currentFilter = 'all';
+    
+    /**
+     * Initialize the direction map page
+     */
+    async function initDirectionMap() {
+      try {
+        // Load dashboard data
+        const data = await loadDashboardData();
+        
+        // Store all directions
+        allDirections = getTrendDirections(data);
+        
+        // Render stats summary
+        renderStatsSummary(data);
+        
+        // Render directions table with initial sort
+        renderDirectionsTable();
+        
+        // Set up event listeners for controls
+        setupControls();
+        
+      } catch (error) {
+        console.error('Failed to initialize direction map page:', error);
+      }
+    }
+    
+    /**
+     * Render stats summary
+     */
+    function renderStatsSummary(data) {
+      const directions = getTrendDirections(data);
+      
+      // Total count
+      document.getElementById('total-directions').textContent = directions.length;
+      
+      // Count by judgment state
+      const judgmentCounts = {
+        '值得跟': 0,
+        '观察中': 0,
+        '短热噪音': 0,
+        '需要补证据': 0
+      };
+      
+      directions.forEach(dir => {
+        if (judgmentCounts.hasOwnProperty(dir.judgment_state)) {
+          judgmentCounts[dir.judgment_state]++;
+        }
+      });
+      
+      document.getElementById('count-zhidegeng').textContent = judgmentCounts['值得跟'];
+      document.getElementById('count-guanchazu').textContent = judgmentCounts['观察中'];
+      document.getElementById('count-duanrezaoyin').textContent = judgmentCounts['短热噪音'];
+    }
+    
+    /**
+     * Render directions table
+     */
+    function renderDirectionsTable() {
+      const tbody = document.getElementById('directions-tbody');
+      
+      if (!tbody) return;
+      
+      // Filter directions based on current filter
+      let filteredDirections = allDirections;
+      if (currentFilter !== 'all') {
+        filteredDirections = allDirections.filter(d => d.judgment_state === currentFilter);
+      }
+      
+      // Sort directions based on current sort method
+      let sortedDirections = [...filteredDirections];
+      
+      switch (currentSort) {
+        case 'heat':
+          sortedDirections = sortByHeat(sortedDirections);
+          break;
+        case 'confidence':
+          sortedDirections = sortByConfidence(sortedDirections);
+          break;
+        case 'name':
+          sortedDirections.sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'));
+          break;
+      }
+      
+      // Render table rows
+      tbody.innerHTML = sortedDirections.map(dir => {
+        const classificationLabel = getClassificationLabel(dir.classification);
+        
+        return `
+          <tr onclick="navigateToDetail('${dir.id}')">
+            <td>
+              <a href="direction-detail.html?id=${dir.id}" class="direction-name" onclick="event.stopPropagation();">
+                ${dir.name}
+              </a>
+            </td>
+            <td>
+              ${renderHeatIndicator(dir.heat_magnitude)}
+            </td>
+            <td>
+              ${renderConfidenceBadge(dir.confidence_level)}
+            </td>
+            <td>
+              ${renderJudgmentBadge(dir.judgment_state)}
+            </td>
+            <td>
+              <span class="classification-tag">${classificationLabel}</span>
+            </td>
+            <td>
+              <span class="text-sm text-secondary">${dir.audience_fit}</span>
+            </td>
+            <td>
+              <span class="text-sm text-secondary">${dir.price_band_fit}</span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+      
+      // If no results, show empty state
+      if (sortedDirections.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align: center; padding: var(--space-2xl); color: var(--color-text-tertiary);">
+              没有找到匹配的方向
+            </td>
+          </tr>
+        `;
+      }
+    }
+    
+    /**
+     * Get human-readable classification label
+     */
+    function getClassificationLabel(classification) {
+      const labelMap = {
+        'confirmed_continuation': '已确认延续',
+        'watchlist_experiment': '观察实验',
+        'avoid_for_now': '暂缓',
+        'needs_evidence': '需要证据'
+      };
+      
+      return labelMap[classification] || classification;
+    }
+    
+    /**
+     * Navigate to direction detail page
+     */
+    function navigateToDetail(directionId) {
+      window.location.href = `direction-detail.html?id=${directionId}`;
+    }
+    
+    /**
+     * Set up event listeners for control buttons
+     */
+    function setupControls() {
+      // Sort buttons
+      const sortButtons = document.querySelectorAll('[data-sort]');
+      sortButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Update active state
+          sortButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Update current sort and re-render
+          currentSort = this.getAttribute('data-sort');
+          renderDirectionsTable();
+        });
+      });
+      
+      // Filter buttons
+      const filterButtons = document.querySelectorAll('[data-filter]');
+      filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Update active state
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Update current filter and re-render
+          currentFilter = this.getAttribute('data-filter');
+          renderDirectionsTable();
+        });
+      });
+    }
+    
+    // Initialize on page load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initDirectionMap);
+    } else {
+      initDirectionMap();
+    }
+  </script>
+</body>
+</html>
