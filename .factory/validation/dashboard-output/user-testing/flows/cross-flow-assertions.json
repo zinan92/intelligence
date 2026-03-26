@@ -1,0 +1,134 @@
+{
+  "groupId": "cross-flow-assertions",
+  "testedAt": "2026-03-27T00:58:00Z",
+  "isolation": {
+    "workingDirectory": "/Users/wendy/work/content-co/intelligence",
+    "jadeOutputDir": "/tmp/val-cross-flow-jade/",
+    "streetwearOutputDir": "/tmp/val-cross-flow-sw/",
+    "services": "none (pure Python CLI pipeline)"
+  },
+  "toolsUsed": ["python3 CLI", "pytest"],
+  "assertions": [
+    {
+      "id": "VAL-CROSS-008",
+      "title": "End-to-end jade flow produces all outputs with new fields",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Run `python3 -m intelligence run-pack jade --output-dir /tmp/val-cross-flow-jade/`",
+          "expected": "Exit code 0",
+          "observed": "Exit code 0"
+        },
+        {
+          "action": "List output directory contents",
+          "expected": "6 files: normalized_samples.json, scored_samples.json, report.json, report.md, report.html, dashboard.json",
+          "observed": "All 6 files present: dashboard.json (1446B), normalized_samples.json (1813B), report.html (7852B), report.json (2602B), report.md (1264B), scored_samples.json (2272B)"
+        },
+        {
+          "action": "Inspect normalized_samples.json for engagement/creator/media",
+          "expected": "Samples have engagement, creator, media as top-level structured fields",
+          "observed": "1 sample with keys [provenance, content, engagement, creator, media]. engagement={likes:10, saves:5, comments:2, shares:1}, creator={id:'creator-001', name:'creator', ...}, media={content_type:'video', image_urls:[...], video_url:'...'}"
+        },
+        {
+          "action": "Inspect scored_samples.json for engagement/creator/media",
+          "expected": "Samples have engagement, creator, media fields visible",
+          "observed": "ScoringResult wraps sample under 'sample' key. sample.engagement={likes:10, saves:5, comments:2, shares:1}, sample.creator and sample.media fully populated"
+        },
+        {
+          "action": "Inspect dashboard.json for engagement/creator/media",
+          "expected": "Samples have engagement, creator, media as top-level structured fields",
+          "observed": "Dashboard samples have keys [title, content, tags, engagement, creator, media, score]. engagement={likes:10, saves:5, comments:2, shares:1}, creator and media fully populated as structured objects"
+        }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "cliOutput": "Exit code 0, no errors",
+        "files": [
+          "dashboard-output/cross-flow-assertions/VAL-CROSS-008-jade-output-listing.txt",
+          "dashboard-output/cross-flow-assertions/VAL-CROSS-008-jade-normalized-inspection.json",
+          "dashboard-output/cross-flow-assertions/VAL-CROSS-008-jade-scored-inspection.json",
+          "dashboard-output/cross-flow-assertions/VAL-CROSS-008-jade-dashboard-inspection.json"
+        ]
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-CROSS-009",
+      "title": "End-to-end streetwear flow produces all outputs with new fields",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Run `python3 -m intelligence run-pack designer_streetwear --output-dir /tmp/val-cross-flow-sw/`",
+          "expected": "Exit code 0",
+          "observed": "Exit code 0"
+        },
+        {
+          "action": "List output directory contents",
+          "expected": "6 files: normalized_samples.json, scored_samples.json, report.json, report.md, report.html, dashboard.json",
+          "observed": "All 6 files present: dashboard.json (4342B), normalized_samples.json (6281B), report.html (8552B), report.json (3008B), report.md (1652B), scored_samples.json (7850B)"
+        },
+        {
+          "action": "Inspect normalized_samples.json for engagement/creator/media",
+          "expected": "Samples have engagement, creator, media as top-level structured fields",
+          "observed": "3 samples, each with keys [provenance, content, engagement, creator, media]. Sample 0: engagement={likes:320, saves:150, comments:45, shares:28}, creator={id:'creator-sw-001', name:'streetstyle_daily', ...}, media={content_type:'video', ...}"
+        },
+        {
+          "action": "Inspect scored_samples.json for engagement/creator/media",
+          "expected": "Samples have engagement, creator, media fields visible",
+          "observed": "3 ScoringResult entries. Each sample under 'sample' key contains engagement, creator, media. Sample 0: sample.engagement={likes:320, saves:150, comments:45, shares:28}, sample.creator and sample.media fully populated"
+        },
+        {
+          "action": "Inspect dashboard.json for engagement/creator/media",
+          "expected": "Samples have engagement, creator, media as top-level structured fields",
+          "observed": "3 dashboard samples with keys [title, content, tags, engagement, creator, media, score]. All have structured engagement/creator/media objects"
+        }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "cliOutput": "Exit code 0, no errors",
+        "files": [
+          "dashboard-output/cross-flow-assertions/VAL-CROSS-009-sw-output-listing.txt",
+          "dashboard-output/cross-flow-assertions/VAL-CROSS-009-sw-normalized-inspection.json",
+          "dashboard-output/cross-flow-assertions/VAL-CROSS-009-sw-scored-inspection.json",
+          "dashboard-output/cross-flow-assertions/VAL-CROSS-009-sw-dashboard-inspection.json"
+        ]
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-CROSS-010",
+      "title": "Full test suite passes after all changes",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Run `python3 -m pytest tests/ -v`",
+          "expected": "0 failures",
+          "observed": "116 passed in 2.66s, 0 failures"
+        },
+        {
+          "action": "Verify test coverage areas",
+          "expected": "Tests cover adapters, schema, parsing, scoring, dashboard output, reporting, workflows, packaging, and validation",
+          "observed": "116 tests across test_adapters.py (6), test_dashboard_output.py (9), test_engagement_scoring.py (9), test_jade_flow.py (6), test_packaging.py (2), test_parsing.py (14), test_prepare_input.py (3), test_projects.py (6), test_reporting.py (18), test_schema.py (8), test_scoring_engine.py (2), test_streetwear_flow.py (10), test_validate_pack.py (13), test_workflows.py (2) — all PASSED"
+        }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "cliOutput": "116 passed in 2.66s",
+        "files": [
+          "dashboard-output/cross-flow-assertions/VAL-CROSS-010-pytest-output.txt"
+        ]
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [
+    {
+      "description": "`python` command not found on this system — only `python3` is available. The validation contract specifies `python -m intelligence run-pack` but the actual working command is `python3 -m intelligence run-pack`.",
+      "resolved": true,
+      "resolution": "Used `python3` instead of `python` for all CLI invocations",
+      "affectedAssertions": ["VAL-CROSS-008", "VAL-CROSS-009"]
+    }
+  ],
+  "blockers": [],
+  "summary": "Tested 3 assertions: 3 passed, 0 failed. All 6 output files are generated for both jade and streetwear packs with engagement/creator/media fields visible in normalized, scored, and dashboard outputs. Full test suite (116 tests) passes with 0 failures."
+}
