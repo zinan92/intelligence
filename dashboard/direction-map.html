@@ -6,7 +6,7 @@
   <title>方向地图 - 翡翠信号图谱</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
-    /* Page-specific styles for direction map */
+    /* Page-specific styles for direction map bubble matrix */
     .page-header {
       margin-bottom: var(--space-xl);
     }
@@ -23,144 +23,6 @@
       color: var(--color-text-secondary);
     }
     
-    .controls-bar {
-      background-color: var(--color-bg-primary);
-      border: 1px solid var(--color-border-light);
-      border-radius: var(--radius-lg);
-      padding: var(--space-lg);
-      margin-bottom: var(--space-xl);
-      display: flex;
-      align-items: center;
-      gap: var(--space-lg);
-      flex-wrap: wrap;
-    }
-    
-    .control-group {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-    }
-    
-    .control-label {
-      font-size: var(--font-size-sm);
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-secondary);
-    }
-    
-    .control-button {
-      padding: var(--space-sm) var(--space-md);
-      font-size: var(--font-size-sm);
-      font-weight: var(--font-weight-medium);
-      color: var(--color-text-secondary);
-      background-color: var(--color-bg-secondary);
-      border: 1px solid var(--color-border-medium);
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      transition: all var(--transition-fast);
-    }
-    
-    .control-button:hover {
-      color: var(--color-brand-primary);
-      background-color: var(--color-bg-primary);
-      border-color: var(--color-brand-primary);
-    }
-    
-    .control-button.active {
-      color: var(--color-text-inverse);
-      background-color: var(--color-brand-primary);
-      border-color: var(--color-brand-primary);
-      font-weight: var(--font-weight-semibold);
-    }
-    
-    .direction-table-container {
-      background-color: var(--color-bg-primary);
-      border: 1px solid var(--color-border-light);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      box-shadow: var(--shadow-md);
-    }
-    
-    .direction-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    
-    .direction-table thead {
-      background-color: var(--color-bg-secondary);
-      border-bottom: 2px solid var(--color-border-medium);
-    }
-    
-    .direction-table th {
-      padding: var(--space-md) var(--space-lg);
-      text-align: left;
-      font-weight: var(--font-weight-semibold);
-      font-size: var(--font-size-sm);
-      color: var(--color-text-secondary);
-      white-space: nowrap;
-    }
-    
-    .direction-table tbody tr {
-      border-bottom: 1px solid var(--color-border-light);
-      transition: background-color var(--transition-fast);
-      cursor: pointer;
-    }
-    
-    .direction-table tbody tr:hover {
-      background-color: var(--color-bg-secondary);
-    }
-    
-    .direction-table tbody tr:last-child {
-      border-bottom: none;
-    }
-    
-    .direction-table td {
-      padding: var(--space-md) var(--space-lg);
-      font-size: var(--font-size-base);
-      vertical-align: middle;
-    }
-    
-    .direction-name {
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-brand-primary);
-      text-decoration: none;
-      transition: color var(--transition-fast);
-    }
-    
-    .direction-name:hover {
-      color: var(--color-brand-secondary);
-      text-decoration: underline;
-    }
-    
-    .metrics-cell {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-xs);
-    }
-    
-    .metric-row {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-    }
-    
-    .metric-label {
-      font-size: var(--font-size-xs);
-      color: var(--color-text-tertiary);
-      min-width: 4rem;
-    }
-    
-    .classification-tag {
-      display: inline-flex;
-      align-items: center;
-      padding: var(--space-xs) var(--space-sm);
-      font-size: var(--font-size-xs);
-      font-weight: var(--font-weight-medium);
-      border-radius: var(--radius-sm);
-      background-color: var(--color-bg-secondary);
-      color: var(--color-text-secondary);
-      border: 1px solid var(--color-border-light);
-    }
-    
     .stats-summary {
       background-color: var(--color-bg-primary);
       border: 1px solid var(--color-border-light);
@@ -173,27 +35,6 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: var(--space-lg);
-    }
-    
-    @media (max-width: 1280px) {
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    
-    @media (max-width: 768px) {
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .direction-table {
-        font-size: var(--font-size-sm);
-      }
-      
-      .direction-table th,
-      .direction-table td {
-        padding: var(--space-sm);
-      }
     }
     
     .stat-box {
@@ -211,6 +52,145 @@
       font-size: var(--font-size-sm);
       color: var(--color-text-secondary);
     }
+    
+    /* Bubble matrix container */
+    .bubble-matrix-container {
+      background-color: var(--color-bg-primary);
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2xl);
+      box-shadow: var(--shadow-md);
+      margin-bottom: var(--space-xl);
+    }
+    
+    .matrix-header {
+      margin-bottom: var(--space-xl);
+    }
+    
+    .matrix-title {
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-sm);
+    }
+    
+    .matrix-description {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-relaxed);
+    }
+    
+    /* SVG matrix */
+    #bubble-matrix-svg {
+      width: 100%;
+      height: 600px;
+      background-color: var(--color-bg-secondary);
+      border-radius: var(--radius-md);
+    }
+    
+    /* Bubble styles */
+    .bubble {
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+    
+    .bubble:hover {
+      opacity: 0.85;
+      stroke-width: 3;
+    }
+    
+    .bubble-label {
+      font-size: 12px;
+      font-weight: 600;
+      fill: var(--color-text-primary);
+      pointer-events: none;
+      user-select: none;
+    }
+    
+    /* Axis styles */
+    .axis-line {
+      stroke: var(--color-border-medium);
+      stroke-width: 2;
+    }
+    
+    .axis-label {
+      font-size: 14px;
+      font-weight: 600;
+      fill: var(--color-text-secondary);
+    }
+    
+    .axis-tick-label {
+      font-size: 11px;
+      fill: var(--color-text-tertiary);
+    }
+    
+    .grid-line {
+      stroke: var(--color-border-light);
+      stroke-width: 1;
+      stroke-dasharray: 4,4;
+    }
+    
+    /* Legend */
+    .matrix-legend {
+      margin-top: var(--space-xl);
+      padding: var(--space-lg);
+      background-color: var(--color-bg-secondary);
+      border-radius: var(--radius-md);
+    }
+    
+    .legend-title {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-md);
+    }
+    
+    .legend-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-lg);
+    }
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    
+    .legend-label {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+    }
+    
+    @media (max-width: 1280px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      #bubble-matrix-svg {
+        height: 500px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      #bubble-matrix-svg {
+        height: 400px;
+      }
+      
+      .bubble-matrix-container {
+        padding: var(--space-lg);
+      }
+    }
   </style>
 </head>
 <body>
@@ -221,7 +201,7 @@
     <!-- Page header -->
     <header class="page-header">
       <h1 class="page-title">方向地图</h1>
-      <p class="page-subtitle">所有追踪方向的完整列表与对比视图</p>
+      <p class="page-subtitle">机会 × 风险 战略矩阵，气泡大小代表热度</p>
     </header>
     
     <!-- Stats summary -->
@@ -246,43 +226,27 @@
       </div>
     </div>
     
-    <!-- Controls bar with sort and filter options -->
-    <div class="controls-bar">
-      <div class="control-group">
-        <span class="control-label">排序方式:</span>
-        <button class="control-button active" data-sort="heat" id="sort-heat">按热度排序</button>
-        <button class="control-button" data-sort="confidence" id="sort-confidence">按置信度排序</button>
-        <button class="control-button" data-sort="name" id="sort-name">按名称排序</button>
+    <!-- Bubble Matrix -->
+    <div class="bubble-matrix-container">
+      <div class="matrix-header">
+        <h2 class="matrix-title">机会 × 风险 战略矩阵</h2>
+        <p class="matrix-description">
+          横轴代表机会值（0-100），纵轴代表风险值（0-100），气泡大小代表热度。点击任何气泡查看该方向详情。
+        </p>
       </div>
       
-      <div class="control-group">
-        <span class="control-label">筛选判断:</span>
-        <button class="control-button active" data-filter="all" id="filter-all">全部</button>
-        <button class="control-button" data-filter="值得跟" id="filter-zhidegeng">值得跟</button>
-        <button class="control-button" data-filter="观察中" id="filter-guanchazu">观察中</button>
-        <button class="control-button" data-filter="短热噪音" id="filter-duanrezaoyin">短热噪音</button>
-        <button class="control-button" data-filter="需要补证据" id="filter-xuyaobuzhengju">需要补证据</button>
-      </div>
-    </div>
-    
-    <!-- Direction table -->
-    <div class="direction-table-container">
-      <table class="direction-table">
-        <thead>
-          <tr>
-            <th>方向名称</th>
-            <th>热度</th>
-            <th>置信度</th>
-            <th>判断状态</th>
-            <th>分类</th>
-            <th>受众适配</th>
-            <th>价格带</th>
-          </tr>
-        </thead>
-        <tbody id="directions-tbody">
+      <!-- SVG Matrix -->
+      <svg id="bubble-matrix-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet">
+        <!-- Will be populated by JavaScript -->
+      </svg>
+      
+      <!-- Legend -->
+      <div class="matrix-legend">
+        <div class="legend-title">判断状态</div>
+        <div class="legend-items" id="legend-items">
           <!-- Will be populated by JavaScript -->
-        </tbody>
-      </table>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -294,8 +258,6 @@
   <!-- Page-specific initialization -->
   <script>
     let allDirections = [];
-    let currentSort = 'heat';
-    let currentFilter = 'all';
     
     /**
      * Initialize the direction map page
@@ -311,11 +273,11 @@
         // Render stats summary
         renderStatsSummary(data);
         
-        // Render directions table with initial sort
-        renderDirectionsTable();
+        // Render bubble matrix
+        renderBubbleMatrix();
         
-        // Set up event listeners for controls
-        setupControls();
+        // Render legend
+        renderLegend();
         
       } catch (error) {
         console.error('Failed to initialize direction map page:', error);
@@ -351,131 +313,190 @@
     }
     
     /**
-     * Render directions table
+     * Get judgment color
      */
-    function renderDirectionsTable() {
-      const tbody = document.getElementById('directions-tbody');
-      
-      if (!tbody) return;
-      
-      // Filter directions based on current filter
-      let filteredDirections = allDirections;
-      if (currentFilter !== 'all') {
-        filteredDirections = allDirections.filter(d => d.judgment_state === currentFilter);
-      }
-      
-      // Sort directions based on current sort method
-      let sortedDirections = [...filteredDirections];
-      
-      switch (currentSort) {
-        case 'heat':
-          sortedDirections = sortByHeat(sortedDirections);
-          break;
-        case 'confidence':
-          sortedDirections = sortByConfidence(sortedDirections);
-          break;
-        case 'name':
-          sortedDirections.sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'));
-          break;
-      }
-      
-      // Render table rows
-      tbody.innerHTML = sortedDirections.map(dir => {
-        const classificationLabel = getClassificationLabel(dir.classification);
-        
-        return `
-          <tr onclick="navigateToDetail('${dir.id}')">
-            <td>
-              <a href="direction-detail.html?id=${dir.id}" class="direction-name" onclick="event.stopPropagation();">
-                ${dir.name}
-              </a>
-            </td>
-            <td>
-              ${renderHeatIndicator(dir.heat_magnitude)}
-            </td>
-            <td>
-              ${renderConfidenceBadge(dir.confidence_level)}
-            </td>
-            <td>
-              ${renderJudgmentBadge(dir.judgment_state)}
-            </td>
-            <td>
-              <span class="classification-tag">${classificationLabel}</span>
-            </td>
-            <td>
-              <span class="text-sm text-secondary">${dir.audience_fit}</span>
-            </td>
-            <td>
-              <span class="text-sm text-secondary">${dir.price_band_fit}</span>
-            </td>
-          </tr>
-        `;
-      }).join('');
-      
-      // If no results, show empty state
-      if (sortedDirections.length === 0) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="7" style="text-align: center; padding: var(--space-2xl); color: var(--color-text-tertiary);">
-              没有找到匹配的方向
-            </td>
-          </tr>
-        `;
-      }
-    }
-    
-    /**
-     * Get human-readable classification label
-     */
-    function getClassificationLabel(classification) {
-      const labelMap = {
-        'confirmed_continuation': '已确认延续',
-        'watchlist_experiment': '观察实验',
-        'avoid_for_now': '暂缓',
-        'needs_evidence': '需要证据'
+    function getJudgmentColor(judgmentState) {
+      const colorMap = {
+        '值得跟': '#10b981',
+        '观察中': '#3b82f6',
+        '短热噪音': '#f59e0b',
+        '需要补证据': '#6b7280'
       };
-      
-      return labelMap[classification] || classification;
+      return colorMap[judgmentState] || '#6b7280';
     }
     
     /**
-     * Navigate to direction detail page
+     * Render bubble matrix
      */
-    function navigateToDetail(directionId) {
-      window.location.href = `direction-detail.html?id=${directionId}`;
+    function renderBubbleMatrix() {
+      const svg = document.getElementById('bubble-matrix-svg');
+      if (!svg) return;
+      
+      // Clear existing content
+      svg.innerHTML = '';
+      
+      // SVG dimensions and margins
+      const width = 1000;
+      const height = 600;
+      const margin = { top: 40, right: 60, bottom: 60, left: 80 };
+      const plotWidth = width - margin.left - margin.right;
+      const plotHeight = height - margin.top - margin.bottom;
+      
+      // Scales
+      const xScale = (value) => margin.left + (value / 100) * plotWidth;
+      const yScale = (value) => margin.top + ((100 - value) / 100) * plotHeight; // Inverted Y
+      const sizeScale = (heat) => Math.max(15, Math.min(50, (heat / 100) * 50));
+      
+      // Draw grid lines
+      const gridGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      for (let i = 0; i <= 100; i += 25) {
+        // Vertical grid lines
+        const vLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        vLine.setAttribute('x1', xScale(i));
+        vLine.setAttribute('y1', margin.top);
+        vLine.setAttribute('x2', xScale(i));
+        vLine.setAttribute('y2', margin.top + plotHeight);
+        vLine.setAttribute('class', 'grid-line');
+        gridGroup.appendChild(vLine);
+        
+        // Horizontal grid lines
+        const hLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        hLine.setAttribute('x1', margin.left);
+        hLine.setAttribute('y1', yScale(i));
+        hLine.setAttribute('x2', margin.left + plotWidth);
+        hLine.setAttribute('y2', yScale(i));
+        hLine.setAttribute('class', 'grid-line');
+        gridGroup.appendChild(hLine);
+      }
+      svg.appendChild(gridGroup);
+      
+      // Draw axes
+      const axisGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      
+      // X-axis
+      const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      xAxis.setAttribute('x1', margin.left);
+      xAxis.setAttribute('y1', margin.top + plotHeight);
+      xAxis.setAttribute('x2', margin.left + plotWidth);
+      xAxis.setAttribute('y2', margin.top + plotHeight);
+      xAxis.setAttribute('class', 'axis-line');
+      axisGroup.appendChild(xAxis);
+      
+      // Y-axis
+      const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      yAxis.setAttribute('x1', margin.left);
+      yAxis.setAttribute('y1', margin.top);
+      yAxis.setAttribute('x2', margin.left);
+      yAxis.setAttribute('y2', margin.top + plotHeight);
+      yAxis.setAttribute('class', 'axis-line');
+      axisGroup.appendChild(yAxis);
+      
+      svg.appendChild(axisGroup);
+      
+      // X-axis label
+      const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      xLabel.setAttribute('x', margin.left + plotWidth / 2);
+      xLabel.setAttribute('y', height - 20);
+      xLabel.setAttribute('text-anchor', 'middle');
+      xLabel.setAttribute('class', 'axis-label');
+      xLabel.textContent = '机会 →';
+      svg.appendChild(xLabel);
+      
+      // Y-axis label
+      const yLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      yLabel.setAttribute('x', 20);
+      yLabel.setAttribute('y', margin.top + plotHeight / 2);
+      yLabel.setAttribute('text-anchor', 'middle');
+      yLabel.setAttribute('transform', `rotate(-90, 20, ${margin.top + plotHeight / 2})`);
+      yLabel.setAttribute('class', 'axis-label');
+      yLabel.textContent = '← 风险';
+      svg.appendChild(yLabel);
+      
+      // Axis tick labels
+      const tickLabels = [0, 25, 50, 75, 100];
+      tickLabels.forEach(tick => {
+        // X-axis ticks
+        const xTick = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        xTick.setAttribute('x', xScale(tick));
+        xTick.setAttribute('y', margin.top + plotHeight + 25);
+        xTick.setAttribute('text-anchor', 'middle');
+        xTick.setAttribute('class', 'axis-tick-label');
+        xTick.textContent = tick;
+        svg.appendChild(xTick);
+        
+        // Y-axis ticks
+        const yTick = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        yTick.setAttribute('x', margin.left - 15);
+        yTick.setAttribute('y', yScale(tick) + 4);
+        yTick.setAttribute('text-anchor', 'end');
+        yTick.setAttribute('class', 'axis-tick-label');
+        yTick.textContent = tick;
+        svg.appendChild(yTick);
+      });
+      
+      // Draw bubbles
+      const bubbleGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      
+      allDirections.forEach(dir => {
+        const cx = xScale(dir.opportunity || 50);
+        const cy = yScale(dir.risk || 50);
+        const r = sizeScale(dir.heat || 50);
+        const color = getJudgmentColor(dir.judgment_state);
+        
+        // Bubble circle
+        const bubble = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        bubble.setAttribute('cx', cx);
+        bubble.setAttribute('cy', cy);
+        bubble.setAttribute('r', r);
+        bubble.setAttribute('fill', color);
+        bubble.setAttribute('fill-opacity', '0.7');
+        bubble.setAttribute('stroke', color);
+        bubble.setAttribute('stroke-width', '2');
+        bubble.setAttribute('class', 'bubble');
+        bubble.setAttribute('data-direction-id', dir.id);
+        bubble.style.cursor = 'pointer';
+        
+        // Click handler
+        bubble.addEventListener('click', () => {
+          window.location.href = `direction-detail.html?id=${dir.id}`;
+        });
+        
+        bubbleGroup.appendChild(bubble);
+        
+        // Bubble label (direction name)
+        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        label.setAttribute('x', cx);
+        label.setAttribute('y', cy + r + 15);
+        label.setAttribute('text-anchor', 'middle');
+        label.setAttribute('class', 'bubble-label');
+        label.textContent = dir.name;
+        
+        bubbleGroup.appendChild(label);
+      });
+      
+      svg.appendChild(bubbleGroup);
     }
     
     /**
-     * Set up event listeners for control buttons
+     * Render legend
      */
-    function setupControls() {
-      // Sort buttons
-      const sortButtons = document.querySelectorAll('[data-sort]');
-      sortButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          // Update active state
-          sortButtons.forEach(btn => btn.classList.remove('active'));
-          this.classList.add('active');
-          
-          // Update current sort and re-render
-          currentSort = this.getAttribute('data-sort');
-          renderDirectionsTable();
-        });
-      });
+    function renderLegend() {
+      const container = document.getElementById('legend-items');
+      if (!container) return;
       
-      // Filter buttons
-      const filterButtons = document.querySelectorAll('[data-filter]');
-      filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          // Update active state
-          filterButtons.forEach(btn => btn.classList.remove('active'));
-          this.classList.add('active');
-          
-          // Update current filter and re-render
-          currentFilter = this.getAttribute('data-filter');
-          renderDirectionsTable();
-        });
-      });
+      const judgmentStates = [
+        { state: '值得跟', color: '#10b981' },
+        { state: '观察中', color: '#3b82f6' },
+        { state: '短热噪音', color: '#f59e0b' },
+        { state: '需要补证据', color: '#6b7280' }
+      ];
+      
+      container.innerHTML = judgmentStates.map(({ state, color }) => `
+        <div class="legend-item">
+          <div class="legend-dot" style="background-color: ${color};"></div>
+          <span class="legend-label">${state}</span>
+        </div>
+      `).join('');
     }
     
     // Initialize on page load

@@ -6,294 +6,233 @@
   <title>证据库 - 翡翠信号图谱</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
-    /* Page-specific styles for Evidence Library */
+    /* Page-specific styles for Evidence Wall */
     .evidence-container {
-      display: grid;
-      grid-template-columns: 280px 1fr 400px;
-      gap: var(--space-lg);
-      min-height: calc(100vh - 180px);
-    }
-    
-    @media (max-width: 1280px) {
-      .evidence-container {
-        grid-template-columns: 240px 1fr 360px;
-      }
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xl);
     }
     
     @media (max-width: 968px) {
       .evidence-container {
-        grid-template-columns: 1fr;
-      }
-      
-      .filter-panel,
-      .detail-panel {
-        display: none;
+        gap: var(--space-lg);
       }
     }
     
-    /* === Left Panel: Filters === */
-    .filter-panel {
+    /* === Header with inline filters === */
+    .evidence-header {
       background-color: var(--color-bg-primary);
       border-radius: var(--radius-lg);
-      padding: var(--space-lg);
-      height: fit-content;
-      position: sticky;
-      top: calc(var(--space-xl) + 60px);
+      padding: var(--space-xl);
       box-shadow: var(--shadow-sm);
     }
     
-    .filter-section {
-      margin-bottom: var(--space-xl);
+    .header-top {
+      margin-bottom: var(--space-lg);
     }
     
-    .filter-section:last-child {
-      margin-bottom: 0;
-    }
-    
-    .filter-section-title {
-      font-size: var(--font-size-sm);
-      font-weight: var(--font-weight-semibold);
+    .header-top h1 {
+      font-size: var(--font-size-3xl);
+      font-weight: var(--font-weight-bold);
       color: var(--color-text-primary);
-      margin-bottom: var(--space-md);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      margin-bottom: var(--space-sm);
     }
     
-    .filter-options {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-sm);
-    }
-    
-    .filter-option {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-      padding: var(--space-sm);
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      transition: all var(--transition-fast);
-    }
-    
-    .filter-option:hover {
-      background-color: var(--color-bg-secondary);
-    }
-    
-    .filter-option input[type="checkbox"] {
-      width: 16px;
-      height: 16px;
-      cursor: pointer;
-    }
-    
-    .filter-option label {
-      font-size: var(--font-size-sm);
+    .header-top .subtitle {
+      font-size: var(--font-size-base);
       color: var(--color-text-secondary);
-      cursor: pointer;
-      flex: 1;
+      line-height: var(--line-height-relaxed);
     }
     
-    .filter-option.active {
-      background-color: var(--color-judgment-zhidegeng-light);
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--color-border-light);
     }
     
-    .filter-option.active label {
-      color: var(--color-brand-primary);
-      font-weight: var(--font-weight-medium);
-    }
-    
-    .filter-clear {
-      margin-top: var(--space-lg);
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
       padding: var(--space-sm) var(--space-md);
       background-color: var(--color-bg-secondary);
-      border: 1px solid var(--color-border-light);
-      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border-medium);
+      border-radius: var(--radius-full);
       font-size: var(--font-size-sm);
       color: var(--color-text-secondary);
       cursor: pointer;
       transition: all var(--transition-fast);
-      width: 100%;
+      user-select: none;
     }
     
-    .filter-clear:hover {
+    .filter-chip:hover {
       background-color: var(--color-bg-tertiary);
       border-color: var(--color-brand-primary);
       color: var(--color-brand-primary);
     }
     
-    /* === Center Panel: Evidence Card List === */
-    .card-list-panel {
+    .filter-chip.active {
+      background-color: var(--color-brand-primary);
+      border-color: var(--color-brand-primary);
+      color: white;
+      font-weight: var(--font-weight-medium);
+    }
+    
+    .filter-group {
       display: flex;
-      flex-direction: column;
-      gap: var(--space-lg);
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      align-items: center;
     }
     
-    .card-list-header {
-      background-color: var(--color-bg-primary);
-      border-radius: var(--radius-lg);
-      padding: var(--space-lg);
-      box-shadow: var(--shadow-sm);
-    }
-    
-    .card-list-header h1 {
-      font-size: var(--font-size-2xl);
+    .filter-group-label {
+      font-size: var(--font-size-xs);
       font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
-      margin-bottom: var(--space-xs);
+      color: var(--color-text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-right: var(--space-sm);
     }
     
-    .card-list-header .subtitle {
-      font-size: var(--font-size-sm);
-      color: var(--color-text-secondary);
+    /* === Evidence Wall (Waterfall Grid) === */
+    .evidence-wall {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: var(--space-lg);
+      margin-bottom: var(--space-xl);
     }
     
-    .evidence-cards {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-md);
+    @media (max-width: 1280px) {
+      .evidence-wall {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      }
     }
     
-    .evidence-card-item {
+    @media (max-width: 768px) {
+      .evidence-wall {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .wall-card {
       background-color: var(--color-bg-primary);
-      border: 2px solid var(--color-border-light);
+      border: 1px solid var(--color-border-light);
       border-radius: var(--radius-lg);
       padding: var(--space-lg);
       cursor: pointer;
       transition: all var(--transition-base);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      box-shadow: var(--shadow-sm);
     }
     
-    .evidence-card-item:hover {
+    .wall-card:hover {
       border-color: var(--color-brand-primary);
-      box-shadow: var(--shadow-md);
-      transform: translateX(4px);
-    }
-    
-    .evidence-card-item.selected {
-      border-color: var(--color-brand-primary);
-      background-color: var(--color-judgment-zhidegeng-light);
       box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
     }
     
-    .evidence-card-header {
+    .wall-card-header {
       display: flex;
       align-items: flex-start;
       gap: var(--space-md);
-      margin-bottom: var(--space-md);
     }
     
-    .evidence-type-icon {
-      font-size: var(--font-size-3xl);
+    .wall-card-icon {
+      font-size: var(--font-size-2xl);
       flex-shrink: 0;
     }
     
-    .evidence-card-title-area {
+    .wall-card-title-area {
       flex: 1;
+      min-width: 0;
     }
     
-    .evidence-card-title {
-      font-size: var(--font-size-lg);
+    .wall-card-title {
+      font-size: var(--font-size-base);
       font-weight: var(--font-weight-semibold);
       color: var(--color-text-primary);
       margin-bottom: var(--space-xs);
       line-height: var(--line-height-tight);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
     
-    .evidence-card-meta {
+    .wall-card-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+    }
+    
+    .wall-card-content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    
+    .wall-card-relevance {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-relaxed);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+    
+    .wall-card-meta {
       display: flex;
       align-items: center;
-      gap: var(--space-md);
+      justify-content: space-between;
+      gap: var(--space-sm);
+      padding-top: var(--space-sm);
+      border-top: 1px solid var(--color-border-light);
       font-size: var(--font-size-xs);
       color: var(--color-text-tertiary);
     }
     
-    .evidence-card-meta .separator {
-      color: var(--color-border-medium);
+    .wall-card-direction {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--color-brand-primary);
+      font-weight: var(--font-weight-medium);
     }
     
-    .evidence-card-description {
-      font-size: var(--font-size-sm);
-      color: var(--color-text-secondary);
-      line-height: var(--line-height-relaxed);
+    .wall-card-source {
+      flex-shrink: 0;
     }
     
     .no-results {
+      grid-column: 1 / -1;
       background-color: var(--color-bg-primary);
       border-radius: var(--radius-lg);
-      padding: var(--space-2xl);
+      padding: var(--space-3xl);
       text-align: center;
       box-shadow: var(--shadow-sm);
+    }
+    
+    .no-results-icon {
+      font-size: var(--font-size-4xl);
+      margin-bottom: var(--space-lg);
     }
     
     .no-results h3 {
       font-size: var(--font-size-xl);
       color: var(--color-text-secondary);
-      margin-bottom: var(--space-md);
+      margin-bottom: var(--space-sm);
     }
     
     .no-results p {
       font-size: var(--font-size-base);
-      color: var(--color-text-tertiary);
-    }
-    
-    /* === Right Panel: Evidence Detail === */
-    .detail-panel {
-      background-color: var(--color-bg-primary);
-      border-radius: var(--radius-lg);
-      padding: var(--space-xl);
-      height: fit-content;
-      position: sticky;
-      top: calc(var(--space-xl) + 60px);
-      box-shadow: var(--shadow-sm);
-    }
-    
-    .detail-panel-title {
-      font-size: var(--font-size-sm);
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-tertiary);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: var(--space-lg);
-    }
-    
-    .detail-section {
-      margin-bottom: var(--space-xl);
-    }
-    
-    .detail-section:last-child {
-      margin-bottom: 0;
-    }
-    
-    .detail-section-heading {
-      font-size: var(--font-size-base);
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-brand-primary);
-      margin-bottom: var(--space-sm);
-    }
-    
-    .detail-section-content {
-      font-size: var(--font-size-sm);
-      color: var(--color-text-secondary);
-      line-height: var(--line-height-relaxed);
-    }
-    
-    .detail-badge-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-sm);
-      margin-bottom: var(--space-md);
-    }
-    
-    .detail-empty {
-      text-align: center;
-      padding: var(--space-2xl) 0;
-    }
-    
-    .detail-empty-icon {
-      font-size: var(--font-size-4xl);
-      margin-bottom: var(--space-md);
-    }
-    
-    .detail-empty-text {
-      font-size: var(--font-size-sm);
       color: var(--color-text-tertiary);
     }
   </style>
@@ -304,87 +243,68 @@
 
   <div class="container">
     <div class="evidence-container">
-      <!-- === LEFT PANEL: Filters === -->
-      <aside class="filter-panel">
-        <div class="filter-section">
-          <h3 class="filter-section-title">方向</h3>
-          <div class="filter-options" id="filter-direction">
-            <!-- Will be populated by JavaScript -->
-          </div>
-        </div>
-        
-        <div class="filter-section">
-          <h3 class="filter-section-title">产品线</h3>
-          <div class="filter-options" id="filter-product-line">
-            <!-- Will be populated by JavaScript -->
-          </div>
-        </div>
-        
-        <div class="filter-section">
-          <h3 class="filter-section-title">时间范围</h3>
-          <div class="filter-options" id="filter-time">
-            <div class="filter-option" data-filter-type="time" data-filter-value="最近7天">
-              <input type="checkbox" id="time-7d">
-              <label for="time-7d">最近7天</label>
-            </div>
-            <div class="filter-option" data-filter-type="time" data-filter-value="最近14天">
-              <input type="checkbox" id="time-14d">
-              <label for="time-14d">最近14天</label>
-            </div>
-            <div class="filter-option" data-filter-type="time" data-filter-value="最近30天">
-              <input type="checkbox" id="time-30d">
-              <label for="time-30d">最近30天</label>
-            </div>
-            <div class="filter-option" data-filter-type="time" data-filter-value="最近60天">
-              <input type="checkbox" id="time-60d">
-              <label for="time-60d">最近60天</label>
-            </div>
-          </div>
-        </div>
-        
-        <div class="filter-section">
-          <h3 class="filter-section-title">证据类型</h3>
-          <div class="filter-options" id="filter-type">
-            <div class="filter-option" data-filter-type="type" data-filter-value="笔记">
-              <input type="checkbox" id="type-note">
-              <label for="type-note">📝 笔记</label>
-            </div>
-            <div class="filter-option" data-filter-type="type" data-filter-value="图片">
-              <input type="checkbox" id="type-image">
-              <label for="type-image">🖼️ 图片</label>
-            </div>
-            <div class="filter-option" data-filter-type="type" data-filter-value="评论">
-              <input type="checkbox" id="type-comment">
-              <label for="type-comment">💬 评论</label>
-            </div>
-          </div>
-        </div>
-        
-        <button class="filter-clear" id="clear-filters">清除所有筛选</button>
-      </aside>
-      
-      <!-- === CENTER PANEL: Evidence Card List === -->
-      <main class="card-list-panel">
-        <div class="card-list-header">
+      <!-- === HEADER with Filters === -->
+      <header class="evidence-header">
+        <div class="header-top">
           <h1>证据库</h1>
-          <p class="subtitle">每条证据都经过策展，展示其对趋势判断的支撑作用</p>
+          <p class="subtitle">
+            精选 28 条高质量证据，展示每条证据如何支撑趋势判断、关联哪个方向、为什么重要。
+            所有证据都经过策展，强调相关性和新鲜度，而非原始数据堆砌。
+          </p>
         </div>
         
-        <div class="evidence-cards" id="evidence-cards">
-          <!-- Will be populated by JavaScript -->
-        </div>
-      </main>
-      
-      <!-- === RIGHT PANEL: Evidence Detail === -->
-      <aside class="detail-panel">
-        <h3 class="detail-panel-title">证据详情</h3>
-        <div id="evidence-detail">
-          <div class="detail-empty">
-            <div class="detail-empty-icon">📋</div>
-            <p class="detail-empty-text">选择一条证据查看详细信息</p>
+        <div class="filter-bar">
+          <!-- Judgment state filters -->
+          <div class="filter-group">
+            <span class="filter-group-label">方向:</span>
+            <div class="filter-chip active" data-filter-type="direction" data-filter-value="all">
+              全部方向
+            </div>
+            <div id="direction-filters">
+              <!-- Will be populated by JavaScript -->
+            </div>
+          </div>
+          
+          <!-- Type filters -->
+          <div class="filter-group">
+            <span class="filter-group-label">类型:</span>
+            <div class="filter-chip active" data-filter-type="type" data-filter-value="all">
+              全部类型
+            </div>
+            <div class="filter-chip" data-filter-type="type" data-filter-value="笔记">
+              📝 笔记
+            </div>
+            <div class="filter-chip" data-filter-type="type" data-filter-value="图片">
+              🖼️ 图片
+            </div>
+            <div class="filter-chip" data-filter-type="type" data-filter-value="评论">
+              💬 评论
+            </div>
+          </div>
+          
+          <!-- Freshness filters -->
+          <div class="filter-group">
+            <span class="filter-group-label">新鲜度:</span>
+            <div class="filter-chip active" data-filter-type="freshness" data-filter-value="all">
+              全部
+            </div>
+            <div class="filter-chip" data-filter-type="freshness" data-filter-value="最近3天">
+              最近3天
+            </div>
+            <div class="filter-chip" data-filter-type="freshness" data-filter-value="最近7天">
+              最近7天
+            </div>
+            <div class="filter-chip" data-filter-type="freshness" data-filter-value="最近14天">
+              最近14天
+            </div>
           </div>
         </div>
-      </aside>
+      </header>
+      
+      <!-- === EVIDENCE WALL (Waterfall Grid) === -->
+      <div class="evidence-wall" id="evidence-wall">
+        <!-- Will be populated by JavaScript -->
+      </div>
     </div>
   </div>
 
@@ -398,12 +318,10 @@
     // Global state
     let allEvidence = [];
     let filteredEvidence = [];
-    let selectedEvidenceId = null;
     let activeFilters = {
-      direction: [],
-      productLine: [],
-      time: [],
-      type: []
+      direction: 'all',
+      type: 'all',
+      freshness: 'all'
     };
     
     /**
@@ -425,28 +343,17 @@
         // Store all evidence
         allEvidence = getEvidenceEntries(data);
         
-        // Initialize filters
-        initializeFilters(data);
+        // Initialize direction filters
+        initializeDirectionFilters(data);
         
         // Check for direction pre-filter from URL
         const directionParam = getDirectionFromUrl();
         if (directionParam) {
-          // Pre-select the direction filter
-          activeFilters.direction = [directionParam];
-          const directionCheckbox = document.querySelector(`input[value="${directionParam}"]`);
-          if (directionCheckbox) {
-            directionCheckbox.checked = true;
-            directionCheckbox.closest('.filter-option').classList.add('active');
-          }
+          activeFilters.direction = directionParam;
         }
         
         // Apply filters and render
         applyFilters();
-        
-        // Auto-select first evidence if available
-        if (filteredEvidence.length > 0) {
-          selectEvidence(filteredEvidence[0].id);
-        }
         
         // Set up filter event listeners
         setupFilterListeners();
@@ -457,28 +364,18 @@
     }
     
     /**
-     * Initialize filter options
+     * Initialize direction filter chips
      */
-    function initializeFilters(data) {
-      // Get unique directions
+    function initializeDirectionFilters(data) {
       const directions = getTrendDirections(data);
-      const directionContainer = document.getElementById('filter-direction');
+      const container = document.getElementById('direction-filters');
       
-      directionContainer.innerHTML = directions.map((dir, index) => `
-        <div class="filter-option" data-filter-type="direction" data-filter-value="${dir.name}">
-          <input type="checkbox" id="dir-${index}" value="${dir.name}">
-          <label for="dir-${index}">${dir.name}</label>
-        </div>
-      `).join('');
+      if (!container) return;
       
-      // Get unique product lines
-      const productLines = getProductLines(data);
-      const productLineContainer = document.getElementById('filter-product-line');
-      
-      productLineContainer.innerHTML = productLines.map((pl, index) => `
-        <div class="filter-option" data-filter-type="productLine" data-filter-value="${pl.name}">
-          <input type="checkbox" id="pl-${index}" value="${pl.name}">
-          <label for="pl-${index}">${pl.name}</label>
+      // Create filter chips for each direction
+      container.innerHTML = directions.map(dir => `
+        <div class="filter-chip" data-filter-type="direction" data-filter-value="${dir.name}">
+          ${dir.name}
         </div>
       `).join('');
     }
@@ -487,88 +384,26 @@
      * Set up filter event listeners
      */
     function setupFilterListeners() {
-      // Listen to all filter checkboxes
-      document.querySelectorAll('.filter-option input[type="checkbox"]').forEach(checkbox => {
-        checkbox.addEventListener('change', handleFilterChange);
-      });
-      
-      // Listen to filter option clicks (not just checkbox)
-      document.querySelectorAll('.filter-option').forEach(option => {
-        option.addEventListener('click', (e) => {
-          if (e.target.tagName !== 'INPUT') {
-            const checkbox = option.querySelector('input[type="checkbox"]');
-            checkbox.checked = !checkbox.checked;
-            checkbox.dispatchEvent(new Event('change'));
-          }
+      // Listen to all filter chips
+      document.querySelectorAll('.filter-chip').forEach(chip => {
+        chip.addEventListener('click', function() {
+          const filterType = this.dataset.filterType;
+          const filterValue = this.dataset.filterValue;
+          
+          // Remove active from siblings
+          const siblings = this.parentElement.querySelectorAll('.filter-chip');
+          siblings.forEach(s => s.classList.remove('active'));
+          
+          // Add active to clicked chip
+          this.classList.add('active');
+          
+          // Update active filters
+          activeFilters[filterType] = filterValue;
+          
+          // Re-apply filters
+          applyFilters();
         });
       });
-      
-      // Clear filters button
-      document.getElementById('clear-filters').addEventListener('click', clearAllFilters);
-    }
-    
-    /**
-     * Handle filter change
-     */
-    function handleFilterChange(event) {
-      const checkbox = event.target;
-      const filterOption = checkbox.closest('.filter-option');
-      const filterType = filterOption.dataset.filterType;
-      const filterValue = filterOption.dataset.filterValue;
-      
-      // Update active state
-      if (checkbox.checked) {
-        filterOption.classList.add('active');
-        if (!activeFilters[filterType].includes(filterValue)) {
-          activeFilters[filterType].push(filterValue);
-        }
-      } else {
-        filterOption.classList.remove('active');
-        activeFilters[filterType] = activeFilters[filterType].filter(v => v !== filterValue);
-      }
-      
-      // Re-apply filters
-      applyFilters();
-      
-      // Auto-select first evidence after filtering
-      if (filteredEvidence.length > 0) {
-        selectEvidence(filteredEvidence[0].id);
-      } else {
-        // Clear detail panel if no results
-        selectedEvidenceId = null;
-        renderDetailPanel(null);
-      }
-    }
-    
-    /**
-     * Clear all filters
-     */
-    function clearAllFilters() {
-      // Reset active filters
-      activeFilters = {
-        direction: [],
-        productLine: [],
-        time: [],
-        type: []
-      };
-      
-      // Uncheck all checkboxes
-      document.querySelectorAll('.filter-option input[type="checkbox"]').forEach(checkbox => {
-        checkbox.checked = false;
-      });
-      
-      // Remove active class
-      document.querySelectorAll('.filter-option').forEach(option => {
-        option.classList.remove('active');
-      });
-      
-      // Re-apply filters (show all)
-      applyFilters();
-      
-      // Auto-select first evidence
-      if (filteredEvidence.length > 0) {
-        selectEvidence(filteredEvidence[0].id);
-      }
     }
     
     /**
@@ -577,29 +412,22 @@
     function applyFilters() {
       filteredEvidence = allEvidence.filter(evidence => {
         // Direction filter
-        if (activeFilters.direction.length > 0) {
-          if (!activeFilters.direction.includes(evidence.related_direction)) {
-            return false;
-          }
-        }
-        
-        // Product line filter
-        if (activeFilters.productLine.length > 0) {
-          if (!activeFilters.productLine.includes(evidence.product_line)) {
-            return false;
-          }
-        }
-        
-        // Time filter
-        if (activeFilters.time.length > 0) {
-          if (!activeFilters.time.includes(evidence.freshness)) {
+        if (activeFilters.direction !== 'all') {
+          if (evidence.related_direction !== activeFilters.direction) {
             return false;
           }
         }
         
         // Type filter
-        if (activeFilters.type.length > 0) {
-          if (!activeFilters.type.includes(evidence.type)) {
+        if (activeFilters.type !== 'all') {
+          if (evidence.type !== activeFilters.type) {
+            return false;
+          }
+        }
+        
+        // Freshness filter
+        if (activeFilters.freshness !== 'all') {
+          if (evidence.freshness !== activeFilters.freshness) {
             return false;
           }
         }
@@ -607,94 +435,24 @@
         return true;
       });
       
-      // Render the filtered list
-      renderEvidenceCards();
+      // Render the evidence wall
+      renderEvidenceWall();
     }
     
     /**
-     * Render evidence cards in center panel
+     * Render evidence wall (waterfall grid)
      */
-    function renderEvidenceCards() {
-      const container = document.getElementById('evidence-cards');
+    function renderEvidenceWall() {
+      const container = document.getElementById('evidence-wall');
+      
+      if (!container) return;
       
       if (filteredEvidence.length === 0) {
         container.innerHTML = `
           <div class="no-results">
+            <div class="no-results-icon">🔍</div>
             <h3>未找到匹配的证据</h3>
-            <p>请尝试调整筛选条件</p>
-          </div>
-        `;
-        return;
-      }
-      
-      const typeIconMap = {
-        '笔记': '📝',
-        '图片': '🖼️',
-        '评论': '💬'
-      };
-      
-      container.innerHTML = filteredEvidence.map(evidence => {
-        const typeIcon = typeIconMap[evidence.type] || '📄';
-        const isSelected = evidence.id === selectedEvidenceId;
-        
-        return `
-          <div class="evidence-card-item ${isSelected ? 'selected' : ''}" 
-               data-evidence-id="${evidence.id}"
-               onclick="selectEvidence('${evidence.id}')">
-            <div class="evidence-card-header">
-              <div class="evidence-type-icon">${typeIcon}</div>
-              <div class="evidence-card-title-area">
-                <h3 class="evidence-card-title">${evidence.title}</h3>
-                <div class="evidence-card-meta">
-                  <span>${evidence.type}</span>
-                  <span class="separator">•</span>
-                  <span>${evidence.source}</span>
-                  <span class="separator">•</span>
-                  <span>${evidence.freshness}</span>
-                </div>
-              </div>
-            </div>
-            <p class="evidence-card-description">
-              ${evidence.relevance_explanation}
-            </p>
-          </div>
-        `;
-      }).join('');
-    }
-    
-    /**
-     * Select an evidence card and show detail
-     */
-    function selectEvidence(evidenceId) {
-      selectedEvidenceId = evidenceId;
-      
-      // Update card selection state
-      document.querySelectorAll('.evidence-card-item').forEach(card => {
-        if (card.dataset.evidenceId === evidenceId) {
-          card.classList.add('selected');
-        } else {
-          card.classList.remove('selected');
-        }
-      });
-      
-      // Find the evidence object
-      const evidence = allEvidence.find(e => e.id === evidenceId);
-      
-      // Render detail panel
-      renderDetailPanel(evidence);
-    }
-    
-    /**
-     * Render evidence detail in right panel
-     */
-    function renderDetailPanel(evidence) {
-      const container = document.getElementById('evidence-detail');
-      
-      if (!evidence) {
-        container.innerHTML = `
-          <div class="detail-empty">
-            <div class="detail-empty-icon">📋</div>
-            <p class="detail-empty-text">选择一条证据查看详细信息</p>
+            <p>请尝试调整筛选条件查看更多证据</p>
           </div>
         `;
         return;
@@ -713,73 +471,64 @@
       };
       
       const weightLabelMap = {
-        'high': '高',
-        'medium': '中',
-        'low': '低'
+        'high': '高权重',
+        'medium': '中权重',
+        'low': '低权重'
       };
       
-      const typeIcon = typeIconMap[evidence.type] || '📄';
-      const weightBadge = weightBadgeMap[evidence.weight] || 'badge-warning';
-      const weightLabel = weightLabelMap[evidence.weight] || '中';
-      
-      container.innerHTML = `
-        <div class="detail-section">
-          <div style="font-size: var(--font-size-3xl); margin-bottom: var(--space-md);">
-            ${typeIcon}
+      container.innerHTML = filteredEvidence.map(evidence => {
+        const typeIcon = typeIconMap[evidence.type] || '📄';
+        const weightBadge = weightBadgeMap[evidence.weight] || 'badge-warning';
+        const weightLabel = weightLabelMap[evidence.weight] || '中权重';
+        
+        return `
+          <div class="wall-card" onclick="navigateToDirection('${evidence.related_direction}')">
+            <div class="wall-card-header">
+              <div class="wall-card-icon">${typeIcon}</div>
+              <div class="wall-card-title-area">
+                <h3 class="wall-card-title">${evidence.title}</h3>
+                <div class="wall-card-badges">
+                  <span class="badge badge-sm ${weightBadge}">${weightLabel}</span>
+                  <span class="badge badge-sm badge-info">${evidence.type}</span>
+                  <span class="freshness" style="font-size: var(--font-size-xs);">${evidence.freshness}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="wall-card-content">
+              <div class="wall-card-relevance">
+                <strong>为什么重要:</strong> ${evidence.relevance_explanation}
+              </div>
+              
+              <div class="wall-card-meta">
+                <span class="wall-card-direction">→ ${evidence.related_direction}</span>
+                <span class="wall-card-source">${evidence.source}</span>
+              </div>
+            </div>
           </div>
-          <h2 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); margin-bottom: var(--space-md); line-height: var(--line-height-tight);">
-            ${evidence.title}
-          </h2>
-          <div class="detail-badge-group">
-            <span class="badge badge-info">${evidence.type}</span>
-            <span class="badge ${weightBadge}">权重: ${weightLabel}</span>
-            <span class="freshness">${evidence.freshness}</span>
-          </div>
-        </div>
-        
-        <div class="detail-section">
-          <h4 class="detail-section-heading">为什么被引用</h4>
-          <p class="detail-section-content">${evidence.relevance_explanation}</p>
-        </div>
-        
-        <div class="detail-section">
-          <h4 class="detail-section-heading">支持的方向</h4>
-          <p class="detail-section-content">
-            <a href="direction-detail.html?id=${getDirectionIdByName(evidence.related_direction)}" 
-               style="color: var(--color-brand-primary); font-weight: var(--font-weight-medium);">
-              ${evidence.related_direction}
-            </a>
-          </p>
-        </div>
-        
-        <div class="detail-section">
-          <h4 class="detail-section-heading">产品线</h4>
-          <p class="detail-section-content">${evidence.product_line}</p>
-        </div>
-        
-        <div class="detail-section">
-          <h4 class="detail-section-heading">来源</h4>
-          <p class="detail-section-content">${evidence.source}</p>
-        </div>
-        
-        <div class="detail-section">
-          <h4 class="detail-section-heading">时间戳</h4>
-          <p class="detail-section-content">${evidence.timestamp || '未知'}</p>
-        </div>
-      `;
+        `;
+      }).join('');
     }
     
     /**
-     * Helper function to get direction ID by name
+     * Navigate to direction detail page
      */
-    function getDirectionIdByName(directionName) {
+    function navigateToDirection(directionName) {
+      // Find direction ID by name
       const directionIdMap = {
         '18K 金镶翡翠': 'dir_001',
         '多巴胺色系耳饰': 'dir_002',
         '沉香 + 翡翠叠戴': 'dir_003',
-        '冰感小件吊坠': 'dir_004'
+        '冰感小件吊坠': 'dir_004',
+        '满绿翡翠古法金搭配': 'dir_005',
+        '蓝水翡翠简约设计': 'dir_006',
+        '墨翠雕刻件': 'dir_007',
+        '翡翠戒面改制耳钉': 'dir_008',
+        '翡翠珍珠混搭': 'dir_009'
       };
-      return directionIdMap[directionName] || 'dir_001';
+      
+      const directionId = directionIdMap[directionName] || 'dir_001';
+      window.location.href = `direction-detail.html?id=${directionId}`;
     }
     
     // Initialize on page load
