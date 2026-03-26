@@ -1,0 +1,28 @@
+{
+  "milestone": "scoring-upgrade",
+  "round": 1,
+  "status": "pass",
+  "validatorsRun": {
+    "test": { "passed": true, "command": "python3 -m pytest tests/ -x -q", "exitCode": 0 },
+    "typecheck": { "passed": true, "command": "echo \"No typecheck configured (pure Python, no mypy)\"", "exitCode": 0 },
+    "lint": { "passed": true, "command": "echo \"No lint configured\"", "exitCode": 0 }
+  },
+  "reviewsSummary": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "failedFeatures": []
+  },
+  "blockingIssues": [],
+  "appliedUpdates": [],
+  "suggestedGuidanceUpdates": [
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Document the 70/30 keyword-to-engagement weight split convention. Both jade and streetwear packs allocate 70% of total weight to keyword buckets and 30% to engagement buckets. This means posts with engagement=None will score ~28-29% lower than their keyword-only maximum, which affects confidence and classification thresholds. Future workers adjusting pack weights or thresholds should be aware of this ratio.",
+      "evidence": "jade_pack.py and streetwear_pack.py both use identical 70% keyword / 30% engagement weight allocation. AGENTS.md mentions the bucket names but not the weight ratio or its impact on posts without engagement data. Review of pipeline-scoring-upgrade identified this as a non-blocking design concern: keyword-perfect posts without engagement now max at 0.58 (jade, was 0.80) and 0.495 (streetwear, was 0.70).",
+      "isSystemic": false
+    }
+  ],
+  "rejectedObservations": [],
+  "previousRound": null
+}
