@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import statistics
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from datetime import datetime
@@ -77,6 +78,10 @@ def run_pack_flow(
     _write_json(output_path / "report.json", json.loads(render_json_report(report)))
     (output_path / "report.md").write_text(render_markdown_report(report), encoding="utf-8")
     (output_path / "report.html").write_text(render_html_report(report), encoding="utf-8")
+    
+    # Generate dashboard.json
+    dashboard = _build_dashboard(spec.name, samples, scored_samples)
+    _write_json(output_path / "dashboard.json", dashboard)
 
 
 # ---------------------------------------------------------------------------
@@ -155,6 +160,98 @@ def _join_unique(values: Iterable[str]) -> str:
         if text and text not in items:
             items.append(text)
     return ", ".join(items)
+
+
+def _build_dashboard(
+    pack_name: str,
+    samples: list[CanonicalSample],
+    scored_samples: list[dict[str, object]],
+) -> dict[str, object]:
+    """Build dashboard.json payload with samples and aggregation summaries."""
+    
+    # Build dashboard samples with structured fields
+    dashboard_samples = []
+    for scored in scored_samples:
+        sample = scored["sample"]
+        dashboard_sample: dict[str, object] = {
+            "title": sample.get("content", {}).get("title"),
+            "content": sample.get("content", {}).get("text"),
+            "tags": sample.get("content", {}).get("tags", []),
+            "engagement": sample.get("engagement"),
+            "creator": sample.get("creator"),
+            "media": sample.get("media"),
+            "score": {
+                "weighted_score": scored["weighted_score"],
+                "bucket_scores": scored["bucket_scores"],
+                "confidence": scored["confidence"],
+                "classification": scored["classification"],
+            },
+        }
+        dashboard_samples.append(dashboard_sample)
+    
+    # Calculate summary statistics
+    summary = _calculate_summary(samples, scored_samples)
+    
+    return {
+        "generated_at": datetime.now().isoformat(),
+        "pack_name": pack_name,
+        "total_count": len(samples),
+        "summary": summary,
+        "samples": dashboard_samples,
+    }
+
+
+def _calculate_summary(
+    samples: list[CanonicalSample],
+    scored_samples: list[dict[str, object]],
+) -> dict[str, object]:
+    """Calculate aggregation summaries for dashboard."""
+    
+    # Tag frequency
+    tag_frequency: dict[str, int] = {}
+    for sample in samples:
+        for tag in sample.content.tags:
+            tag_frequency[tag] = tag_frequency.get(tag, 0) + 1
+    
+    # Score distribution
+    weighted_scores = [scored["weighted_score"] for scored in scored_samples]
+    if weighted_scores:
+        score_distribution = {
+            "min": min(weighted_scores),
+            "max": max(weighted_scores),
+            "mean": statistics.mean(weighted_scores),
+            "median": statistics.median(weighted_scores),
+        }
+    else:
+        score_distribution = {
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+        }
+    
+    # Engagement range
+    likes_list: list[int] = []
+    saves_list: list[int] = []
+    for sample in samples:
+        if sample.engagement is not None:
+            if sample.engagement.likes is not None:
+                likes_list.append(sample.engagement.likes)
+            if sample.engagement.saves is not None:
+                saves_list.append(sample.engagement.saves)
+    
+    engagement_range = {
+        "min_likes": min(likes_list) if likes_list else None,
+        "max_likes": max(likes_list) if likes_list else None,
+        "min_saves": min(saves_list) if saves_list else None,
+        "max_saves": max(saves_list) if saves_list else None,
+    }
+    
+    return {
+        "tag_frequency": tag_frequency,
+        "score_distribution": score_distribution,
+        "engagement_range": engagement_range,
+    }
 
 
 def _build_report(
