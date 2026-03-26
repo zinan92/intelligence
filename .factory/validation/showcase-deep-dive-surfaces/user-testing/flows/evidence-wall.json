@@ -1,0 +1,81 @@
+{
+  "groupId": "evidence-wall",
+  "testedAt": "2026-03-26T12:00:00Z",
+  "isolation": {
+    "appUrl": "http://localhost:8765/",
+    "evidencePage": "http://localhost:8765/evidence.html",
+    "dataFile": "http://localhost:8765/data/jade_dashboard.json",
+    "browserSession": "9cfa4def9931__evidence",
+    "readOnly": true
+  },
+  "toolsUsed": ["agent-browser", "curl"],
+  "assertions": [
+    {
+      "id": "VAL-EVID-001",
+      "title": "Evidence wall / waterfall layout",
+      "status": "pass",
+      "steps": [
+        { "action": "Navigate to http://localhost:8765/evidence.html", "expected": "Evidence library page loads", "observed": "Page loaded with title '证据库 - 翡翠信号图谱'" },
+        { "action": "Take screenshot of page layout", "expected": "Multi-column wall/waterfall layout, NOT a 3-panel analyst workbench", "observed": "4-column card grid layout displaying evidence items in a wall/waterfall pattern. No 3-panel split (no left sidebar list + center detail + right panel). Layout is a single curated wall with direction/type/freshness filter bar at top and cards below in a responsive grid." },
+        { "action": "Scroll full page to verify layout consistency", "expected": "Wall layout continues throughout", "observed": "Wall layout is consistent across the full page with 28 cards in a 4-column grid, maintaining the wall/waterfall aesthetic throughout scrolling." }
+      ],
+      "evidence": {
+        "screenshots": [
+          "showcase-deep-dive-surfaces/evidence-wall/VAL-EVID-001-evidence-wall-layout.png",
+          "showcase-deep-dive-surfaces/evidence-wall/VAL-EVID-001-evidence-wall-full.png"
+        ],
+        "consoleErrors": "none",
+        "network": "GET /evidence.html -> 200, GET /data/jade_dashboard.json -> 200"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-EVID-004",
+      "title": "Evidence cards show context and relevance",
+      "status": "pass",
+      "steps": [
+        { "action": "Take accessibility snapshot of evidence cards", "expected": "Cards show: why cited, which direction it supports, freshness, weight/importance", "observed": "Each card shows: (1) title, (2) weight badge (高权重/中权重/低权重), (3) type indicator (笔记/图片/评论), (4) freshness indicator (最近7天/最近3天/最近14天/最近30天/最近21天), (5) '为什么重要:' section explaining why the evidence was cited, (6) arrow link to the supported direction (e.g., '→ 18K 金镶翡翠'), (7) source attribution (e.g., '小红书用户 @优雅姐姐')" },
+        { "action": "Verify card content structure across multiple cards", "expected": "Consistent structure with context and relevance info", "observed": "All 28 cards follow the same structure: title → weight/type/freshness badges → relevance explanation → direction link → source. Layout prioritizes curation and readability with card-based wall layout rather than analyst-style side-panel mechanics." },
+        { "action": "Take annotated screenshot for card detail evidence", "expected": "Visual confirmation of card content", "observed": "Screenshot captured showing card details with type icons, weight badges, freshness indicators, relevance explanations, and direction links visible." }
+      ],
+      "evidence": {
+        "screenshots": [
+          "showcase-deep-dive-surfaces/evidence-wall/VAL-EVID-004-evidence-cards-detail.png",
+          "showcase-deep-dive-surfaces/evidence-wall/VAL-EVID-001-evidence-wall-layout.png"
+        ],
+        "snapshots": [
+          "showcase-deep-dive-surfaces/evidence-wall/VAL-EVID-004-snapshot.txt"
+        ],
+        "consoleErrors": "none",
+        "network": "GET /evidence.html -> 200"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-EVID-007",
+      "title": "Evidence wall displays 25–30 items with rich density",
+      "status": "pass",
+      "steps": [
+        { "action": "Fetch data file to count evidence entries", "expected": "25-30 evidence entries in JSON data", "observed": "Data file contains exactly 28 evidence entries (evidence_entries array), each with id, type, title, source, related_direction, freshness, relevance_explanation, weight, product_line, and timestamp fields." },
+        { "action": "Count evidence cards visible on page via accessibility snapshot", "expected": "25-30 cards rendered on the wall", "observed": "28 evidence card headings found in accessibility snapshot (refs e7 through e34), matching the 28 entries in the data file. All cards rendered in the wall layout." },
+        { "action": "Take full-page screenshot to verify density", "expected": "High-density wall with many items visible", "observed": "Full-page screenshot shows 28 evidence cards in a 4-column grid layout. The page header states '精选 28 条高质量证据'. Cards are rich with title, badges, relevance explanation, direction link, and source — creating high-density proof rather than a sparse sample." },
+        { "action": "Scroll down to verify all cards are accessible", "expected": "All items accessible through scrolling", "observed": "Scrolling reveals additional rows of cards below the fold. All 28 items are immediately visible on the full wall without pagination or load-more — the entire set is scannable." }
+      ],
+      "evidence": {
+        "screenshots": [
+          "showcase-deep-dive-surfaces/evidence-wall/VAL-EVID-001-evidence-wall-full.png",
+          "showcase-deep-dive-surfaces/evidence-wall/VAL-EVID-007-scrolled-view.png"
+        ],
+        "snapshots": [
+          "showcase-deep-dive-surfaces/evidence-wall/VAL-EVID-004-snapshot.txt"
+        ],
+        "consoleErrors": "none",
+        "network": "GET /data/jade_dashboard.json -> 200"
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 3 assertions: all 3 passed. VAL-EVID-001: Evidence wall uses a 4-column card grid layout (not a 3-panel analyst workbench). VAL-EVID-004: Each evidence card shows title, weight badge, type indicator, freshness, relevance explanation, supported direction link, and source attribution. VAL-EVID-007: All 28 evidence items are rendered on the wall in a high-density layout, matching the data file count of 28 entries (within the 25-30 range)."
+}

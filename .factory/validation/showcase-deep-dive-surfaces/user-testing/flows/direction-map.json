@@ -1,0 +1,99 @@
+{
+  "flowId": "direction-map",
+  "milestone": "showcase-deep-dive-surfaces",
+  "testedAt": "2026-03-26T00:00:00Z",
+  "isolation": {
+    "appUrl": "http://localhost:8765/",
+    "directionMapPage": "http://localhost:8765/direction-map.html",
+    "dataFile": "http://localhost:8765/data/jade_dashboard.json",
+    "browserSession": "9cfa4def9931__dirmap",
+    "readOnly": true
+  },
+  "toolsUsed": ["agent-browser", "curl"],
+  "assertions": {
+    "VAL-MAP-002": {
+      "status": "pass",
+      "evidence": [
+        "showcase-deep-dive-surfaces/direction-map/VAL-MAP-002-bubble-matrix-overview.png",
+        "showcase-deep-dive-surfaces/direction-map/VAL-MAP-003-full-page.png",
+        "showcase-deep-dive-surfaces/direction-map/VAL-MAP-002-snapshot.txt"
+      ],
+      "steps": [
+        {
+          "action": "Fetch data file via curl to count directions",
+          "expected": "8-10 directions with name, heat, confidence, judgment, opportunity, risk fields",
+          "observed": "9 directions found, each with all required fields (name, heat_magnitude, confidence_level, judgment_state, opportunity, risk, heat)"
+        },
+        {
+          "action": "Navigate to direction-map.html and take full-page screenshot",
+          "expected": "All 9 directions visible on bubble matrix",
+          "observed": "All 9 directions visible as bubbles: 18K 金镶翡翠, 多巴胺色系耳饰, 沉香 + 翡翠叠戴, 冰感小件吊坠, 满绿翡翠古法金搭配, 蓝水翡翠简约设计, 翡翠珍珠混搭, 翡翠戒面改制耳钉, 墨翠雕刻件"
+        },
+        {
+          "action": "Take accessibility snapshot to verify direction names and metrics",
+          "expected": "All direction names present; judgment state indicated via color; strategic position via x/y placement",
+          "observed": "All 9 direction names confirmed in snapshot img text. Color coding matches judgment states (green=值得跟, blue=观察中, orange=短热噪音, gray=需要补证据). Position on axes reflects opportunity (x) and risk (y). Bubble size varies with heat values."
+        }
+      ],
+      "notes": "All 9 directions from the data file are represented on the bubble matrix. Each exposes: name (text label), heat/magnitude (bubble size), judgment state (color-coded per legend), and strategic position (x=机会, y=风险 axes). Confidence level is not displayed as a direct text label on each bubble but is part of the underlying data driving the visualization."
+    },
+    "VAL-MAP-003": {
+      "status": "pass",
+      "evidence": [
+        "showcase-deep-dive-surfaces/direction-map/VAL-MAP-003-full-page.png",
+        "showcase-deep-dive-surfaces/direction-map/VAL-MAP-002-snapshot.txt"
+      ],
+      "steps": [
+        {
+          "action": "Verify x-axis label",
+          "expected": "x-axis labeled 机会",
+          "observed": "x-axis labeled '机会 →' with scale 0-100"
+        },
+        {
+          "action": "Verify y-axis label",
+          "expected": "y-axis labeled 风险",
+          "observed": "y-axis labeled '风险 ↑' (appears as '← 风险' in snapshot) with scale 0-100"
+        },
+        {
+          "action": "Verify bubble sizes vary by heat",
+          "expected": "Bubble sizes reflect 热度 / discussion intensity",
+          "observed": "Bubble sizes visibly vary. Largest bubbles correspond to 18K 金镶翡翠 (heat=92) and 满绿翡翠古法金搭配 (heat=84). Smallest correspond to 翡翠戒面改制耳钉 (heat=48) and 翡翠珍珠混搭 (heat=54)."
+        },
+        {
+          "action": "Verify strategic comparison at a glance",
+          "expected": "Users can visually compare strategic position",
+          "observed": "Chart clearly shows directions spread across opportunity/risk space. Description text reads: '横轴代表机会值（0-100），纵轴代表风险值（0-100），气泡大小代表热度。点击任何气泡查看该方向详情。'"
+        }
+      ],
+      "notes": "The direction map is a proper bubble-matrix view with x-axis = 机会 (0-100), y-axis = 风险 (0-100), and bubble size reflecting 热度. The layout enables at-a-glance strategic comparison. Section title is '机会 × 风险 战略矩阵'."
+    },
+    "VAL-MAP-005": {
+      "status": "pass",
+      "evidence": [
+        "showcase-deep-dive-surfaces/direction-map/VAL-MAP-003-full-page.png",
+        "showcase-deep-dive-surfaces/direction-map/VAL-MAP-002-snapshot.txt"
+      ],
+      "steps": [
+        {
+          "action": "Count directions in data file",
+          "expected": "8-10 directions",
+          "observed": "9 directions in jade_dashboard.json"
+        },
+        {
+          "action": "Verify page summary count",
+          "expected": "Summary shows total tracked directions",
+          "observed": "Page displays '9 追踪方向总数'"
+        },
+        {
+          "action": "Count visible bubbles on matrix",
+          "expected": "8-10 bubbles visible",
+          "observed": "9 bubbles visible on bubble matrix, matching all 9 directions from data file (confirmed via accessibility snapshot showing all 9 names in the chart element)"
+        }
+      ],
+      "notes": "The direction map displays all 9 tracked directions (within the required 8-10 range), not a narrow featured subset. All directions from the data file are represented."
+    }
+  },
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 3 assertions: all 3 passed. VAL-MAP-002 confirmed all 9 directions displayed with key metrics (name, heat-sized bubbles, judgment color-coding, strategic position). VAL-MAP-003 confirmed bubble-matrix layout with 机会 x-axis, 风险 y-axis, and heat-sized bubbles. VAL-MAP-005 confirmed 9 tracked directions displayed (within 8-10 range). No JS console errors detected."
+}
