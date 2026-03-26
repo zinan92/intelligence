@@ -10,6 +10,7 @@ from intelligence.scoring.engine import (
     ConfidenceRule,
     ScoringConfig,
 )
+from intelligence.scoring.engagement_buckets import compute_engagement_buckets
 
 from .pack_runner import PackSpec, run_pack_flow
 
@@ -71,12 +72,16 @@ def _bucket_scores(sample: CanonicalSample) -> dict[str, float]:
     ]
     text = " ".join(text_parts).lower()
 
+    # Keyword-based buckets
     silhouette = 1.0 if any(kw in text for kw in _SILHOUETTE_KEYWORDS) else 0.0
     graphic = 0.8 if any(kw in text for kw in _GRAPHIC_KEYWORDS) else 0.0
     layering = 0.7 if any(kw in text for kw in _LAYERING_KEYWORDS) else 0.0
     brand = 0.6 if any(kw in text for kw in _BRAND_KEYWORDS) else 0.0
     material = 0.5 if any(kw in text for kw in _MATERIAL_KEYWORDS) else 0.0
     commerce = 0.5 if any(kw in text for kw in _COMMERCE_KEYWORDS) else 0.0
+
+    # Engagement-based buckets
+    engagement_buckets = compute_engagement_buckets(sample.engagement)
 
     return {
         "silhouette": silhouette,
@@ -85,17 +90,23 @@ def _bucket_scores(sample: CanonicalSample) -> dict[str, float]:
         "brand": brand,
         "material": material,
         "commerce": commerce,
+        **engagement_buckets,
     }
 
 
 _SCORING_CONFIG = ScoringConfig(
     bucket_weights={
-        "silhouette": 0.20,
-        "graphic": 0.15,
-        "layering": 0.20,
-        "brand": 0.15,
-        "material": 0.10,
-        "commerce": 0.20,
+        # Keyword buckets (70% total weight - remain dominant)
+        "silhouette": 0.15,
+        "graphic": 0.10,
+        "layering": 0.15,
+        "brand": 0.10,
+        "material": 0.08,
+        "commerce": 0.12,
+        # Engagement buckets (30% total weight - meaningful differentiation)
+        "interaction_strength": 0.15,
+        "commercial_intent": 0.10,
+        "propagation_velocity": 0.05,
     },
     confidence_rules=(
         ConfidenceRule(0.7, "high"),
