@@ -1,0 +1,35 @@
+{
+  "milestone": "showcase-core-upgrade",
+  "round": 1,
+  "status": "pass",
+  "validatorsRun": {
+    "test": { "passed": true, "command": "python3 -m pytest tests/ -x -q", "exitCode": 0 },
+    "typecheck": { "passed": true, "command": "echo \"No typecheck configured (static HTML prototype)\"", "exitCode": 0 },
+    "lint": { "passed": true, "command": "echo \"No lint configured (static HTML prototype)\"", "exitCode": 0 },
+    "validate_json": { "passed": true, "command": "python3 -c \"import json; json.load(open('dashboard/data/jade_dashboard.json')); print('JSON valid')\"", "exitCode": 0 }
+  },
+  "reviewsSummary": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "failedFeatures": []
+  },
+  "blockingIssues": [],
+  "appliedUpdates": [],
+  "suggestedGuidanceUpdates": [
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Add explicit convention: all four canonical judgment states (值得跟, 观察中, 短热噪音, 需要补证据) must be displayed together in any judgment summary surface. The homepage Module 02 (今日判断) currently omits 观察中, which now represents 3 of 9 directions.",
+      "evidence": "dashboard/index.html lines 47-60 render only 3 of 4 judgment states. AGENTS.md lists all 4 states under color-coded judgment states but doesn't mandate their joint display in summaries.",
+      "isSystemic": true
+    },
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Update the 'Mock data values' section to include all 9 direction names now established in the v2 data file: 18K 金镶翡翠, 多巴胺色系耳饰, 沉香 + 翡翠叠戴, 冰感小件吊坠, 满绿翡翠古法金搭配, 蓝水翡翠简约设计, 翡翠珍珠混搭, 翡翠戒面改制耳钉, 墨翠雕刻件. This prevents future workers from inventing conflicting direction names.",
+      "evidence": "AGENTS.md 'Mock data values' section lists only 4 direction names. dashboard/data/jade_dashboard.json now contains 9 directions after v2-showcase-core-upgrade.",
+      "isSystemic": false
+    }
+  ],
+  "rejectedObservations": [],
+  "previousRound": null
+}

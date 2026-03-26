@@ -1,0 +1,39 @@
+{
+  "featureId": "v2-showcase-core-upgrade",
+  "reviewedAt": "2026-03-26T09:15:00.000Z",
+  "commitId": "673afaa310c623f74dae09ae788f247ed419e4ec",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The implementation meets all core v2 showcase requirements: 9 directions (within 8-10 range), 28 evidence items (within 25-30 range), sparkline-ready movement_history arrays (14 data points each), and opportunity/risk/heat fields for all directions. The homepage renders sparklines in both the Movement Board and Watchlist Cards. Data is internally consistent — judgment counts match actual direction states, evidence items span all 9 directions, and all new directions follow the same rich schema as the original 4. The sparkline rendering function is clean vanilla JS producing inline SVGs with trend-aware coloring. One non-blocking issue noted: the Judgment Summary module on the homepage still omits the 观察中 state, which now represents 3 of 9 directions — a more significant omission with the expanded dataset.",
+    "issues": [
+      {
+        "file": "dashboard/index.html",
+        "line": 47,
+        "severity": "non_blocking",
+        "description": "The Judgment Summary module (Module 02) displays counts for 值得跟, 短热噪音, and 需要补证据, but omits 观察中. With the v2 upgrade adding 3 观察中 directions (up from 1), this is now the second-largest judgment category and its absence makes the summary incomplete. This is a pre-existing gap that was not introduced by this commit, but the worker should have addressed it as part of the showcase quality upgrade."
+      },
+      {
+        "file": "dashboard/index.html",
+        "line": 283,
+        "severity": "non_blocking",
+        "description": "The Watchlist Cards filter excludes 短热噪音 and limits to 6 cards via .slice(0, 6). With 8 non-noise directions, 2 directions are silently dropped from this module. The selection depends on array order rather than an explicit priority. This works acceptably for the showcase but is fragile if direction order changes."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "The homepage Judgment Summary module has always omitted the 观察中 state. With 3 of 9 directions now using this judgment, AGENTS.md should note that all four judgment states (值得跟, 观察中, 短热噪音, 需要补证据) must be displayed in any judgment summary surface.",
+      "evidence": "dashboard/index.html lines 47-60 — only 3 of 4 judgment states rendered. AGENTS.md lists all 4 states under 'Color-coded judgment states' but doesn't mandate their joint display in summaries."
+    },
+    {
+      "area": "conventions",
+      "observation": "AGENTS.md lists specific mock data direction names (18K 金镶翡翠, 多巴胺色系耳饰, 沉香 + 翡翠叠戴, 冰感小件吊坠) but these are now just the original 4 of 9. The 5 new direction names (满绿翡翠古法金搭配, 蓝水翡翠简约设计, 翡翠珍珠混搭, 翡翠戒面改制耳钉, 墨翠雕刻件) should be added to AGENTS.md's mock data reference section so future workers don't reinvent or conflict with established direction names.",
+      "evidence": "AGENTS.md 'Mock data values' section lists only 4 direction names. dashboard/data/jade_dashboard.json now contains 9 directions."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "PASS. The v2-showcase-core-upgrade feature delivers on all core requirements: 9 directions with sparkline-ready history and bubble-matrix fields, 28 evidence items with rich metadata, and homepage sparkline rendering in both the Movement Board and Watchlist Cards. Data is internally consistent, the JSON is valid, all tests pass, and the implementation follows the skill's prescribed additive-only data changes and vanilla JS approach. Two non-blocking issues noted: (1) the Judgment Summary module omits 观察中 (pre-existing gap, now more visible), and (2) the Watchlist Cards selection logic silently drops 2 directions due to a hard slice(0,6) cap. Neither blocks the showcase-quality bar."
+}
