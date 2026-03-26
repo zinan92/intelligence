@@ -1,0 +1,132 @@
+{
+  "groupId": "scoring-group",
+  "milestone": "scoring-upgrade",
+  "testedAt": "2026-03-27T00:43:00Z",
+  "isolation": {
+    "workingDirectory": "/Users/wendy/work/content-co/intelligence",
+    "outputDirectory": "/tmp/val-scoring-group/",
+    "servicesNeeded": "none — pure Python pipeline"
+  },
+  "toolsUsed": ["pytest", "python CLI"],
+  "assertions": [
+    {
+      "id": "VAL-SCORE-001",
+      "title": "Engagement buckets exist in jade scoring",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Run pytest tests/test_engagement_scoring.py -v -k jade",
+          "expected": "Tests pass showing engagement-derived buckets (interaction_strength, commercial_intent, propagation_velocity) exist in jade pack _bucket_scores",
+          "observed": "2 passed (test_high_engagement_post_scores_higher_than_low_engagement_jade, test_no_engagement_data_scores_correctly_jade). jade_pack._bucket_scores returns interaction_strength, commercial_intent, propagation_velocity buckets computed from engagement data."
+        },
+        {
+          "action": "Verify jade_pack.py source imports compute_engagement_buckets and includes engagement bucket weights",
+          "expected": "Engagement buckets integrated in scoring function",
+          "observed": "jade_pack.py imports compute_engagement_buckets, calls it in _bucket_scores(), and has weights: interaction_strength=0.15, commercial_intent=0.10, propagation_velocity=0.05"
+        }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "pytestOutput": "scoring-upgrade/scoring-group/VAL-SCORE-001-jade-engagement-buckets.txt",
+        "consoleErrors": "none"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-SCORE-002",
+      "title": "Engagement buckets exist in streetwear scoring",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Run pytest tests/test_engagement_scoring.py -v -k streetwear",
+          "expected": "Tests pass showing engagement-derived buckets exist alongside keyword buckets in streetwear pack _bucket_scores",
+          "observed": "2 passed (test_high_engagement_post_scores_higher_than_low_engagement_streetwear, test_no_engagement_data_scores_correctly_streetwear). streetwear_pack._bucket_scores returns silhouette, graphic, layering, brand, material, commerce (keyword) + interaction_strength, commercial_intent, propagation_velocity (engagement)."
+        },
+        {
+          "action": "Verify streetwear_pack.py source imports compute_engagement_buckets and includes engagement bucket weights",
+          "expected": "Engagement buckets integrated alongside existing keyword buckets",
+          "observed": "streetwear_pack.py imports compute_engagement_buckets, calls it in _bucket_scores(), and has weights: interaction_strength=0.15, commercial_intent=0.10, propagation_velocity=0.05"
+        }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "pytestOutput": "scoring-upgrade/scoring-group/VAL-SCORE-002-streetwear-engagement-buckets.txt",
+        "consoleErrors": "none"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-SCORE-003",
+      "title": "High engagement post scores higher than low engagement",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Run pytest tests/test_engagement_scoring.py -v -k high_engagement_post_scores_higher",
+          "expected": "Tests pass showing that with identical keyword content but different engagement levels, high-engagement posts receive higher weighted scores",
+          "observed": "2 passed (jade and streetwear variants). Tests verify keyword buckets are identical (same content), while engagement buckets (interaction_strength, commercial_intent, propagation_velocity) are strictly greater for high-engagement posts (100K likes/50K saves vs 10 likes/2 saves)."
+        }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "pytestOutput": "scoring-upgrade/scoring-group/VAL-SCORE-003-high-vs-low-engagement.txt",
+        "consoleErrors": "none"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-SCORE-004",
+      "title": "Scoring backward compatible",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Run pytest tests/test_engagement_scoring.py -v -k no_engagement_data",
+          "expected": "Tests pass showing posts with engagement=None score correctly using keyword buckets alone, without errors",
+          "observed": "2 passed (jade and streetwear variants). Tests verify: all expected buckets exist including engagement buckets, engagement buckets are 0.0 (neutral), keyword buckets work normally (jade_signal=1.0, modernity>0, commerce>0)."
+        }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "pytestOutput": "scoring-upgrade/scoring-group/VAL-SCORE-004-backward-compat.txt",
+        "consoleErrors": "none"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-SCORE-005",
+      "title": "Real pilot re-scoring shows engagement impact",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Run python -m intelligence run-pack designer_streetwear --input examples/designer_streetwear/real_pilot/streetwear_collected.jsonl --output-dir /tmp/val-scoring-group/sw-real-test",
+          "expected": "CLI runs successfully, produces scored_samples.json",
+          "observed": "Exit code 0. Produced 5 output files including scored_samples.json (1.4MB) with 293 scored posts."
+        },
+        {
+          "action": "Inspect scored_samples.json: verify all 293 posts have engagement data and non-zero engagement buckets",
+          "expected": "Engagement data populated from raw Chinese number fields",
+          "observed": "293/293 samples have engagement data (likes, saves, comments, shares parsed from Chinese formats like '10万+' → 100000). All 293 have non-zero interaction_strength."
+        },
+        {
+          "action": "Compare rankings: engagement-included vs keyword-only scoring",
+          "expected": "Rankings differ meaningfully between the two scoring modes",
+          "observed": "17/20 top-20 positions differ between engagement-included and keyword-only rankings. Engagement buckets weighted at 30% of total score cause significant re-ordering."
+        },
+        {
+          "action": "Verify posts with same keyword content rank differently based on engagement",
+          "expected": "Within same keyword-score groups, high-engagement posts rank higher",
+          "observed": "Across 16 keyword-score groups examined, posts with higher engagement consistently scored higher. E.g., in kw group 2.5: post with 31K likes/25K saves scored 0.54 vs post with 622 likes/19 saves scored 0.41."
+        }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "cliOutput": "scoring-upgrade/scoring-group/VAL-SCORE-005-real-pilot-cli-output.txt",
+        "analysisOutput": "scoring-upgrade/scoring-group/VAL-SCORE-005-scored-samples-analysis.txt",
+        "consoleErrors": "none"
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 5 assertions: 5 passed, 0 failed, 0 blocked. All engagement-derived scoring buckets (interaction_strength, commercial_intent, propagation_velocity) are implemented in both jade and streetwear packs. High-engagement posts score higher than low-engagement posts with identical content. Backward compatibility preserved (engagement=None scores correctly). Real 293-post pilot data shows engagement impact with 17/20 top-20 rank changes vs keyword-only scoring."
+}

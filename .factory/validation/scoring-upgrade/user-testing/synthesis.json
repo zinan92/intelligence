@@ -1,0 +1,22 @@
+{
+  "milestone": "scoring-upgrade",
+  "round": 1,
+  "status": "pass",
+  "assertionsSummary": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0,
+    "blocked": 0
+  },
+  "passedAssertions": [
+    "VAL-SCORE-001",
+    "VAL-SCORE-002",
+    "VAL-SCORE-003",
+    "VAL-SCORE-004",
+    "VAL-SCORE-005"
+  ],
+  "failedAssertions": [],
+  "blockedAssertions": [],
+  "appliedUpdates": [],
+  "previousRound": null
+}
