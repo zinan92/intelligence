@@ -368,6 +368,10 @@
      */
     function initializeDirectionFilters(data) {
       const directions = getTrendDirections(data);
+      
+      // Cache directions globally for dynamic ID mapping
+      window.cachedDirections = directions;
+      
       const container = document.getElementById('direction-filters');
       
       if (!container) return;
@@ -514,20 +518,22 @@
      * Navigate to direction detail page
      */
     function navigateToDirection(directionName) {
-      // Find direction ID by name
-      const directionIdMap = {
-        '18K 金镶翡翠': 'dir_001',
-        '多巴胺色系耳饰': 'dir_002',
-        '沉香 + 翡翠叠戴': 'dir_003',
-        '冰感小件吊坠': 'dir_004',
-        '满绿翡翠古法金搭配': 'dir_005',
-        '蓝水翡翠简约设计': 'dir_006',
-        '墨翠雕刻件': 'dir_007',
-        '翡翠戒面改制耳钉': 'dir_008',
-        '翡翠珍珠混搭': 'dir_009'
-      };
+      // Build direction-name-to-ID map dynamically from loaded data
+      // This prevents hardcoding bugs where IDs get swapped
+      const directionIdMap = {};
+      allEvidence.forEach(evidence => {
+        // Build map from evidence's related_direction field
+        if (evidence.related_direction && !directionIdMap[evidence.related_direction]) {
+          // Find the actual direction object to get its ID
+          const matchingDir = window.cachedDirections?.find(d => d.name === evidence.related_direction);
+          if (matchingDir) {
+            directionIdMap[evidence.related_direction] = matchingDir.id;
+          }
+        }
+      });
       
       const directionId = directionIdMap[directionName] || 'dir_001';
+      console.log(`[Evidence Navigation] Direction: ${directionName} -> ID: ${directionId}`);
       window.location.href = `direction-detail.html?id=${directionId}`;
     }
     
