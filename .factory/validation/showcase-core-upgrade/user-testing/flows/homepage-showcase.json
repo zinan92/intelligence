@@ -1,0 +1,171 @@
+{
+  "groupId": "homepage-showcase",
+  "testedAt": "2026-03-26T12:00:00Z",
+  "isolation": {
+    "appUrl": "http://localhost:8765",
+    "homepageUrl": "http://localhost:8765/index.html",
+    "browserSession": "2f3cccd7a1bd__homepage",
+    "viewport": "1280x800",
+    "readOnly": true
+  },
+  "toolsUsed": ["agent-browser"],
+  "assertions": [
+    {
+      "id": "VAL-HOME-001",
+      "title": "Real-time Movement Board displays directions",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Navigate to http://localhost:8765/index.html",
+          "expected": "Homepage loads with Movement Board visible",
+          "observed": "Homepage loaded successfully, title '首页 - 翡翠信号图谱'"
+        },
+        {
+          "action": "Take full-page screenshot",
+          "expected": "Full page captured",
+          "observed": "Full page screenshot saved"
+        },
+        {
+          "action": "Look for Module 01 (实时异动榜) — verify table structure",
+          "expected": "Table with columns: 方向名称, 热度变化, 时间窗口, 置信度, 判断标签, 异动原因",
+          "observed": "Table present with all 6 required column headers: 方向名称, 热度变化, 时间窗口, 置信度, 判断标签, 异动原因"
+        },
+        {
+          "action": "Count visible directions in the Movement Board",
+          "expected": "At least 6 directions visible",
+          "observed": "9 directions visible in the Movement Board table: 18K 金镶翡翠 (+32%), 满绿翡翠古法金搭配 (+28%), 多巴胺色系耳饰 (+24%), 蓝水翡翠简约设计 (+22%), 墨翠雕刻件 (+20%), 沉香 + 翡翠叠戴 (+18%), 翡翠珍珠混搭 (+16%), 翡翠戒面改制耳钉 (+14%), 冰感小件吊坠 (+12%)"
+        },
+        {
+          "action": "Verify each direction row has required fields",
+          "expected": "Each row shows: direction name, heat percentage, time window, confidence level, judgment tag, and reason",
+          "observed": "All 9 rows contain: direction name (Chinese), heat change (↑ +N%), time window (最近N天), confidence (信心: 高/中/中高), judgment badge (值得跟/观察中/需要补证据/短热噪音), and a reason paragraph"
+        },
+        {
+          "action": "Take focused screenshot of Movement Board module",
+          "expected": "Movement Board detail captured",
+          "observed": "Focused screenshot saved showing table with sparklines, badges, and all required fields"
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "showcase-core-upgrade/homepage-showcase/VAL-HOME-001-full-page.png",
+          "showcase-core-upgrade/homepage-showcase/VAL-HOME-001-movement-board-focus.png"
+        ],
+        "consoleErrors": "none",
+        "network": "GET /index.html -> 200, GET /data/jade_dashboard.json -> 200"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-HOME-009",
+      "title": "Signal-first visual hierarchy on homepage",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Set viewport to 1280x800",
+          "expected": "Viewport set successfully",
+          "observed": "Viewport set to 1280x800"
+        },
+        {
+          "action": "Navigate to http://localhost:8765/index.html and take above-fold screenshot",
+          "expected": "Above-fold content is signal-led (trend movement/direction momentum)",
+          "observed": "Above the fold at 1280x800: the first visible module is '实时异动榜' (Real-time Movement Board) showing trend directions with heat changes, sparklines, and judgment badges. The '今日判断' (Today's Judgment) summary is also visible. No evidence wall, no login prompt."
+        },
+        {
+          "action": "Verify multi-column card-grid layout with at least 2 columns",
+          "expected": "At least 2 columns visible in the layout",
+          "observed": "Homepage uses CSS Grid with multiple grid sections: first row uses grid-template-columns: 1.5fr 1fr (2 columns: Movement Board + Judgment Summary), subsequent sections use grid-3 (3 columns) and grid-2 (2 columns). All computed as display: grid with multiple columns (e.g., 724.8px + 483.2px for first grid)."
+        },
+        {
+          "action": "Verify color-coded judgment state badges",
+          "expected": "Judgment badges have distinct color coding",
+          "observed": "Four judgment states are color-coded: 值得跟 = green (bg: rgb(209,250,229), text: rgb(16,185,129)), 观察中 = blue (bg: rgb(219,234,254), text: rgb(59,130,246)), 短热噪音 = orange (inferred from badge-warning class), 需要补证据 = gray (inferred from badge class). Badges are visible in the Movement Board and watchlist cards."
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "showcase-core-upgrade/homepage-showcase/VAL-HOME-009-above-fold.png",
+          "showcase-core-upgrade/homepage-showcase/VAL-HOME-009-above-fold-annotated.png"
+        ],
+        "consoleErrors": "none",
+        "network": "GET /index.html -> 200"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-HOME-010",
+      "title": "Homepage includes sparkline or micro-trend cues",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Look for sparkline-style visuals on the homepage",
+          "expected": "Sparkline SVG elements, canvas, or inline chart indicators present",
+          "observed": "Found 15 SVG elements total on the homepage: 9 SVGs (100×20px) in the Movement Board table rows (one per direction), and 6 SVGs (60×24px) in the '值得关注方向' watchlist cards. Each labeled '14天趋势'."
+        },
+        {
+          "action": "Verify SVGs contain actual chart data (polyline points)",
+          "expected": "SVGs contain polyline or path elements with numerical data points",
+          "observed": "All SVGs contain <polyline> elements with calculated point coordinates (e.g., 'points=\"0,20 7.69...,17.03... 15.38...,17.77...\"'), representing actual trend data rendered as mini line charts."
+        },
+        {
+          "action": "Take screenshots showing sparklines in Movement Board and watchlist cards",
+          "expected": "Sparklines visible in screenshots",
+          "observed": "Sparklines clearly visible as small green line charts next to direction names in the Movement Board table, and as '14天趋势' mini charts in watchlist cards."
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "showcase-core-upgrade/homepage-showcase/VAL-HOME-001-movement-board-focus.png",
+          "showcase-core-upgrade/homepage-showcase/VAL-HOME-010-sparkline-watchlist.png"
+        ],
+        "consoleErrors": "none",
+        "network": "GET /index.html -> 200"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-HOME-011",
+      "title": "Homepage feels like a believable stakeholder showcase",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Take full-page screenshot of the homepage",
+          "expected": "Full page captured for visual assessment",
+          "observed": "Full page screenshot captured showing all 7 modules with dense content"
+        },
+        {
+          "action": "Verify premium visual framing (clean design, professional typography, color scheme)",
+          "expected": "Professional, polished design aesthetic",
+          "observed": "Clean white/light background with green accent color scheme, professional Chinese typography hierarchy (large bold headers, readable body text), card-based modular layout with consistent shadows and borders, color-coded badges with distinct styles, sparkline charts for data visualization"
+        },
+        {
+          "action": "Verify dense but curated content (no empty states, no 'coming soon')",
+          "expected": "No placeholder empty states, no 'coming soon' messages",
+          "observed": "DOM inspection confirmed: hasComingSoon=false, hasPlaceholder=false, hasWaitingForData=false, emptyCount=0. All 7 modules (实时异动榜, 今日判断, 值得关注方向, 风险提醒, 最近证据, 产品线观察, 14天变化) contain substantive Chinese content."
+        },
+        {
+          "action": "Verify no login dependency",
+          "expected": "No login form, no 'please sign in' prompts",
+          "observed": "DOM inspection confirmed: loginCount=0 (no password inputs, login forms, or auth-related elements). hasSignIn=false. Page renders fully without any authentication."
+        },
+        {
+          "action": "Verify no crawl dependency",
+          "expected": "No 'start crawl' buttons, no 'waiting for data' messages",
+          "observed": "DOM inspection confirmed: hasStartCrawl=false, hasWaitingForData=false. All data loaded from local jade_dashboard.json with zero console errors."
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "showcase-core-upgrade/homepage-showcase/VAL-HOME-001-full-page.png",
+          "showcase-core-upgrade/homepage-showcase/VAL-HOME-011-bottom-section.png"
+        ],
+        "consoleErrors": "none",
+        "network": "GET /index.html -> 200, GET /data/jade_dashboard.json -> 200"
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 4 assertions: all 4 passed. VAL-HOME-001: Movement Board displays 9 directions (exceeds minimum of 6) with all required fields (name, heat%, time window, confidence, judgment tag, reason) and sparklines. VAL-HOME-009: Signal-first layout confirmed — Movement Board is first above-the-fold content at 1280×800, multi-column grid layout with 2+ columns, color-coded judgment badges. VAL-HOME-010: 15 SVG sparklines found — 9 in Movement Board rows and 6 in watchlist cards, all with polyline data points. VAL-HOME-011: Homepage presents polished showcase with premium design, dense curated content, zero empty states, no login/auth, no crawl dependency."
+}

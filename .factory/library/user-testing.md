@@ -57,8 +57,9 @@ Testing surface, required testing skills/tools, resource cost classification per
 
 **Browser session naming convention:**
 - Data validation: no browser needed (curl/JSON inspection)
-- Homepage validation: `--session "6c7a7e7a0e55__homepage"`
-- Direction detail validation: `--session "6c7a7e7a0e55__detail"`
+- Homepage validation: `--session "<worker-session-id>__homepage"`
+- Direction detail validation: `--session "<worker-session-id>__detail"`
+- Use your assigned worker session prefix for unique session names
 
 **Evidence capture:**
 - Save screenshots to the evidence directory assigned in your prompt

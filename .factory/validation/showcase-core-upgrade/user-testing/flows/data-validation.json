@@ -1,0 +1,145 @@
+{
+  "groupId": "data-validation",
+  "testedAt": "2026-03-26T12:00:00Z",
+  "isolation": {
+    "appUrl": "http://localhost:8765",
+    "dataUrl": "http://localhost:8765/data/jade_dashboard.json",
+    "tool": "curl and python3 (no browser needed)"
+  },
+  "toolsUsed": ["curl", "python3"],
+  "assertions": [
+    {
+      "id": "VAL-DATA-002",
+      "title": "Eight to ten jade trend directions with complete showcase fields",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Fetch JSON from http://localhost:8765/data/jade_dashboard.json",
+          "expected": "Valid JSON response with trend_directions array",
+          "observed": "Valid JSON returned, 39744 bytes"
+        },
+        {
+          "action": "Count directions in trend_directions array",
+          "expected": "8-10 directions",
+          "observed": "9 directions found: 18K 金镶翡翠, 多巴胺色系耳饰, 沉香 + 翡翠叠戴, 冰感小件吊坠, 满绿翡翠古法金搭配, 蓝水翡翠简约设计, 翡翠珍珠混搭, 翡翠戒面改制耳钉, 墨翠雕刻件"
+        },
+        {
+          "action": "Verify each direction has required fields: Chinese name, heat_magnitude, confidence_level, time_window, judgment_state, audience_fit, price_band_fit, description/summary, why_it_matters",
+          "expected": "All 9 directions have all required fields",
+          "observed": "All 9 directions have all required fields. Confidence levels: 高, 中高, 中. Judgment states: 值得跟, 观察中, 短热噪音, 需要补证据."
+        }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "N/A (data inspection only)",
+        "network": "GET /data/jade_dashboard.json -> 200",
+        "dataFiles": ["showcase-core-upgrade/data-validation/VAL-DATA-002-directions-inspection.json"]
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-DATA-004",
+      "title": "Twenty-five to thirty evidence entries with required fields",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Count evidence entries in evidence_entries array",
+          "expected": "25-30 entries",
+          "observed": "28 evidence entries found"
+        },
+        {
+          "action": "Verify each entry has required fields: type, related_direction, source, freshness, relevance_explanation (explanation of relevance), title (snippet/descriptive summary)",
+          "expected": "All entries have all required fields",
+          "observed": "All 28 entries have all required fields. Types found: 笔记, 图片, 评论. All 9 directions have associated evidence."
+        }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "N/A (data inspection only)",
+        "network": "GET /data/jade_dashboard.json -> 200",
+        "dataFiles": ["showcase-core-upgrade/data-validation/VAL-DATA-004-evidence-inspection.json"]
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-DATA-007",
+      "title": "Sparkline-ready movement history present for homepage showcase",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Check each direction for movement_history arrays",
+          "expected": "Per-direction arrays of numeric values sufficient for sparkline rendering",
+          "observed": "All 9 directions have movement_history arrays with exactly 14 integer values each (14-day time series)"
+        },
+        {
+          "action": "Verify data is numeric and sufficient for sparklines",
+          "expected": "Arrays of numbers, no runtime crawl dependency",
+          "observed": "All values are integers (e.g., dir_001: [68, 72, 71, 75, 78, 82, 85, 88, 90, 92, 94, 95, 94, 92]). Data is fully local, no crawl needed."
+        }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "N/A (data inspection only)",
+        "network": "GET /data/jade_dashboard.json -> 200",
+        "dataFiles": ["showcase-core-upgrade/data-validation/VAL-DATA-002-directions-inspection.json"]
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-DATA-008",
+      "title": "Bubble-matrix positioning fields present",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Check each direction for opportunity, risk, and heat numeric values",
+          "expected": "All directions have opportunity (x=机会), risk (y=风险), and heat (size=热度) values",
+          "observed": "All 9 directions have numeric opportunity, risk, and heat values. Examples: dir_001 (opportunity=85, risk=35, heat=92), dir_002 (opportunity=70, risk=55, heat=76), dir_009 (opportunity=68, risk=48, heat=64)"
+        },
+        {
+          "action": "Verify values are sufficient for bubble matrix placement",
+          "expected": "Numeric values suitable for x-y-size mapping",
+          "observed": "All values are integers in a 0-100 range, directly usable for bubble matrix axes and sizing"
+        }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "N/A (data inspection only)",
+        "network": "GET /data/jade_dashboard.json -> 200",
+        "dataFiles": ["showcase-core-upgrade/data-validation/VAL-DATA-002-directions-inspection.json"]
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-INFRA-002",
+      "title": "Prototype runs fully locally with no login and no live crawl dependency",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Fetch all 5 pages: index.html, direction-detail.html, direction-map.html, evidence.html, product-line.html",
+          "expected": "All return HTTP 200 with non-empty content",
+          "observed": "All 5 pages return HTTP 200. Sizes: index.html=19797B, direction-detail.html=21452B, direction-map.html=14703B, evidence.html=24138B, product-line.html=8965B"
+        },
+        {
+          "action": "Check pages for login forms, crawl triggers, or external API endpoints",
+          "expected": "No login, crawl, or external API dependencies",
+          "observed": "Zero matches for login/signin/password/authenticate keywords. Zero matches for crawl/scrape/ingest keywords. Zero external URL references across all pages."
+        },
+        {
+          "action": "Verify JSON data loads locally",
+          "expected": "jade_dashboard.json loads via HTTP 200 from local server",
+          "observed": "jade_dashboard.json returns HTTP 200, 39744 bytes"
+        }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "N/A (curl-based test)",
+        "network": "GET /index.html -> 200, GET /direction-detail.html -> 200, GET /direction-map.html -> 200, GET /evidence.html -> 200, GET /product-line.html -> 200, GET /data/jade_dashboard.json -> 200",
+        "dataFiles": ["showcase-core-upgrade/data-validation/VAL-INFRA-002-page-load-test.json"]
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 5 assertions: 5 passed, 0 failed. VAL-DATA-002: 9 directions with all required fields (pass). VAL-DATA-004: 28 evidence entries with all required fields (pass). VAL-DATA-007: All 9 directions have 14-value movement_history arrays for sparklines (pass). VAL-DATA-008: All 9 directions have opportunity/risk/heat numeric values for bubble matrix (pass). VAL-INFRA-002: All 5 pages load locally with no login, crawl, or external dependencies (pass)."
+}
