@@ -88,7 +88,7 @@ def _isoformat(value: datetime | None) -> str | None:
 
 
 def _sample_payload(sample: CanonicalSample) -> dict[str, object]:
-    return {
+    payload: dict[str, object] = {
         "provenance": {
             "source": sample.provenance.source,
             "source_id": sample.provenance.source_id,
@@ -104,6 +104,34 @@ def _sample_payload(sample: CanonicalSample) -> dict[str, object]:
             "tags": list(sample.content.tags),
         },
     }
+    
+    # Add engagement if present
+    if sample.engagement is not None:
+        payload["engagement"] = {
+            "likes": sample.engagement.likes,
+            "saves": sample.engagement.saves,
+            "comments": sample.engagement.comments,
+            "shares": sample.engagement.shares,
+        }
+    
+    # Add creator if present
+    if sample.creator is not None:
+        payload["creator"] = {
+            "id": sample.creator.id,
+            "name": sample.creator.name,
+            "avatar_url": sample.creator.avatar_url,
+            "location": sample.creator.location,
+        }
+    
+    # Add media if present
+    if sample.media is not None:
+        payload["media"] = {
+            "content_type": sample.media.content_type,
+            "image_urls": list(sample.media.image_urls),
+            "video_url": sample.media.video_url,
+        }
+    
+    return payload
 
 
 def _score_payload(sample: CanonicalSample, result: ScoringResult) -> dict[str, object]:

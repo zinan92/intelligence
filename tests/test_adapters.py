@@ -51,6 +51,41 @@ class AdapterTests(unittest.TestCase):
         )
         self.assertEqual(sample.provenance.raw_metadata["xsec_token"], first_row["xsec_token"])
 
+    def test_mediacrawler_extracts_engagement_data(self) -> None:
+        """MediaCrawler adapter extracts engagement metrics from raw data."""
+        first_row = _read_first_row(MEDIACRAWLER_FIXTURE)
+        samples = load_mediacrawler_samples(MEDIACRAWLER_FIXTURE)
+        sample = samples[0]
+
+        self.assertIsNotNone(sample.engagement)
+        self.assertEqual(sample.engagement.likes, 10)
+        self.assertEqual(sample.engagement.saves, 5)
+        self.assertEqual(sample.engagement.comments, 2)
+        self.assertEqual(sample.engagement.shares, 1)
+
+    def test_mediacrawler_extracts_creator_data(self) -> None:
+        """MediaCrawler adapter extracts creator information from raw data."""
+        first_row = _read_first_row(MEDIACRAWLER_FIXTURE)
+        samples = load_mediacrawler_samples(MEDIACRAWLER_FIXTURE)
+        sample = samples[0]
+
+        self.assertIsNotNone(sample.creator)
+        self.assertEqual(sample.creator.id, "creator-001")
+        self.assertEqual(sample.creator.name, "creator")
+        self.assertEqual(sample.creator.avatar_url, "https://example.com/avatar.jpg")
+        self.assertEqual(sample.creator.location, "Beijing")
+
+    def test_mediacrawler_extracts_media_data(self) -> None:
+        """MediaCrawler adapter extracts media type and URLs from raw data."""
+        first_row = _read_first_row(MEDIACRAWLER_FIXTURE)
+        samples = load_mediacrawler_samples(MEDIACRAWLER_FIXTURE)
+        sample = samples[0]
+
+        self.assertIsNotNone(sample.media)
+        self.assertEqual(sample.media.content_type, "video")
+        self.assertEqual(sample.media.image_urls, ("https://example.com/image.jpg",))
+        self.assertEqual(sample.media.video_url, "https://example.com/video.mp4")
+
     def test_xhs_loader_maps_export_fields_to_canonical_samples(self) -> None:
         row = _read_first_row(XHS_FIXTURE)
         samples = load_xhs_samples(XHS_FIXTURE)
@@ -85,7 +120,7 @@ class AdapterTests(unittest.TestCase):
         self.assertIsInstance(sample, CanonicalSample)
         self.assertEqual(sample.provenance.source, "douyin_downloader")
         self.assertEqual(sample.provenance.source_id, row["aweme_id"])
-        self.assertEqual(sample.provenance.url, row["share_url"])
+        self.assertEqual(sample.provenance.url, row.get("aweme_url") or row.get("share_url"))
         self.assertIsNone(sample.content.title)
         self.assertEqual(sample.content.text, row["desc"])
         self.assertEqual(sample.content.tags, ("short video", "jade"))

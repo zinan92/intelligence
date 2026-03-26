@@ -2,11 +2,21 @@
 
 from __future__ import annotations
 
-from .canonical import CanonicalContent, CanonicalProvenance, CanonicalSample
+from .canonical import (
+    CanonicalContent,
+    CanonicalCreator,
+    CanonicalEngagement,
+    CanonicalMedia,
+    CanonicalProvenance,
+    CanonicalSample,
+)
 from .review import ReviewRecord, ReviewState, ValidationRecord, ValidationState
 
 __all__ = [
     "CanonicalContent",
+    "CanonicalCreator",
+    "CanonicalEngagement",
+    "CanonicalMedia",
     "CanonicalProvenance",
     "CanonicalSample",
     "ReviewRecord",

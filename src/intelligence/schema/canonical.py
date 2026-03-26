@@ -30,8 +30,40 @@ class CanonicalContent:
 
 
 @dataclass(frozen=True, slots=True)
+class CanonicalEngagement:
+    """Engagement metrics for a sample."""
+
+    likes: int | None = None
+    saves: int | None = None
+    comments: int | None = None
+    shares: int | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class CanonicalCreator:
+    """Creator/author information for a sample."""
+
+    id: str | None = None
+    name: str | None = None
+    avatar_url: str | None = None
+    location: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class CanonicalMedia:
+    """Media type and URLs for a sample."""
+
+    content_type: str | None = None
+    image_urls: tuple[str, ...] = ()
+    video_url: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
 class CanonicalSample:
     """Canonical research sample composed only of provenance and content."""
 
     provenance: CanonicalProvenance
     content: CanonicalContent
+    engagement: CanonicalEngagement | None = None
+    creator: CanonicalCreator | None = None
+    media: CanonicalMedia | None = None

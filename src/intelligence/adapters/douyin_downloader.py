@@ -24,6 +24,23 @@ def load_samples(path: str | Path) -> list[CanonicalSample]:
             published_at_keys=("create_time", "publish_time", "time", "published_at"),
             captured_at_keys=("update_time", "last_modify_ts", "captured_at", "crawl_time"),
             tag_keys=("tag_list", "hashtags", "tags"),
+            engagement_keys={
+                "likes": ("digg_count",),
+                "saves": ("collect_count",),
+                "comments": ("comment_count",),
+                "shares": ("share_count",),
+            },
+            creator_keys={
+                "id": ("author_user_id",),
+                "name": ("nickname",),
+                "avatar_url": ("avatar_url",),
+                "location": ("location",),
+            },
+            media_keys={
+                "content_type": ("media_type",),
+                "image_urls": ("image_urls",),
+                "video_url": ("video_url",),
+            },
         )
         for row in rows
     ]
