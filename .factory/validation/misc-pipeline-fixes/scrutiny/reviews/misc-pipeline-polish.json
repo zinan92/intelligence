@@ -1,0 +1,38 @@
+{
+  "featureId": "misc-pipeline-polish",
+  "reviewedAt": "2026-03-27T00:30:00.000Z",
+  "commitId": "fb2413322daa5f1cc2fe4e8bacebb84f290a2217",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "All 5 items from the feature description are implemented correctly. (1) parse_chinese_number uses round() instead of int() for 万/千 multipliers — verified 0.57万→5700. (2) Six extraction tests added for xhs_downloader and douyin_downloader covering engagement/creator/media fields, all matching fixture data. (3) Confidence thresholds documented with NOTE comments in both jade_pack.py and streetwear_pack.py. (4) datetime.now(timezone.utc).isoformat() used in _build_dashboard(). (5) Runtime Check file count updated from '5' to '6'. The worker also fixed a test assertion bug where douyin creator ID was '***********' instead of 'dy-user-001' (matching the fixture). All 123 tests pass.",
+    "issues": [
+      {
+        "file": "src/intelligence/workflows/jade_pack.py",
+        "line": 60,
+        "severity": "non_blocking",
+        "description": "The NOTE comment states posts without engagement data 'can still reach high confidence (0.8 threshold) if they have very strong keyword signals (e.g., jade_signal=1.0 alone contributes 0.40 weighted score)'. This is misleading: keyword buckets max at 0.70 total (0.40+0.15+0.15), which is below the 0.8 high threshold. An engagement-less post CANNOT reach 'high' confidence in jade_pack. The streetwear_pack comment (threshold 0.7, keyword max 0.70) is technically correct at the boundary. Consider rewording the jade_pack NOTE to accurately reflect that engagement-less posts max at 'medium' confidence."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "AGENTS.md line 17 still says 'All 5 original output files MUST continue to be generated' but the pipeline now generates 6 output files (dashboard.json was added). The Runtime Check in pack_runner.py was correctly updated to '6', but AGENTS.md was not updated to match.",
+      "evidence": "AGENTS.md:17 says '5 original output files'; pack_runner.py:322 now says ('report files', '6')"
+    },
+    {
+      "area": "conventions",
+      "observation": "AGENTS.md line 11 says 'currently 116' tests but the test suite now has 123 tests. This count has drifted across milestones and should be updated or the specific count removed in favor of a general statement.",
+      "evidence": "AGENTS.md:11 says 'currently 116'; pytest run shows '123 passed'"
+    },
+    {
+      "area": "skills",
+      "observation": "Worker followed the pipeline-worker skill procedure correctly. The skill feedback notes that the feature description said to 'add extraction tests' but they already existed from a prior milestone, causing initial confusion. This is an orchestration-level issue (feature description was slightly stale) rather than a skill gap.",
+      "evidence": "handoff.skillFeedback.followedProcedure=true, suggestedChanges notes the redundant test instruction"
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "PASS. All 5 polish items are correctly implemented: round() fix for Chinese number parsing, adapter extraction tests for xhs/douyin, confidence threshold documentation, timezone-aware datetime, and file count update. One non-blocking issue: the jade_pack NOTE comment inaccurately claims engagement-less posts can reach 'high' confidence (0.8 threshold) when keyword-only max is 0.70. Two shared-state observations: AGENTS.md has stale file count (5→6) and test count (116→123)."
+}

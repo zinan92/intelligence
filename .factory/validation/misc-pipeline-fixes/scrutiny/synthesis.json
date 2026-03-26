@@ -1,0 +1,46 @@
+{
+  "milestone": "misc-pipeline-fixes",
+  "round": 1,
+  "status": "pass",
+  "validatorsRun": {
+    "test": { "passed": true, "command": "python3 -m pytest tests/ -x -q", "exitCode": 0 },
+    "typecheck": { "passed": true, "command": "echo \"No typecheck configured (pure Python, no mypy)\"", "exitCode": 0 },
+    "lint": { "passed": true, "command": "echo \"No lint configured\"", "exitCode": 0 }
+  },
+  "reviewsSummary": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "failedFeatures": []
+  },
+  "blockingIssues": [],
+  "appliedUpdates": [],
+  "suggestedGuidanceUpdates": [
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Update line 17 from 'All 5 original output files MUST continue to be generated' to 'All 6 output files MUST continue to be generated' — dashboard.json is now the 6th standard output file.",
+      "evidence": "Feature misc-pipeline-polish updated pack_runner.py Runtime Check from 5→6. AGENTS.md was not updated to match. Reviewer flagged the inconsistency.",
+      "isSystemic": false
+    },
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Update line 11 from 'currently 116' tests to 'currently 123' tests, or remove the specific count in favor of a general statement like 'existing tests must pass at every commit' to avoid drift.",
+      "evidence": "Test count has grown from 74→116→123 across milestones. The specific count in AGENTS.md drifts each milestone. Reviewer noted 116→123 mismatch.",
+      "isSystemic": true
+    }
+  ],
+  "rejectedObservations": [
+    {
+      "observation": "Worker followed pipeline-worker skill correctly; feature description was slightly stale re: 'add extraction tests' that already existed from a prior milestone.",
+      "reason": "Orchestration-level issue about feature description accuracy, not a shared-state or guidance gap. No actionable change needed for skills or AGENTS.md."
+    }
+  ],
+  "nonBlockingIssues": [
+    {
+      "featureId": "misc-pipeline-polish",
+      "severity": "non_blocking",
+      "description": "jade_pack.py NOTE comment (line ~60) inaccurately claims engagement-less posts can reach 'high' confidence (0.8 threshold) when keyword-only max is 0.70. The comment should say engagement-less posts max at 'medium' confidence."
+    }
+  ],
+  "previousRound": null
+}
