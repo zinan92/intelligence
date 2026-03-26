@@ -1,0 +1,28 @@
+{
+  "milestone": "dashboard-output",
+  "round": 1,
+  "status": "pass",
+  "validatorsRun": {
+    "test": { "passed": true, "command": "python3 -m pytest tests/ -x -q", "exitCode": 0 },
+    "typecheck": { "passed": true, "command": "echo \"No typecheck configured (pure Python, no mypy)\"", "exitCode": 0 },
+    "lint": { "passed": true, "command": "echo \"No lint configured\"", "exitCode": 0 }
+  },
+  "reviewsSummary": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "failedFeatures": []
+  },
+  "blockingIssues": [],
+  "appliedUpdates": [],
+  "suggestedGuidanceUpdates": [
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Update stale test count: change 'Do NOT break existing 74 tests' to 'Do NOT break existing 116 tests' (or remove the specific number and say 'Do NOT break existing tests').",
+      "evidence": "AGENTS.md says 'Do NOT break existing 74 tests — they must pass at every commit' but the test suite now has 116 tests after schema-and-engagement, scoring-upgrade, and dashboard-output milestones. Reviewer flagged this in pipeline-dashboard-output review.",
+      "isSystemic": true
+    }
+  ],
+  "rejectedObservations": [],
+  "previousRound": null
+}
