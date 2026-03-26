@@ -6,7 +6,7 @@ import json
 import statistics
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable
 
@@ -193,7 +193,7 @@ def _build_dashboard(
     summary = _calculate_summary(samples, scored_samples)
     
     return {
-        "generated_at": datetime.now().isoformat(),
+        "generated_at": datetime.now(timezone.utc).isoformat(),
         "pack_name": pack_name,
         "total_count": len(samples),
         "summary": summary,
@@ -319,9 +319,9 @@ def _build_report(
             fields=(
                 ("normalized outputs", str(sample_count)),
                 ("scored outputs", str(len(scored_samples))),
-                ("report files", "5"),
+                ("report files", "6"),
             ),
-            bullets=(execution_label, "shared renderers for JSON, Markdown, and HTML"),
+            bullets=(execution_label, "shared renderers for JSON, Markdown, HTML, and dashboard.json"),
         ),
     )
 

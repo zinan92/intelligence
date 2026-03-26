@@ -121,14 +121,14 @@ def parse_chinese_number(value: Any) -> int | None:
         try:
             number_part = text.replace("万", "").strip()
             base = float(number_part)
-            return int(base * 10000)
+            return round(base * 10000)
         except (ValueError, TypeError):
             return None
     elif "千" in text:
         try:
             number_part = text.replace("千", "").strip()
             base = float(number_part)
-            return int(base * 1000)
+            return round(base * 1000)
         except (ValueError, TypeError):
             return None
     else:

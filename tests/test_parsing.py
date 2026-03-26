@@ -80,6 +80,11 @@ class ChineseNumberParsingTests(unittest.TestCase):
         result = parse_chinese_number("10万")
         self.assertEqual(result, 100000)
 
+    def test_decimal_wan_format_with_two_decimals(self) -> None:
+        """0.57万 should parse to 5700, not 5699 (tests round instead of int truncation)."""
+        result = parse_chinese_number("0.57万")
+        self.assertEqual(result, 5700)
+
 
 if __name__ == "__main__":
     unittest.main()

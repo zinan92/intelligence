@@ -134,6 +134,78 @@ class AdapterTests(unittest.TestCase):
         )
         self.assertEqual(sample.provenance.raw_metadata["nickname"], row["nickname"])
 
+    def test_xhs_downloader_extracts_engagement_data(self) -> None:
+        """XHS downloader adapter extracts engagement metrics from raw data."""
+        samples = load_xhs_samples(XHS_FIXTURE)
+        sample = samples[0]
+
+        self.assertIsNotNone(sample.engagement)
+        self.assertEqual(sample.engagement.likes, 100)
+        self.assertEqual(sample.engagement.saves, 50)
+        # XHS fixture doesn't have comment_count/share_count, so they should be None
+        self.assertIsNone(sample.engagement.comments)
+        self.assertIsNone(sample.engagement.shares)
+
+    def test_xhs_downloader_extracts_creator_data(self) -> None:
+        """XHS downloader adapter extracts creator information from raw data."""
+        samples = load_xhs_samples(XHS_FIXTURE)
+        sample = samples[0]
+
+        self.assertIsNotNone(sample.creator)
+        self.assertEqual(sample.creator.id, "xhs-user-001")
+        self.assertEqual(sample.creator.name, "XHS Creator")
+        # XHS fixture doesn't have avatar_url/location in current data
+        self.assertIsNone(sample.creator.avatar_url)
+        self.assertIsNone(sample.creator.location)
+
+    def test_xhs_downloader_extracts_media_data(self) -> None:
+        """XHS downloader adapter extracts media type and URLs from raw data."""
+        samples = load_xhs_samples(XHS_FIXTURE)
+        sample = samples[0]
+
+        self.assertIsNotNone(sample.media)
+        # XHS fixture doesn't have content_type, so it should be None
+        self.assertIsNone(sample.media.content_type)
+        self.assertEqual(sample.media.image_urls, ("https://example.com/image.jpg",))
+        # XHS fixture doesn't have video_url
+        self.assertIsNone(sample.media.video_url)
+
+    def test_douyin_downloader_extracts_engagement_data(self) -> None:
+        """Douyin downloader adapter extracts engagement metrics from raw data."""
+        samples = load_douyin_samples(DOUYIN_FIXTURE)
+        sample = samples[0]
+
+        self.assertIsNotNone(sample.engagement)
+        self.assertEqual(sample.engagement.likes, 200)
+        self.assertEqual(sample.engagement.saves, 80)
+        self.assertEqual(sample.engagement.comments, 15)
+        # Douyin fixture doesn't have share_count, so it should be None
+        self.assertIsNone(sample.engagement.shares)
+
+    def test_douyin_downloader_extracts_creator_data(self) -> None:
+        """Douyin downloader adapter extracts creator information from raw data."""
+        samples = load_douyin_samples(DOUYIN_FIXTURE)
+        sample = samples[0]
+
+        self.assertIsNotNone(sample.creator)
+        self.assertEqual(sample.creator.id, "dy-user-001")
+        self.assertEqual(sample.creator.name, "creator")
+        # Douyin fixture doesn't have avatar_url/location in current data
+        self.assertIsNone(sample.creator.avatar_url)
+        self.assertIsNone(sample.creator.location)
+
+    def test_douyin_downloader_extracts_media_data(self) -> None:
+        """Douyin downloader adapter extracts media type and URLs from raw data."""
+        samples = load_douyin_samples(DOUYIN_FIXTURE)
+        sample = samples[0]
+
+        self.assertIsNotNone(sample.media)
+        # Douyin is video platform, should have video_url
+        self.assertEqual(sample.media.video_url, "https://example.com/douyin-video.mp4")
+        # Douyin fixture doesn't have image_urls or content_type
+        self.assertEqual(sample.media.image_urls, ())
+        self.assertIsNone(sample.media.content_type)
+
 
 if __name__ == "__main__":
     unittest.main()

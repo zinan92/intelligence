@@ -54,6 +54,12 @@ _SCORING_CONFIG = ScoringConfig(
         "commercial_intent": 0.10,
         "propagation_velocity": 0.05,
     },
+    # NOTE: The 70/30 keyword-to-engagement weight split means posts with engagement=None
+    # max out at ~70% of possible score. These confidence thresholds are calibrated for
+    # the full scoring model. Posts without engagement data can still reach "high" confidence
+    # (0.8 threshold) if they have very strong keyword signals (e.g., jade_signal=1.0 alone
+    # contributes 0.40 weighted score). This design intentionally incentivizes having
+    # engagement data while not completely penalizing posts that lack it.
     confidence_rules=(
         ConfidenceRule(0.8, "high"),
         ConfidenceRule(0.5, "medium"),
