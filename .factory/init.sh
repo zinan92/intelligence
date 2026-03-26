@@ -3,10 +3,11 @@ set -euo pipefail
 
 cd /Users/wendy/work/content-co/intelligence
 
-# Create dashboard directory structure if it doesn't exist
-mkdir -p dashboard/css dashboard/js dashboard/data
+# Verify Python and pytest are available
+python3 --version
+python3 -m pytest --version
 
-# Ensure no stale server on port 8765
-lsof -ti :8765 | xargs kill 2>/dev/null || true
+# Run existing test suite to confirm baseline
+python3 -m pytest tests/ -x -q
 
-echo "Init complete. Dashboard directory ready."
+echo "Init complete. 74 tests passing."

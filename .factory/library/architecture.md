@@ -1,37 +1,32 @@
 # Architecture
 
-Architectural decisions, patterns discovered, and design rationale.
-
 **What belongs here:** Key architectural choices, component patterns, data flow decisions.
 
 ---
 
-## Dashboard Architecture
+## Pipeline Architecture
 
-The Jade Signal Atlas dashboard is a static HTML/CSS/JS prototype that sits alongside the existing Python intelligence engine.
-
-### Data Flow
 ```
-jade_dashboard.json (static mock data)
-    ↓ fetch()
-HTML pages (homepage, direction-detail, direction-map, evidence, product-line)
-    ↓ render via JS
-DOM (cards, modules, panels)
+JSONL → adapter.load_samples() → CanonicalSample → pack._bucket_scores() → ScoringEngine.score() → ScoringResult → pack_runner._build_report() → output files
 ```
 
-### Page Architecture
-- Each HTML page is a standalone document that references shared CSS and JS
-- Data is loaded once per page from `data/jade_dashboard.json`
-- Navigation between pages uses standard `<a href>` links with query parameters for context (e.g., `direction-detail.html?id=18k-gold-jade`)
-- No client-side routing — each page is a separate HTML file
+### Key Patterns
+- All logic lives in `pack_runner.py` — workflow files are empty placeholders
+- Adapters use `_common.py::build_sample()` for shared field mapping
+- Packs define `_bucket_scores(sample) → dict` and a `PackSpec` dataclass
+- `ScoringEngine` takes bucket scores dict → produces `ScoringResult`
+- Report model uses `ReportBlock` (title + fields + bullets) — text-only, no structured data
 
-### Design System
-- CSS custom properties define the color palette, typography, and spacing
-- Shared component patterns: cards, badges, grid layouts, nav bar
-- Judgment state colors are defined once in CSS custom properties and used everywhere
+### Schema Design
+- Frozen dataclasses with `slots=True`
+- `CanonicalSample` = `CanonicalProvenance` + `CanonicalContent`
+- `raw_metadata` preserves full original data as safety net
+- New fields (engagement, creator, media) use defaults for backward compatibility
 
-### Relationship to Existing Report
-- The dashboard is a NEW product layer, not a replacement for `report.html`
-- `report.html` remains as a compact evaluation surface
-- The dashboard uses richer mock data than the thin `Report`/`ReportBlock` model
-- Eventually, the intelligence engine may generate dashboard-ready JSON, but for now, mock data is hand-crafted
+### Output Files
+1. `normalized_samples.json` — all samples in canonical form
+2. `scored_samples.json` — all samples + scoring results
+3. `report.json` — compressed summary (Report model)
+4. `report.md` — markdown render
+5. `report.html` — HTML render
+6. `dashboard.json` — NEW: dashboard-ready output with structured fields

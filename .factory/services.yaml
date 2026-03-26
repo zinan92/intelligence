@@ -1,13 +1,11 @@
 commands:
   test: python3 -m pytest tests/ -x -q
-  typecheck: echo "No typecheck configured (static HTML prototype)"
-  lint: echo "No lint configured (static HTML prototype)"
+  test_verbose: python3 -m pytest tests/ -v
+  typecheck: echo "No typecheck configured (pure Python, no mypy)"
+  lint: echo "No lint configured"
   validate_json: python3 -c "import json; json.load(open('dashboard/data/jade_dashboard.json')); print('JSON valid')"
+  run_jade: python -m intelligence run-pack jade --output-dir /tmp/jade-test
+  run_streetwear: python -m intelligence run-pack designer_streetwear --output-dir /tmp/sw-test
+  run_streetwear_real: python -m intelligence run-pack designer_streetwear --input examples/designer_streetwear/real_pilot/streetwear_collected.jsonl --output-dir /tmp/sw-real-test
 
-services:
-  dashboard:
-    start: cd /Users/wendy/work/content-co/intelligence && python3 -m http.server 8765 --directory dashboard
-    stop: lsof -ti :8765 | xargs kill 2>/dev/null || true
-    healthcheck: curl -sf http://localhost:8765/
-    port: 8765
-    depends_on: []
+services: {}
