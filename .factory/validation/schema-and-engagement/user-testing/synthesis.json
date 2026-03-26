@@ -1,0 +1,38 @@
+{
+  "milestone": "schema-and-engagement",
+  "round": 1,
+  "status": "pass",
+  "assertionsSummary": {
+    "total": 15,
+    "passed": 15,
+    "failed": 0,
+    "blocked": 0
+  },
+  "passedAssertions": [
+    "VAL-PARSE-001",
+    "VAL-PARSE-002",
+    "VAL-PARSE-003",
+    "VAL-SCHEMA-001",
+    "VAL-SCHEMA-002",
+    "VAL-SCHEMA-003",
+    "VAL-SCHEMA-004",
+    "VAL-SCHEMA-005",
+    "VAL-ADAPT-001",
+    "VAL-ADAPT-002",
+    "VAL-ADAPT-003",
+    "VAL-ADAPT-004",
+    "VAL-ADAPT-005",
+    "VAL-SERIAL-001",
+    "VAL-SERIAL-002"
+  ],
+  "failedAssertions": [],
+  "blockedAssertions": [],
+  "appliedUpdates": [
+    {
+      "target": "user-testing.md",
+      "description": "Added Flow Validator Guidance: CLI section with isolation rules, testing approach, and key paths for CLI-based validation",
+      "source": "setup"
+    }
+  ],
+  "previousRound": null
+}

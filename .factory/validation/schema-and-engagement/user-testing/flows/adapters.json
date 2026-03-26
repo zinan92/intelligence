@@ -1,0 +1,137 @@
+{
+  "groupId": "adapters",
+  "testedAt": "2026-03-27T00:24:00Z",
+  "isolation": {
+    "workingDirectory": "/Users/wendy/work/content-co/intelligence",
+    "outputDirectory": "/tmp/val-adapters/"
+  },
+  "toolsUsed": ["pytest", "python3"],
+  "assertions": [
+    {
+      "id": "VAL-ADAPT-001",
+      "title": "MediaCrawler adapter extracts engagement",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Run pytest tests/test_adapters.py::AdapterTests::test_mediacrawler_extracts_engagement_data -v",
+          "expected": "Test passes confirming engagement extraction",
+          "observed": "PASSED — CanonicalEngagement(likes=10, saves=5, comments=2, shares=1) extracted from fixture"
+        },
+        {
+          "action": "Run mediacrawler load_samples and inspect engagement field",
+          "expected": "CanonicalEngagement populated from liked_count, collected_count, comment_count, share_count",
+          "observed": "CanonicalEngagement(likes=10, saves=5, comments=2, shares=1) — all fields populated correctly"
+        },
+        {
+          "action": "Verify parse_chinese_number handles all formats",
+          "expected": "'10万+' → 100000, '2.1万' → 21000, '9196' → 9196, '' → None, None → None",
+          "observed": "All 7 test cases PASS — Chinese number parsing works correctly for all formats"
+        }
+      ],
+      "evidence": {
+        "pytestOutput": "schema-and-engagement/adapters/pytest-adapter-tests.txt",
+        "extractionOutput": "schema-and-engagement/adapters/mediacrawler-extraction.txt",
+        "chineseNumberParsing": "schema-and-engagement/adapters/chinese-number-parsing.txt"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-ADAPT-002",
+      "title": "MediaCrawler adapter extracts creator",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Run pytest tests/test_adapters.py::AdapterTests::test_mediacrawler_extracts_creator_data -v",
+          "expected": "Test passes confirming creator extraction",
+          "observed": "PASSED — CanonicalCreator extracted with id, name, avatar_url, location"
+        },
+        {
+          "action": "Run mediacrawler load_samples and inspect creator field",
+          "expected": "CanonicalCreator populated from user_id, nickname, avatar, ip_location",
+          "observed": "CanonicalCreator(id='creator-001', name='creator', avatar_url='https://example.com/avatar.jpg', location='Beijing')"
+        }
+      ],
+      "evidence": {
+        "pytestOutput": "schema-and-engagement/adapters/pytest-adapter-tests.txt",
+        "extractionOutput": "schema-and-engagement/adapters/mediacrawler-extraction.txt"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-ADAPT-003",
+      "title": "MediaCrawler adapter extracts media",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Run pytest tests/test_adapters.py::AdapterTests::test_mediacrawler_extracts_media_data -v",
+          "expected": "Test passes confirming media extraction with comma-separated image splitting",
+          "observed": "PASSED — CanonicalMedia extracted with content_type, image_urls tuple, video_url"
+        },
+        {
+          "action": "Run mediacrawler load_samples and inspect media field",
+          "expected": "CanonicalMedia populated from type, image_list (split by comma), video_url",
+          "observed": "CanonicalMedia(content_type='video', image_urls=('https://example.com/image.jpg',), video_url='https://example.com/video.mp4')"
+        }
+      ],
+      "evidence": {
+        "pytestOutput": "schema-and-engagement/adapters/pytest-adapter-tests.txt",
+        "extractionOutput": "schema-and-engagement/adapters/mediacrawler-extraction.txt"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-ADAPT-004",
+      "title": "XHS downloader adapter extracts available fields",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Run pytest tests/test_adapters.py::AdapterTests::test_xhs_loader_maps_export_fields_to_canonical_samples -v",
+          "expected": "Test passes confirming xhs_downloader extraction",
+          "observed": "PASSED — xhs_downloader adapter loads and maps fields including engagement/creator/media"
+        },
+        {
+          "action": "Run xhs_downloader load_samples and inspect engagement/creator/media",
+          "expected": "Available fields populated, unavailable fields default to None",
+          "observed": "Engagement(likes=100, saves=50, comments=None, shares=None), Creator(id='xhs-user-001', name='XHS Creator', avatar_url=None, location=None), Media(content_type=None, image_urls=('https://example.com/image.jpg',), video_url=None)"
+        }
+      ],
+      "evidence": {
+        "pytestOutput": "schema-and-engagement/adapters/pytest-adapter-tests.txt",
+        "extractionOutput": "schema-and-engagement/adapters/xhs-extraction.txt"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-ADAPT-005",
+      "title": "Douyin adapter extracts available fields",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Run pytest tests/test_adapters.py::AdapterTests::test_douyin_loader_maps_export_fields_to_canonical_samples -v",
+          "expected": "Test passes confirming douyin_downloader extraction",
+          "observed": "PASSED — douyin_downloader adapter loads and maps fields including engagement/creator/media"
+        },
+        {
+          "action": "Run douyin_downloader load_samples and inspect engagement/creator/media",
+          "expected": "Available fields populated, unavailable fields default to None",
+          "observed": "Engagement(likes=200, saves=80, comments=15, shares=None), Creator(id='dy-user-001', name='creator', avatar_url=None, location=None), Media(content_type=None, image_urls=(), video_url='https://example.com/douyin-video.mp4')"
+        }
+      ],
+      "evidence": {
+        "pytestOutput": "schema-and-engagement/adapters/pytest-adapter-tests.txt",
+        "extractionOutput": "schema-and-engagement/adapters/douyin-extraction.txt"
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [
+    {
+      "description": "Task prompt used class-style import names (MediaCrawlerAdapter, XhsDownloaderAdapter, DouyinDownloaderAdapter) but actual adapters expose module-level load_samples() functions, not classes",
+      "resolved": true,
+      "resolution": "Used correct imports: from intelligence.adapters.mediacrawler import load_samples",
+      "affectedAssertions": ["VAL-ADAPT-001", "VAL-ADAPT-002", "VAL-ADAPT-003", "VAL-ADAPT-004", "VAL-ADAPT-005"]
+    }
+  ],
+  "blockers": [],
+  "summary": "Tested 5 assertions: 5 passed, 0 failed. All three adapters (mediacrawler, xhs_downloader, douyin_downloader) correctly extract engagement, creator, and media fields. Chinese number parsing handles all formats (万, decimal 万, plain digits, empty, None). All 6 pytest adapter tests pass."
+}

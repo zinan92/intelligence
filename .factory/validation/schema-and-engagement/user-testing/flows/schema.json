@@ -1,0 +1,102 @@
+{
+  "groupId": "schema",
+  "testedAt": "2026-03-27T00:24:00Z",
+  "isolation": {
+    "workingDirectory": "/Users/wendy/work/content-co/intelligence",
+    "outputDirectory": "/tmp/val-schema/",
+    "services": "none — pure Python testing"
+  },
+  "toolsUsed": ["pytest", "python3"],
+  "assertions": [
+    {
+      "id": "VAL-SCHEMA-001",
+      "title": "CanonicalEngagement dataclass exists",
+      "status": "pass",
+      "steps": [
+        { "action": "Import CanonicalEngagement from intelligence.schema.canonical", "expected": "Import succeeds", "observed": "Import succeeded" },
+        { "action": "Construct with no arguments", "expected": "All fields default to None", "observed": "CanonicalEngagement(likes=None, saves=None, comments=None, shares=None)" },
+        { "action": "Construct with all fields", "expected": "Fields populated correctly", "observed": "CanonicalEngagement(likes=100, saves=50, comments=10, shares=5)" },
+        { "action": "Check frozen=True", "expected": "Dataclass is frozen", "observed": "Frozen: True" },
+        { "action": "Inspect field types", "expected": "likes/saves/comments/shares all int|None with default=None", "observed": "All 4 fields: type=int | None, default=None" }
+      ],
+      "evidence": {
+        "output": "schema-and-engagement/schema/VAL-SCHEMA-001-engagement.txt",
+        "consoleErrors": "none"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-SCHEMA-002",
+      "title": "CanonicalCreator dataclass exists",
+      "status": "pass",
+      "steps": [
+        { "action": "Import CanonicalCreator from intelligence.schema.canonical", "expected": "Import succeeds", "observed": "Import succeeded" },
+        { "action": "Construct with no arguments", "expected": "All fields default to None", "observed": "CanonicalCreator(id=None, name=None, avatar_url=None, location=None)" },
+        { "action": "Construct with all fields", "expected": "Fields populated correctly", "observed": "CanonicalCreator(id='123', name='test', avatar_url='http://example.com/a.jpg', location='Beijing')" },
+        { "action": "Check frozen=True", "expected": "Dataclass is frozen", "observed": "Frozen: True" },
+        { "action": "Inspect field types", "expected": "id/name/avatar_url/location all str|None with default=None", "observed": "All 4 fields: type=str | None, default=None" }
+      ],
+      "evidence": {
+        "output": "schema-and-engagement/schema/VAL-SCHEMA-002-creator.txt",
+        "consoleErrors": "none"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-SCHEMA-003",
+      "title": "CanonicalMedia dataclass exists",
+      "status": "pass",
+      "steps": [
+        { "action": "Import CanonicalMedia from intelligence.schema.canonical", "expected": "Import succeeds", "observed": "Import succeeded" },
+        { "action": "Construct with no arguments", "expected": "Defaults allow empty construction", "observed": "CanonicalMedia(content_type=None, image_urls=(), video_url=None)" },
+        { "action": "Construct with all fields", "expected": "Fields populated correctly", "observed": "CanonicalMedia(content_type='video', image_urls=('a.jpg', 'b.jpg'), video_url='http://v.mp4')" },
+        { "action": "Check frozen=True", "expected": "Dataclass is frozen", "observed": "Frozen: True" },
+        { "action": "Inspect field types", "expected": "content_type=str|None, image_urls=tuple[str,...], video_url=str|None", "observed": "content_type: str | None default=None, image_urls: tuple[str, ...] default=(), video_url: str | None default=None" }
+      ],
+      "evidence": {
+        "output": "schema-and-engagement/schema/VAL-SCHEMA-003-media.txt",
+        "consoleErrors": "none"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-SCHEMA-004",
+      "title": "CanonicalSample has engagement, creator, media fields",
+      "status": "pass",
+      "steps": [
+        { "action": "Construct CanonicalSample with only provenance and content (backward compat)", "expected": "engagement, creator, media all default to None", "observed": "Without new fields: None None None" },
+        { "action": "Construct CanonicalSample with engagement kwarg", "expected": "engagement field populated", "observed": "With engagement: CanonicalEngagement(likes=100, saves=None, comments=None, shares=None)" },
+        { "action": "Confirm backward compatibility", "expected": "No error with old construction pattern", "observed": "Backward compatible: OK" }
+      ],
+      "evidence": {
+        "output": "schema-and-engagement/schema/VAL-SCHEMA-004-sample-fields.txt",
+        "consoleErrors": "none"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-SCHEMA-005",
+      "title": "Existing tests still pass with schema changes",
+      "status": "pass",
+      "steps": [
+        { "action": "Run full test suite: python3 -m pytest tests/ -x -q", "expected": "All tests pass (74+ existing tests)", "observed": "98 passed in 2.62s" },
+        { "action": "Run schema-specific tests: python3 -m pytest tests/ -k schema -v", "expected": "All schema tests pass", "observed": "11 passed, 87 deselected" }
+      ],
+      "evidence": {
+        "output": "schema-and-engagement/schema/VAL-SCHEMA-005-full-suite.txt",
+        "consoleErrors": "none"
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [
+    {
+      "description": "Task prompt suggested CanonicalProvenance(source_file=..., adapter=...) but actual constructor requires (source=..., source_id=..., raw_metadata={}). Similarly CanonicalContent(title=..., body=...) should be CanonicalContent(text=...). Had to inspect field signatures to correct.",
+      "resolved": true,
+      "resolution": "Inspected dataclass fields with dataclasses.fields() to find correct constructor arguments",
+      "affectedAssertions": ["VAL-SCHEMA-004"]
+    }
+  ],
+  "blockers": [],
+  "summary": "Tested 5 assertions: 5 passed, 0 failed. All three new dataclasses (CanonicalEngagement, CanonicalCreator, CanonicalMedia) exist as frozen dataclasses with correct fields and defaults. CanonicalSample accepts the new fields with backward compatibility. Full test suite passes (98 tests)."
+}

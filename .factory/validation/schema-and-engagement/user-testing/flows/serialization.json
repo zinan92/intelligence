@@ -1,0 +1,100 @@
+{
+  "groupId": "serialization",
+  "testedAt": "2026-03-27T00:27:00Z",
+  "isolation": {
+    "workingDirectory": "/Users/wendy/work/content-co/intelligence",
+    "outputDirectory": "/tmp/val-serialization/"
+  },
+  "toolsUsed": ["python3", "python3 -m intelligence"],
+  "assertions": [
+    {
+      "id": "VAL-SERIAL-001",
+      "title": "normalized_samples.json includes new fields",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Run jade pack: python3 -m intelligence run-pack jade --output-dir /tmp/val-serialization/",
+          "expected": "Exit code 0, normalized_samples.json generated",
+          "observed": "Exit code 0, normalized_samples.json generated (1813 bytes)"
+        },
+        {
+          "action": "Inspect normalized_samples.json top-level keys",
+          "expected": "Keys include engagement, creator, media",
+          "observed": "Keys: ['provenance', 'content', 'engagement', 'creator', 'media']"
+        },
+        {
+          "action": "Check engagement is a structured dict",
+          "expected": "engagement is a dict with likes/saves/comments/shares",
+          "observed": "engagement type=dict, keys: ['likes', 'saves', 'comments', 'shares'], value: {'likes': 10, 'saves': 5, 'comments': 2, 'shares': 1}"
+        },
+        {
+          "action": "Check creator is a structured dict",
+          "expected": "creator is a dict with id/name/avatar_url/location",
+          "observed": "creator type=dict, keys: ['id', 'name', 'avatar_url', 'location'], value: {'id': 'creator-001', 'name': 'creator', 'avatar_url': 'https://example.com/avatar.jpg', 'location': 'Beijing'}"
+        },
+        {
+          "action": "Check media is a structured dict",
+          "expected": "media is a dict with content_type/image_urls/video_url",
+          "observed": "media type=dict, keys: ['content_type', 'image_urls', 'video_url'], value: {'content_type': 'video', 'image_urls': ['https://example.com/image.jpg'], 'video_url': 'https://example.com/video.mp4'}"
+        }
+      ],
+      "evidence": {
+        "outputFile": "schema-and-engagement/serialization/VAL-SERIAL-001-normalized_samples.json",
+        "consoleErrors": "none"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-SERIAL-002",
+      "title": "scored_samples.json includes new fields",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Run jade pack: python3 -m intelligence run-pack jade --output-dir /tmp/val-serialization/",
+          "expected": "Exit code 0, scored_samples.json generated",
+          "observed": "Exit code 0, scored_samples.json generated (2154 bytes)"
+        },
+        {
+          "action": "Inspect scored_samples.json top-level keys",
+          "expected": "Keys include engagement, creator, media alongside scoring results",
+          "observed": "Top-level keys: ['sample', 'bucket_scores', 'weighted_score', 'confidence', 'classification']. Sample data (including engagement/creator/media) nested inside 'sample' key alongside scoring results."
+        },
+        {
+          "action": "Check engagement/creator/media inside sample object",
+          "expected": "engagement, creator, media present as structured dicts",
+          "observed": "Inner sample keys: ['provenance', 'content', 'engagement', 'creator', 'media']. All three are structured dicts."
+        },
+        {
+          "action": "Verify engagement is a structured dict in scored output",
+          "expected": "engagement is a dict with likes/saves/comments/shares",
+          "observed": "engagement type=dict, value: {'likes': 10, 'saves': 5, 'comments': 2, 'shares': 1}"
+        },
+        {
+          "action": "Verify creator is a structured dict in scored output",
+          "expected": "creator is a dict with id/name/avatar_url/location",
+          "observed": "creator type=dict, value: {'id': 'creator-001', 'name': 'creator', ...}"
+        },
+        {
+          "action": "Verify media is a structured dict in scored output",
+          "expected": "media is a dict with content_type/image_urls/video_url",
+          "observed": "media type=dict, value: {'content_type': 'video', 'image_urls': [...], 'video_url': '...'}"
+        }
+      ],
+      "evidence": {
+        "outputFile": "schema-and-engagement/serialization/VAL-SERIAL-002-scored_samples.json",
+        "consoleErrors": "none"
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [
+    {
+      "description": "scored_samples.json nests sample data (including engagement/creator/media) inside a 'sample' key rather than as top-level fields. The assertion says 'includes engagement, creator, and media data as structured objects alongside scoring results' — this is satisfied because the sample object with all three fields sits alongside bucket_scores, weighted_score, confidence, and classification at the top level.",
+      "resolved": true,
+      "resolution": "Inspected the nested 'sample' object and confirmed engagement/creator/media are structured dicts within it.",
+      "affectedAssertions": ["VAL-SERIAL-002"]
+    }
+  ],
+  "blockers": [],
+  "summary": "Tested 2 assertions: 2 passed. normalized_samples.json has engagement, creator, and media as top-level structured dicts. scored_samples.json has them as structured dicts inside the 'sample' nested object alongside scoring results (bucket_scores, weighted_score, confidence, classification)."
+}
