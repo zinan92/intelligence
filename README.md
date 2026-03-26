@@ -19,8 +19,10 @@
 
 | Pack | Category | Scoring buckets |
 |------|----------|-----------------|
-| `jade` | Jade jewelry trends | jade_signal, modernity, commerce |
-| `designer_streetwear` | Streetwear / apparel trends | silhouette, graphic, layering, brand, material, commerce |
+| `jade` | Jade jewelry trends | jade_signal, modernity, commerce, interaction_strength, commercial_intent, propagation_velocity |
+| `designer_streetwear` | Streetwear / apparel trends | silhouette, graphic, layering, brand, material, commerce, interaction_strength, commercial_intent, propagation_velocity |
+
+Scoring uses a 70/30 keyword-to-engagement weight split. Engagement buckets (`interaction_strength`, `commercial_intent`, `propagation_velocity`) are derived from parsed social engagement data (likes, saves, comments, shares).
 
 ## 解决方案
 
@@ -120,6 +122,21 @@ python3 -m http.server 8765 --directory dashboard
 - **证据库** — 3-panel evidence exploration with filters
 
 The prototype uses local mock data (`dashboard/data/jade_dashboard.json`) with jade as the first content case. See `dashboard/README.md` for details.
+
+## Pipeline output files
+
+Each pack run produces 6 output files:
+
+| File | Description |
+|------|-------------|
+| `normalized_samples.json` | All samples in canonical form with engagement, creator, and media fields |
+| `scored_samples.json` | All samples with scoring results (keyword + engagement buckets) |
+| `dashboard.json` | Dashboard-ready output with structured fields and aggregation summaries |
+| `report.json` | Compressed summary (Report model) |
+| `report.md` | Markdown render of the report |
+| `report.html` | HTML render of the report |
+
+The schema supports Chinese number format parsing for engagement counts (e.g., "10万+" → 100000, "2.1万" → 21000) extracted from XHS and Douyin data.
 
 ### Project Pack
 
