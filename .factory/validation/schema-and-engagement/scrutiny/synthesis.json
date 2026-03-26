@@ -1,0 +1,53 @@
+{
+  "milestone": "schema-and-engagement",
+  "round": 1,
+  "status": "pass",
+  "validatorsRun": {
+    "test": { "passed": true, "command": "python3 -m pytest tests/ -x -q", "exitCode": 0, "detail": "98 passed in 4.38s" },
+    "typecheck": { "passed": true, "command": "echo \"No typecheck configured (pure Python, no mypy)\"", "exitCode": 0 },
+    "lint": { "passed": true, "command": "echo \"No lint configured\"", "exitCode": 0 }
+  },
+  "reviewsSummary": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "failedFeatures": []
+  },
+  "blockingIssues": [],
+  "appliedUpdates": [],
+  "suggestedGuidanceUpdates": [
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Document the build_sample() engagement_keys/creator_keys/media_keys declarative mapping pattern. Future adapter authors should know that new adapters specify field extraction via Mapping[str, Sequence[str]] parameters to build_sample(), not by manually constructing dataclasses.",
+      "evidence": "Feature pipeline-schema-and-engagement introduced a generalized key-mapping pattern in _common.py:build_sample() that all 3 adapters now use identically. This is now a core convention but is not mentioned in AGENTS.md's Architecture & Conventions section.",
+      "isSystemic": false
+    }
+  ],
+  "rejectedObservations": [
+    {
+      "observation": "architecture.md in .factory/library/ mentions 'dashboard.json' as output file #6 but pack_runner.py only generates 5 files currently.",
+      "reason": "This is intentional pre-documentation for the upcoming dashboard-output milestone feature (pipeline-dashboard-output). The architecture doc was written to reflect the planned end-state. Not an error."
+    },
+    {
+      "observation": "Worker followed the skill procedure faithfully with no deviations.",
+      "reason": "Informational/positive feedback, no action needed."
+    }
+  ],
+  "nonBlockingIssues": [
+    {
+      "featureId": "pipeline-schema-and-engagement",
+      "severity": "non_blocking",
+      "description": "Floating-point truncation in parse_chinese_number: int(base * 10000) truncates instead of rounding for 2+ decimal place inputs (e.g., '0.57万' → 5699 instead of 5700). Fix: use round() instead of int(). Does not affect common 1-decimal real-world data.",
+      "file": "src/intelligence/adapters/_common.py",
+      "suggestedFix": "Change int(base * 10000) to round(base * 10000) and int(base * 1000) to round(base * 1000)"
+    },
+    {
+      "featureId": "pipeline-schema-and-engagement",
+      "severity": "non_blocking",
+      "description": "Missing adapter extraction tests for xhs_downloader and douyin_downloader. Only mediacrawler has extraction tests for engagement/creator/media fields. The other two adapters use the same build_sample() code path but with different field key mappings that could have mapping errors.",
+      "file": "tests/test_adapters.py",
+      "suggestedFix": "Add extraction tests for xhs_downloader and douyin_downloader, enriching fixtures with engagement/creator/media fields."
+    }
+  ],
+  "previousRound": null
+}

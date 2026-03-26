@@ -1,0 +1,68 @@
+{
+  "featureId": "pipeline-schema-and-engagement",
+  "reviewedAt": "2026-03-27T00:30:00.000Z",
+  "commitId": "1ba3506",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Solid, well-structured implementation that adds Chinese number parsing, three new frozen dataclasses (CanonicalEngagement, CanonicalCreator, CanonicalMedia), upgrades all 3 adapters via a clean declarative key-mapping pattern in build_sample(), and correctly serializes the new fields in pack_runner.py. All new dataclasses follow project conventions (frozen=True, slots=True, type hints, defaults for backward compatibility). The build_sample() helper elegantly generalizes engagement/creator/media extraction so adapters remain thin declarative config. Backward compatibility is fully maintained. 24 new tests cover parsing edge cases, schema construction, and mediacrawler adapter extraction. Two non-blocking issues found: (1) floating-point truncation in parse_chinese_number for 2+ decimal万/千 values, (2) missing adapter-level extraction tests for xhs_downloader and douyin_downloader.",
+    "issues": [
+      {
+        "file": "src/intelligence/adapters/_common.py",
+        "line": 108,
+        "severity": "non_blocking",
+        "description": "Floating-point truncation in parse_chinese_number: uses int(base * 10000) which truncates rather than rounds. For 2+ decimal place inputs like '0.57万', int(0.57 * 10000) = 5699 instead of the correct 5700. Affects ~5.8% of 2-decimal-place inputs. The most common real-world case (1 decimal place like '2.1万') is NOT affected. Fix: use round(base * 10000) instead of int(base * 10000), and similarly round(base * 1000) for 千."
+      },
+      {
+        "file": "src/intelligence/adapters/_common.py",
+        "line": 113,
+        "severity": "non_blocking",
+        "description": "Same floating-point truncation issue in the 千 branch: int(base * 1000) should be round(base * 1000)."
+      },
+      {
+        "file": "tests/test_adapters.py",
+        "line": null,
+        "severity": "non_blocking",
+        "description": "No adapter extraction tests for xhs_downloader or douyin_downloader engagement/creator/media fields. Only mediacrawler has extraction tests (3 tests). While the xhs and douyin adapters use the same build_sample() code path, the field key mappings differ (e.g., douyin uses digg_count vs liked_count, author_user_id vs user_id) and the fixtures have different data. Adapter-specific tests would catch mapping errors."
+      },
+      {
+        "file": "tests/fixtures/douyin_downloader.jsonl",
+        "line": 1,
+        "severity": "suggestion",
+        "description": "Douyin fixture lacks share_count, avatar_url, media_type, and image_urls fields, so the adapter's key mappings for shares, avatar_url, content_type, and image_urls go untested. Consider adding these fields to the fixture for more complete test coverage."
+      },
+      {
+        "file": "tests/fixtures/xhs_downloader.jsonl",
+        "line": 1,
+        "severity": "suggestion",
+        "description": "XHS fixture lacks comment_count, share_count, avatar, ip_location, type, and video_url fields, so several key mappings go untested. Consider enriching the fixture for more complete coverage."
+      },
+      {
+        "file": "src/intelligence/adapters/_common.py",
+        "line": 148,
+        "severity": "suggestion",
+        "description": "image_list parsing splits on comma which works for the current data format, but if image URLs ever contain commas in query parameters, they would be incorrectly split. A more robust approach would be to also support JSON array format (try json.loads first). Low risk currently since fixture data uses clean URLs."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "AGENTS.md documents the Chinese Number Format well, but doesn't mention the engagement_keys/creator_keys/media_keys pattern added to build_sample(). This is now a key convention for how adapters declaratively specify field extraction. Future adapter authors should know about this pattern.",
+      "evidence": "src/intelligence/adapters/_common.py:build_sample() now accepts engagement_keys, creator_keys, media_keys as Mapping[str, Sequence[str]] parameters. All 3 adapters use this pattern identically."
+    },
+    {
+      "area": "conventions",
+      "observation": "architecture.md in .factory/library/ mentions 'dashboard.json' as output file #6 but pack_runner.py only generates 5 files (normalized_samples.json, scored_samples.json, report.json, report.md, report.html). This pre-existing inaccuracy was not introduced by this feature but is worth noting.",
+      "evidence": ".factory/library/architecture.md lists '6. dashboard.json — NEW: dashboard-ready output' but pack_runner.py's run_pack_flow() only writes 5 files."
+    },
+    {
+      "area": "skills",
+      "observation": "Worker followed the skill procedure faithfully: read context first, wrote tests, implemented incrementally, verified backward compatibility, committed. The handoff structure matches the skill's example handoff format closely. skillFeedback confirms followedProcedure=true with no deviations.",
+      "evidence": "Handoff file shows all verification steps were run, 24 tests added, 98 total passing. Skill procedure followed step by step."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "PASS. The implementation is clean, well-tested, and fully backward compatible. All 3 new dataclasses follow project conventions (frozen, slotted, type-hinted with defaults). The build_sample() generalization is elegant — adapters remain thin declarative configs. Serialization in pack_runner.py correctly includes engagement/creator/media as structured objects. Two non-blocking floating-point truncation issues in parse_chinese_number for 2+ decimal万/千 values (does not affect common 1-decimal real-world data). Test coverage is good for parsing (14 tests) and schema (7 tests), but adapter extraction tests only cover mediacrawler — xhs and douyin adapters lack extraction-specific tests despite using different field key mappings."
+}
