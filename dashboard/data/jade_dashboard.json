@@ -8,7 +8,7 @@
   },
   "today_judgments": {
     "值得跟": 2,
-    "观察中": 1,
+    "观察中": 3,
     "短热噪音": 1,
     "需要补证据": 3
   },
@@ -24,6 +24,10 @@
       "judgment_state": "值得跟",
       "audience_fit": "30-45 稳定，25-35 有增长潜力",
       "price_band_fit": "高/低中",
+      "opportunity": 85,
+      "risk": 35,
+      "heat": 92,
+      "movement_history": [68, 72, 71, 75, 78, 82, 85, 88, 90, 92, 94, 95, 94, 92],
       "product_line_breakdown": {
         "项链/吊坠": {
           "opportunity": "高",
@@ -85,6 +89,10 @@
       "judgment_state": "观察中",
       "audience_fit": "18-28 增长快，30+ 接受度低",
       "price_band_fit": "中高/中",
+      "opportunity": 70,
+      "risk": 55,
+      "heat": 76,
+      "movement_history": [52, 54, 56, 58, 61, 64, 67, 70, 73, 76, 78, 76, 75, 76],
       "product_line_breakdown": {
         "项链/吊坠": {
           "opportunity": "中",
@@ -146,6 +154,10 @@
       "judgment_state": "需要补证据",
       "audience_fit": "35-50 小众高端，25-35 探索意愿低",
       "price_band_fit": "高/中高",
+      "opportunity": 60,
+      "risk": 65,
+      "heat": 58,
+      "movement_history": [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 58, 58, 58],
       "product_line_breakdown": {
         "项链/吊坠": {
           "opportunity": "低",
@@ -207,6 +219,10 @@
       "judgment_state": "短热噪音",
       "audience_fit": "18-28 快速增长，30+ 兴趣低",
       "price_band_fit": "中/低中",
+      "opportunity": 65,
+      "risk": 70,
+      "heat": 62,
+      "movement_history": [42, 44, 45, 47, 48, 50, 52, 54, 56, 58, 60, 62, 61, 62],
       "product_line_breakdown": {
         "项链/吊坠": {
           "opportunity": "中高",
@@ -256,6 +272,331 @@
       },
       "why_it_matters": "冰感小件吊坠在最近 7 天显示出 +12% 的快速增长，主要集中在 18-28 岁年轻客群的入门需求。但热度集中在短期内，持续性存疑，需要观察 2-4 周后再决定是否大规模投入。",
       "freshness": "最近7天"
+    },
+    {
+      "id": "dir_005",
+      "name": "满绿翡翠古法金搭配",
+      "description": "满绿翡翠配古法金工艺（錾刻、拉丝），强调传统文化与现代审美融合",
+      "heat_magnitude": "+28%",
+      "time_window": "最近30天",
+      "confidence_level": "高",
+      "classification": "confirmed_continuation",
+      "judgment_state": "值得跟",
+      "audience_fit": "30-45 核心群体，25-30 有探索意愿",
+      "price_band_fit": "高/中高",
+      "opportunity": 80,
+      "risk": 40,
+      "heat": 84,
+      "movement_history": [62, 64, 66, 68, 71, 74, 77, 80, 82, 84, 85, 84, 83, 84],
+      "product_line_breakdown": {
+        "项链/吊坠": {
+          "opportunity": "高",
+          "risk": "低中",
+          "rationale": "传统文化价值与现代设计结合，转化稳定"
+        },
+        "耳饰": {
+          "opportunity": "中高",
+          "risk": "中",
+          "rationale": "古法金耳饰接受度高，但需控制复杂度"
+        },
+        "戒指": {
+          "opportunity": "中",
+          "risk": "中",
+          "rationale": "古法金戒指工艺复杂，成本较高"
+        },
+        "手串/叠戴": {
+          "opportunity": "中",
+          "risk": "中高",
+          "rationale": "与古法金搭配场景有限"
+        }
+      },
+      "risks": [
+        {
+          "description": "古法金工艺复杂，供应链压力大",
+          "severity": "medium",
+          "mitigation": "选择性简化工艺，优先錾刻纹样"
+        },
+        {
+          "description": "过于传统可能限制年轻客群",
+          "severity": "low",
+          "mitigation": "平衡传统与现代设计元素"
+        }
+      ],
+      "evidence_summary": "48 个笔记，评论聚焦'传统美'、'有文化'、'传家宝'，跨年龄段支持",
+      "proof_snapshot": {
+        "sample_count": 48,
+        "strongest_examples": ["小红书笔记 #301", "小红书笔记 #318", "抖音视频 #335"],
+        "comment_themes": ["传统文化", "工艺精湛", "值得收藏"],
+        "cross_category_support": "婚嫁、商务、文化活动"
+      },
+      "one_line_recommendation": "项链/吊坠优先，耳饰探索，控制工艺复杂度。",
+      "content_cues": {
+        "how_to_photograph": "侧光突出金工细节，对比现代与传统元素",
+        "how_to_narrate": "强调工艺传承与文化价值，兼顾现代审美",
+        "what_not_to_do": "避免过度强调老气，避免忽略年轻客群"
+      },
+      "why_it_matters": "满绿翡翠与古法金的结合满足了对传统文化价值和现代精致感的双重需求，在 30-45 岁核心客群中显示出强劲增长，+28% 的热度增长且转化稳定，是高价值产品线的重要方向。",
+      "freshness": "最近30天"
+    },
+    {
+      "id": "dir_006",
+      "name": "蓝水翡翠简约设计",
+      "description": "蓝水种翡翠搭配简约现代金工，针对年轻高端客群的清新审美",
+      "heat_magnitude": "+22%",
+      "time_window": "最近14天",
+      "confidence_level": "中高",
+      "classification": "watchlist_experiment",
+      "judgment_state": "观察中",
+      "audience_fit": "25-35 增长快，35+ 接受度中等",
+      "price_band_fit": "中高/中",
+      "opportunity": 72,
+      "risk": 50,
+      "heat": 68,
+      "movement_history": [48, 50, 52, 54, 56, 58, 61, 64, 66, 68, 69, 68, 67, 68],
+      "product_line_breakdown": {
+        "项链/吊坠": {
+          "opportunity": "高",
+          "risk": "中",
+          "rationale": "简约设计受年轻客群青睐，转化潜力大"
+        },
+        "耳饰": {
+          "opportunity": "中高",
+          "risk": "中",
+          "rationale": "蓝水色系耳饰清新，但需验证持续性"
+        },
+        "戒指": {
+          "opportunity": "中",
+          "risk": "中高",
+          "rationale": "蓝水戒指接受度待验证"
+        },
+        "手串/叠戴": {
+          "opportunity": "低中",
+          "risk": "高",
+          "rationale": "与简约设计场景不匹配"
+        }
+      },
+      "risks": [
+        {
+          "description": "蓝水种稀缺性影响供应链稳定",
+          "severity": "high",
+          "mitigation": "建立稳定供应商关系，控制库存"
+        },
+        {
+          "description": "年轻客群价格敏感度高",
+          "severity": "medium",
+          "mitigation": "推中价带产品，控制件均价"
+        }
+      ],
+      "evidence_summary": "36 个笔记，集中在 25-35 岁群体，评论聚焦'清新'、'高级'、'显气质'",
+      "proof_snapshot": {
+        "sample_count": 36,
+        "strongest_examples": ["小红书笔记 #402", "小红书笔记 #419", "抖音视频 #436"],
+        "comment_themes": ["清新脱俗", "高级感", "日常百搭"],
+        "cross_category_support": "商务、日常通勤、约会"
+      },
+      "one_line_recommendation": "小批量测试，重点观察年轻高端客群转化。",
+      "content_cues": {
+        "how_to_photograph": "自然光，简约背景，突出蓝水清透质感",
+        "how_to_narrate": "强调清新高级感和日常适配性",
+        "what_not_to_do": "避免过度修图，避免过于传统化表达"
+      },
+      "why_it_matters": "蓝水翡翠简约设计在年轻高端客群中显示出快速增长，满足了 25-35 岁群体对清新高级感的需求。虽然供应链存在一定挑战，但转化潜力大，值得小批量测试验证。",
+      "freshness": "最近14天"
+    },
+    {
+      "id": "dir_007",
+      "name": "翡翠珍珠混搭",
+      "description": "翡翠珠串与淡水珍珠混搭叠戴，针对年轻女性的温柔气质表达",
+      "heat_magnitude": "+16%",
+      "time_window": "最近21天",
+      "confidence_level": "中",
+      "classification": "watchlist_experiment",
+      "judgment_state": "需要补证据",
+      "audience_fit": "20-30 增长中，30+ 兴趣较低",
+      "price_band_fit": "中/低中",
+      "opportunity": 58,
+      "risk": 60,
+      "heat": 54,
+      "movement_history": [42, 43, 44, 45, 46, 48, 50, 51, 52, 53, 54, 54, 54, 54],
+      "product_line_breakdown": {
+        "项链/吊坠": {
+          "opportunity": "中",
+          "risk": "中",
+          "rationale": "珍珠混搭温柔气质受欢迎，但价格敏感"
+        },
+        "耳饰": {
+          "opportunity": "中",
+          "risk": "中高",
+          "rationale": "混搭耳饰接受度待验证"
+        },
+        "戒指": {
+          "opportunity": "低",
+          "risk": "高",
+          "rationale": "与混搭场景不匹配"
+        },
+        "手串/叠戴": {
+          "opportunity": "中高",
+          "risk": "中",
+          "rationale": "核心应用场景，但需更多证据"
+        }
+      },
+      "risks": [
+        {
+          "description": "混搭风格可能过于小众",
+          "severity": "medium",
+          "mitigation": "测试主流审美接受度"
+        },
+        {
+          "description": "珍珠品质不一致影响整体感",
+          "severity": "medium",
+          "mitigation": "严格控制珍珠品质标准"
+        }
+      ],
+      "evidence_summary": "28 个笔记，集中在 20-30 岁群体，评论聚焦'温柔'、'气质'、'仙女感'",
+      "proof_snapshot": {
+        "sample_count": 28,
+        "strongest_examples": ["小红书笔记 #501", "小红书笔记 #518", "小红书笔记 #535"],
+        "comment_themes": ["温柔气质", "仙女感", "日常叠戴"],
+        "cross_category_support": "日常通勤、约会、休闲"
+      },
+      "one_line_recommendation": "补充更多证据，验证主流接受度后再决定。",
+      "content_cues": {
+        "how_to_photograph": "柔光，浅色背景，突出温柔气质感",
+        "how_to_narrate": "强调温柔气质与日常适配性",
+        "what_not_to_do": "避免过度甜美化，避免忽略品质感"
+      },
+      "why_it_matters": "翡翠珍珠混搭在年轻女性群体中显示出温柔气质表达的需求增长，但风格可能较为小众。需要补充更多证据验证主流审美接受度，再决定是否大规模投入。",
+      "freshness": "最近21天"
+    },
+    {
+      "id": "dir_008",
+      "name": "翡翠戒面改制耳钉",
+      "description": "传统翡翠戒面改制成现代耳钉，针对传承需求的再设计",
+      "heat_magnitude": "+14%",
+      "time_window": "最近30天",
+      "confidence_level": "中",
+      "classification": "watchlist_experiment",
+      "judgment_state": "需要补证据",
+      "audience_fit": "35-50 传承需求，25-35 改制意愿低",
+      "price_band_fit": "高/中高",
+      "opportunity": 55,
+      "risk": 55,
+      "heat": 48,
+      "movement_history": [38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 48, 48, 48],
+      "product_line_breakdown": {
+        "项链/吊坠": {
+          "opportunity": "中",
+          "risk": "中",
+          "rationale": "戒面改制吊坠接受度中等"
+        },
+        "耳饰": {
+          "opportunity": "中高",
+          "risk": "中",
+          "rationale": "核心改制场景，但需验证市场规模"
+        },
+        "戒指": {
+          "opportunity": "低中",
+          "risk": "中高",
+          "rationale": "从戒面改回戒指需求较低"
+        },
+        "手串/叠戴": {
+          "opportunity": "低",
+          "risk": "高",
+          "rationale": "与改制场景不匹配"
+        }
+      },
+      "risks": [
+        {
+          "description": "改制市场规模有限",
+          "severity": "high",
+          "mitigation": "评估市场容量，控制投入规模"
+        },
+        {
+          "description": "原石品质不一影响改制效果",
+          "severity": "medium",
+          "mitigation": "建立改制品质评估标准"
+        }
+      ],
+      "evidence_summary": "22 个笔记，集中在 35-50 岁传承需求群体，评论聚焦'传承'、'再设计'、'赋予新生'",
+      "proof_snapshot": {
+        "sample_count": 22,
+        "strongest_examples": ["小红书笔记 #601", "小红书笔记 #615", "小红书笔记 #628"],
+        "comment_themes": ["传承再设计", "赋予新生命", "情感价值"],
+        "cross_category_support": "传承、改制服务"
+      },
+      "one_line_recommendation": "小众市场，评估容量后谨慎投入。",
+      "content_cues": {
+        "how_to_photograph": "对比改制前后，突出设计创新",
+        "how_to_narrate": "强调情感传承与现代再设计价值",
+        "what_not_to_do": "避免过度商业化，忽略情感价值"
+      },
+      "why_it_matters": "翡翠戒面改制耳钉满足了传承需求的再设计市场，虽然市场规模有限，但客单价高且情感价值强。需要评估市场容量，谨慎控制投入规模。",
+      "freshness": "最近30天"
+    },
+    {
+      "id": "dir_009",
+      "name": "墨翠雕刻件",
+      "description": "墨翠精工雕刻（观音、佛公、山水），针对男性客群与收藏需求",
+      "heat_magnitude": "+20%",
+      "time_window": "最近45天",
+      "confidence_level": "中高",
+      "classification": "watchlist_experiment",
+      "judgment_state": "观察中",
+      "audience_fit": "40-55 男性客群稳定，女性客群较低",
+      "price_band_fit": "高/中高",
+      "opportunity": 68,
+      "risk": 48,
+      "heat": 64,
+      "movement_history": [48, 50, 52, 54, 56, 58, 60, 61, 62, 63, 64, 64, 64, 64],
+      "product_line_breakdown": {
+        "项链/吊坠": {
+          "opportunity": "高",
+          "risk": "中",
+          "rationale": "男性吊坠核心品类，收藏价值高"
+        },
+        "耳饰": {
+          "opportunity": "低",
+          "risk": "高",
+          "rationale": "男性耳饰市场小众"
+        },
+        "戒指": {
+          "opportunity": "中",
+          "risk": "中",
+          "rationale": "墨翠戒指接受度中等"
+        },
+        "手串/叠戴": {
+          "opportunity": "中高",
+          "risk": "中",
+          "rationale": "男性手串市场稳定，但增长有限"
+        }
+      },
+      "risks": [
+        {
+          "description": "雕刻工艺要求高，成本压力大",
+          "severity": "medium",
+          "mitigation": "优选工艺师，控制复杂度"
+        },
+        {
+          "description": "女性市场覆盖不足",
+          "severity": "medium",
+          "mitigation": "探索女性适配款式"
+        }
+      ],
+      "evidence_summary": "38 个笔记，集中在 40-55 岁男性客群，评论聚焦'沉稳'、'收藏价值'、'工艺精湛'",
+      "proof_snapshot": {
+        "sample_count": 38,
+        "strongest_examples": ["小红书笔记 #701", "抖音视频 #718", "小红书笔记 #735"],
+        "comment_themes": ["沉稳大气", "收藏价值", "工艺传承"],
+        "cross_category_support": "商务、收藏、传承"
+      },
+      "one_line_recommendation": "项链/吊坠优先，手串探索，控制雕刻成本。",
+      "content_cues": {
+        "how_to_photograph": "侧光突出雕刻细节，深色背景增强质感",
+        "how_to_narrate": "强调工艺价值与收藏意义，兼顾男性审美",
+        "what_not_to_do": "避免过于传统老气，忽略现代设计感"
+      },
+      "why_it_matters": "墨翠雕刻件在男性客群中显示出稳定增长，满足了对沉稳大气和收藏价值的需求。虽然工艺成本高，但客单价高且市场稳定，是男性产品线的重要补充方向。",
+      "freshness": "最近45天"
     }
   ],
   "product_lines": [
@@ -412,6 +753,258 @@
       "weight": "high",
       "product_line": "手串/叠戴",
       "timestamp": "2026-02-28"
+    },
+    {
+      "id": "evid_008",
+      "type": "笔记",
+      "title": "满绿翡翠配古法金，传统与现代的完美融合",
+      "source": "小红书用户 @传统美学",
+      "related_direction": "满绿翡翠古法金搭配",
+      "freshness": "最近7天",
+      "relevance_explanation": "展示古法金工艺与满绿翡翠的高级感结合",
+      "weight": "high",
+      "product_line": "项链/吊坠",
+      "timestamp": "2026-03-19"
+    },
+    {
+      "id": "evid_009",
+      "type": "图片",
+      "title": "蓝水翡翠简约耳钉细节",
+      "source": "小红书用户 @简约生活",
+      "related_direction": "蓝水翡翠简约设计",
+      "freshness": "最近3天",
+      "relevance_explanation": "展示蓝水种翡翠的清透质感和简约设计美感",
+      "weight": "medium",
+      "product_line": "耳饰",
+      "timestamp": "2026-03-23"
+    },
+    {
+      "id": "evid_010",
+      "type": "评论",
+      "title": "翡翠配珍珠太温柔了！",
+      "source": "抖音评论区",
+      "related_direction": "翡翠珍珠混搭",
+      "freshness": "最近14天",
+      "relevance_explanation": "展示年轻女性对混搭温柔气质的认可",
+      "weight": "medium",
+      "product_line": "手串/叠戴",
+      "timestamp": "2026-03-12"
+    },
+    {
+      "id": "evid_011",
+      "type": "笔记",
+      "title": "18K金镶翡翠戒指的精致细节",
+      "source": "小红书用户 @细节控",
+      "related_direction": "18K 金镶翡翠",
+      "freshness": "最近14天",
+      "relevance_explanation": "展示金镶工艺的细节精致度和品质感",
+      "weight": "high",
+      "product_line": "戒指",
+      "timestamp": "2026-03-12"
+    },
+    {
+      "id": "evid_012",
+      "type": "图片",
+      "title": "墨翠观音雕件工艺展示",
+      "source": "小红书用户 @雕刻艺术",
+      "related_direction": "墨翠雕刻件",
+      "freshness": "最近21天",
+      "relevance_explanation": "展示墨翠雕刻工艺的精湛度和收藏价值",
+      "weight": "high",
+      "product_line": "项链/吊坠",
+      "timestamp": "2026-03-05"
+    },
+    {
+      "id": "evid_013",
+      "type": "笔记",
+      "title": "多巴胺耳饰搭配日常穿搭",
+      "source": "小红书用户 @搭配达人",
+      "related_direction": "多巴胺色系耳饰",
+      "freshness": "最近7天",
+      "relevance_explanation": "展示多巴胺色系在日常搭配中的实用性",
+      "weight": "medium",
+      "product_line": "耳饰",
+      "timestamp": "2026-03-19"
+    },
+    {
+      "id": "evid_014",
+      "type": "评论",
+      "title": "古法金工艺太精湛了，值得收藏",
+      "source": "小红书评论区",
+      "related_direction": "满绿翡翠古法金搭配",
+      "freshness": "最近14天",
+      "relevance_explanation": "展示用户对古法金工艺价值的认可",
+      "weight": "high",
+      "product_line": "项链/吊坠",
+      "timestamp": "2026-03-12"
+    },
+    {
+      "id": "evid_015",
+      "type": "笔记",
+      "title": "冰感小吊坠，学生党的入门之选",
+      "source": "小红书用户 @大学生日记",
+      "related_direction": "冰感小件吊坠",
+      "freshness": "最近3天",
+      "relevance_explanation": "展示年轻入门客群的价格敏感性和需求",
+      "weight": "low",
+      "product_line": "项链/吊坠",
+      "timestamp": "2026-03-23"
+    },
+    {
+      "id": "evid_016",
+      "type": "图片",
+      "title": "沉香翡翠叠戴的文化美学",
+      "source": "小红书用户 @东方美学",
+      "related_direction": "沉香 + 翡翠叠戴",
+      "freshness": "最近30天",
+      "relevance_explanation": "展示高端小众客群对文化内涵的追求",
+      "weight": "high",
+      "product_line": "手串/叠戴",
+      "timestamp": "2026-02-24"
+    },
+    {
+      "id": "evid_017",
+      "type": "评论",
+      "title": "蓝水翡翠的清新感太适合夏天了",
+      "source": "小红书评论区",
+      "related_direction": "蓝水翡翠简约设计",
+      "freshness": "最近7天",
+      "relevance_explanation": "展示蓝水翡翠的季节适配性和清新感受",
+      "weight": "medium",
+      "product_line": "耳饰",
+      "timestamp": "2026-03-19"
+    },
+    {
+      "id": "evid_018",
+      "type": "笔记",
+      "title": "戒面改制耳钉，让传家宝重获新生",
+      "source": "小红书用户 @传承故事",
+      "related_direction": "翡翠戒面改制耳钉",
+      "freshness": "最近30天",
+      "relevance_explanation": "展示改制市场的情感价值和再设计需求",
+      "weight": "medium",
+      "product_line": "耳饰",
+      "timestamp": "2026-02-26"
+    },
+    {
+      "id": "evid_019",
+      "type": "图片",
+      "title": "18K金镶翡翠手链细节展示",
+      "source": "小红书用户 @奢品生活",
+      "related_direction": "18K 金镶翡翠",
+      "freshness": "最近21天",
+      "relevance_explanation": "展示金镶工艺在手链类产品的应用效果",
+      "weight": "medium",
+      "product_line": "手串/叠戴",
+      "timestamp": "2026-03-05"
+    },
+    {
+      "id": "evid_020",
+      "type": "笔记",
+      "title": "墨翠山水雕件的收藏价值分析",
+      "source": "小红书用户 @收藏家视角",
+      "related_direction": "墨翠雕刻件",
+      "freshness": "最近30天",
+      "relevance_explanation": "展示墨翠雕刻件的收藏市场定位和价值",
+      "weight": "high",
+      "product_line": "项链/吊坠",
+      "timestamp": "2026-02-28"
+    },
+    {
+      "id": "evid_021",
+      "type": "评论",
+      "title": "珍珠翡翠混搭太有仙女感了",
+      "source": "抖音评论区",
+      "related_direction": "翡翠珍珠混搭",
+      "freshness": "最近7天",
+      "relevance_explanation": "展示年轻女性对温柔气质表达的偏好",
+      "weight": "medium",
+      "product_line": "手串/叠戴",
+      "timestamp": "2026-03-19"
+    },
+    {
+      "id": "evid_022",
+      "type": "笔记",
+      "title": "多巴胺紫罗兰耳饰的色彩魅力",
+      "source": "小红书用户 @色彩美学",
+      "related_direction": "多巴胺色系耳饰",
+      "freshness": "最近3天",
+      "relevance_explanation": "展示紫罗兰翡翠在多巴胺色系中的表现力",
+      "weight": "medium",
+      "product_line": "耳饰",
+      "timestamp": "2026-03-23"
+    },
+    {
+      "id": "evid_023",
+      "type": "图片",
+      "title": "古法金錾刻工艺特写",
+      "source": "小红书用户 @工艺传承",
+      "related_direction": "满绿翡翠古法金搭配",
+      "freshness": "最近14天",
+      "relevance_explanation": "展示古法金錾刻工艺的传统技艺价值",
+      "weight": "high",
+      "product_line": "项链/吊坠",
+      "timestamp": "2026-03-12"
+    },
+    {
+      "id": "evid_024",
+      "type": "笔记",
+      "title": "蓝水翡翠吊坠的日常搭配指南",
+      "source": "小红书用户 @穿搭指南",
+      "related_direction": "蓝水翡翠简约设计",
+      "freshness": "最近7天",
+      "relevance_explanation": "展示蓝水翡翠的日常适配性和搭配灵活性",
+      "weight": "medium",
+      "product_line": "项链/吊坠",
+      "timestamp": "2026-03-19"
+    },
+    {
+      "id": "evid_025",
+      "type": "评论",
+      "title": "冰感小吊坠性价比真高",
+      "source": "小红书评论区",
+      "related_direction": "冰感小件吊坠",
+      "freshness": "最近3天",
+      "relevance_explanation": "展示入门客群对性价比的重视",
+      "weight": "low",
+      "product_line": "项链/吊坠",
+      "timestamp": "2026-03-23"
+    },
+    {
+      "id": "evid_026",
+      "type": "笔记",
+      "title": "墨翠佛公吊坠的男性审美",
+      "source": "小红书用户 @男士风格",
+      "related_direction": "墨翠雕刻件",
+      "freshness": "最近14天",
+      "relevance_explanation": "展示墨翠在男性市场的审美偏好和接受度",
+      "weight": "high",
+      "product_line": "项链/吊坠",
+      "timestamp": "2026-03-12"
+    },
+    {
+      "id": "evid_027",
+      "type": "图片",
+      "title": "翡翠珍珠叠戴手串实拍",
+      "source": "小红书用户 @配饰美学",
+      "related_direction": "翡翠珍珠混搭",
+      "freshness": "最近14天",
+      "relevance_explanation": "展示混搭手串的实际佩戴效果和美感",
+      "weight": "medium",
+      "product_line": "手串/叠戴",
+      "timestamp": "2026-03-12"
+    },
+    {
+      "id": "evid_028",
+      "type": "笔记",
+      "title": "戒面改制的设计创新思路",
+      "source": "小红书用户 @设计师视角",
+      "related_direction": "翡翠戒面改制耳钉",
+      "freshness": "最近21天",
+      "relevance_explanation": "展示改制市场的设计创新空间和可能性",
+      "weight": "medium",
+      "product_line": "耳饰",
+      "timestamp": "2026-03-05"
     }
   ],
   "scoring_model": {

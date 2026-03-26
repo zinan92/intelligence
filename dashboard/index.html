@@ -180,6 +180,45 @@
     }
 
     /**
+     * Render a sparkline SVG for movement history
+     */
+    function renderSparkline(history, width = 80, height = 24) {
+      if (!history || history.length < 2) {
+        return '<span class="text-sm text-muted">—</span>';
+      }
+      
+      const max = Math.max(...history);
+      const min = Math.min(...history);
+      const range = max - min || 1;
+      
+      // Create points for polyline
+      const points = history.map((value, index) => {
+        const x = (index / (history.length - 1)) * width;
+        const y = height - ((value - min) / range) * height;
+        return `${x},${y}`;
+      }).join(' ');
+      
+      // Determine trend color based on first vs last value
+      const trend = history[history.length - 1] > history[0] ? 'success' : 
+                    history[history.length - 1] < history[0] ? 'danger' : 'secondary';
+      const color = trend === 'success' ? 'var(--color-success)' : 
+                    trend === 'danger' ? 'var(--color-danger)' : 'var(--color-text-secondary)';
+      
+      return `
+        <svg width="${width}" height="${height}" style="vertical-align: middle;">
+          <polyline
+            points="${points}"
+            fill="none"
+            stroke="${color}"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      `;
+    }
+
+    /**
      * Render Movement Board (Module 01)
      */
     function renderMovementBoard(data) {
@@ -203,6 +242,9 @@
               <a href="direction-detail.html?id=${dir.id}" style="font-weight: 600; color: var(--color-brand-primary);">
                 ${dir.name}
               </a>
+              <div style="margin-top: 0.25rem;">
+                ${renderSparkline(dir.movement_history, 100, 20)}
+              </div>
             </td>
             <td>${renderHeatIndicator(dir.heat_magnitude)}</td>
             <td><span class="text-sm text-secondary">${dir.time_window}</span></td>
@@ -241,11 +283,17 @@
       
       container.innerHTML = watchlist.map(dir => `
         <div class="card">
-          <div class="card-header">
-            <h3 class="card-title text-base">
-              <a href="direction-detail.html?id=${dir.id}">${dir.name}</a>
-            </h3>
-            ${renderJudgmentBadge(dir.judgment_state)}
+          <div class="card-header" style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <h3 class="card-title text-base">
+                <a href="direction-detail.html?id=${dir.id}">${dir.name}</a>
+              </h3>
+              ${renderJudgmentBadge(dir.judgment_state)}
+            </div>
+            <div style="text-align: right;">
+              ${renderSparkline(dir.movement_history, 60, 24)}
+              <div class="text-xs text-muted" style="margin-top: 0.25rem;">14天趋势</div>
+            </div>
           </div>
           <div class="card-body">
             <div class="mb-sm">
