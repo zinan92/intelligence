@@ -1,0 +1,35 @@
+{
+  "milestone": "showcase-deep-dive-surfaces",
+  "round": 1,
+  "status": "pass",
+  "validatorsRun": {
+    "test": { "passed": true, "command": "python3 -m pytest tests/ -x -q", "exitCode": 0 },
+    "typecheck": { "passed": true, "command": "echo \"No typecheck configured (static HTML prototype)\"", "exitCode": 0 },
+    "lint": { "passed": true, "command": "echo \"No lint configured (static HTML prototype)\"", "exitCode": 0 },
+    "validate_json": { "passed": true, "command": "python3 -c \"import json; json.load(open('dashboard/data/jade_dashboard.json')); print('JSON valid')\"", "exitCode": 0 }
+  },
+  "reviewsSummary": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "failedFeatures": []
+  },
+  "blockingIssues": [],
+  "appliedUpdates": [],
+  "suggestedGuidanceUpdates": [
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Add convention: Pages should resolve direction IDs from the data file dynamically (e.g., building name→ID maps from jade_dashboard.json at load time) rather than hardcoding direction-name-to-ID maps. Hardcoded maps create maintenance hazards and data-drift bugs.",
+      "evidence": "Feature v2-showcase-deep-dive-surfaces introduced a hardcoded directionIdMap in evidence.html with 9 entries, two of which (墨翠雕刻件/dir_009 and 翡翠珍珠混搭/dir_007) were swapped vs the actual data, causing incorrect navigation for those directions.",
+      "isSystemic": true
+    },
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Add convention: When displaying judgment state statistics or summaries, always show all 4 canonical judgment categories (值得跟, 观察中, 短热噪音, 需要补证据) even if some have zero count. This ensures consistency across pages and prevents user confusion about missing categories.",
+      "evidence": "Feature v2-showcase-deep-dive-surfaces direction-map stats summary shows only 3 of 4 judgment categories (omits 需要补证据 with 3 directions), while the homepage today's judgment summary shows all categories. This inconsistency could confuse users comparing views.",
+      "isSystemic": false
+    }
+  ],
+  "rejectedObservations": [],
+  "previousRound": null
+}

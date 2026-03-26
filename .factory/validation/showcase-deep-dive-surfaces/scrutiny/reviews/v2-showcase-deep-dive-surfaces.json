@@ -1,0 +1,45 @@
+{
+  "featureId": "v2-showcase-deep-dive-surfaces",
+  "reviewedAt": "2026-03-26T09:15:00.000Z",
+  "commitId": "8d35549",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The implementation successfully transforms direction-map.html from a sortable table into a bubble-matrix SVG visualization (x=机会, y=风险, size=热度) showing all 9 directions, and transforms evidence.html from a 3-panel analyst layout into a dense waterfall grid wall with 28 evidence cards, inline chip filters, and relevance storytelling. Both pages remain fully Chinese and use the premium dashboard visual system. The SVG rendering is clean and uses correct data fields. One non-blocking bug found: the hardcoded direction-name-to-ID map in evidence.html has 墨翠雕刻件 and 翡翠珍珠混搭 swapped (dir_007 vs dir_009). The stats summary on direction-map omits the 需要补证据 count (3 directions), showing only 3 of 4 judgment categories. Evidence freshness filter uses exact string match against freshness values, which means '最近21天' and '最近30天' items are only reachable via the '全部' chip — functionally correct but the filter set doesn't cover the full data range.",
+    "issues": [
+      {
+        "file": "dashboard/evidence.html",
+        "line": 450,
+        "severity": "non_blocking",
+        "description": "Hardcoded directionIdMap has 墨翠雕刻件 mapped to dir_007 and 翡翠珍珠混搭 mapped to dir_009, but the actual data has dir_007=翡翠珍珠混搭 and dir_009=墨翠雕刻件. Clicking evidence cards for either of these two directions navigates to the wrong detail page."
+      },
+      {
+        "file": "dashboard/direction-map.html",
+        "line": 213,
+        "severity": "non_blocking",
+        "description": "Stats summary grid shows 4 boxes (total, 值得跟, 观察中, 短热噪音) but omits 需要补证据 which has 3 directions. The legend and bubble matrix do include 需要补证据, so the information is present visually, but the stats count is incomplete."
+      },
+      {
+        "file": "dashboard/evidence.html",
+        "line": 310,
+        "severity": "non_blocking",
+        "description": "Evidence freshness filter chips offer 最近3天/最近7天/最近14天 but the data also contains 最近21天 (3 items) and 最近30天 (5 items). These 8 items are only visible via the '全部' chip. Consider adding chips for the missing freshness ranges or using a 'within N days' semantic rather than exact string match."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "Evidence page uses a hardcoded direction-name-to-ID map instead of loading the mapping from the data. This creates a maintenance hazard and caused a swap bug between dir_007 and dir_009. AGENTS.md doesn't mention a convention for how pages should resolve direction IDs from names — should prefer data-driven lookups over hardcoded maps.",
+      "evidence": "dashboard/evidence.html:445-455 has a manual directionIdMap object with 9 entries, two of which are swapped vs dashboard/data/jade_dashboard.json direction entries."
+    },
+    {
+      "area": "conventions",
+      "observation": "The direction-map stats summary shows only 3 of 4 judgment categories (missing 需要补证据). This is inconsistent with the homepage which shows all 4 categories in the today's judgment summary. AGENTS.md mentions consistent color-coded judgment states but doesn't mandate showing all 4 categories in every stats summary.",
+      "evidence": "dashboard/direction-map.html:211-225 has stat-boxes for total/值得跟/观察中/短热噪音 but no stat-box for 需要补证据 (which has 3 directions in data)."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Implementation passes overall. Both deep-dive surfaces are successfully transformed: direction-map now renders a bubble-matrix SVG with all 9 directions positioned by opportunity×risk with heat-sized bubbles, and evidence page now renders a dense waterfall grid wall with 28 evidence cards, inline chip filters, and relevance storytelling. All content is Chinese, the premium design system is maintained, and navigation flows work. One non-blocking bug exists: 2 direction IDs are swapped in the evidence page's hardcoded navigation map (墨翠雕刻件↔翡翠珍珠混搭), causing incorrect detail page navigation for those two directions. The direction-map stats omit the 需要补证据 count. These are quality issues that don't block the core feature delivery."
+}
