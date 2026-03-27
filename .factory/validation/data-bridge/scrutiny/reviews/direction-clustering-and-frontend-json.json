@@ -1,0 +1,75 @@
+{
+  "featureId": "direction-clustering-and-frontend-json",
+  "reviewedAt": "2026-03-27T12:15:00.000Z",
+  "commitId": "18d19be85eab5f2ae9219f2585461a2b5db0f7f8",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "The direction clustering and frontend builder implementation covers the core requirements well — keyword group assignment, direction building, frontend JSON generation, and pack_runner integration all work. However, the fourteen_day_changes field produces simple string arrays instead of the object arrays ({direction, change, reason}) that jade_dashboard.json uses and the frontend JS expects (index.html:483-511 accesses item.direction, item.change, item.reason). This schema mismatch will cause the 14-day changes module on the homepage to display 'undefined' values when using pipeline-generated data, which is a blocking issue since the feature's stated goal is jade_dashboard.json schema compatibility. Additionally, there is a performance issue with double-scoring in pack_runner.py where every sample is scored twice (once for scored_samples, once for scored_samples_for_clustering).",
+    "issues": [
+      {
+        "file": "src/intelligence/analysis/frontend_builder.py",
+        "line": 270,
+        "severity": "blocking",
+        "description": "fourteen_day_changes schema mismatch: _generate_fourteen_day_changes() returns dict[str, list[str]] (simple direction name strings), but jade_dashboard.json uses dict[str, list[dict]] where each item is {\"direction\": str, \"change\": str, \"reason\": str}. The dashboard frontend (index.html:483-511) accesses item.direction, item.change, and item.reason on each array element — with string values, these will all be 'undefined'. The function signature (line 270) even declares the return type as list[str], confirming the mismatch. This violates the feature requirement: 'frontend_dashboard.json matches jade_dashboard.json schema: ... fourteen_day_changes'."
+      },
+      {
+        "file": "tests/test_frontend_builder.py",
+        "line": 84,
+        "severity": "blocking",
+        "description": "test_field_name_correctness checks that 'rising', 'cooling', 'newly_emerging' keys exist and that 'warming'/'new_appearances' don't exist — but it does NOT verify the structure of the values (objects with direction/change/reason fields vs plain strings). The test passes despite the schema being wrong, creating a false sense of correctness."
+      },
+      {
+        "file": "src/intelligence/workflows/pack_runner.py",
+        "line": 71,
+        "severity": "non_blocking",
+        "description": "Double-scoring: every sample is scored twice — once in the scored_samples list comprehension (line 65) and again in scored_samples_for_clustering (line 71). Both call engine.score(spec.bucket_scores_fn(sample)). The results are deterministic so no correctness issue, but this doubles scoring computation for all 293 samples. Should score once and reuse results."
+      },
+      {
+        "file": "src/intelligence/analysis/frontend_builder.py",
+        "line": 256,
+        "severity": "non_blocking",
+        "description": "All evidence entries have product_line hardcoded to '上装' regardless of direction or post content. In jade_dashboard.json, evidence entries have varied product_line values (项链/吊坠, 耳饰, 手串/叠戴). While not schema-breaking, this reduces data quality."
+      },
+      {
+        "file": "src/intelligence/analysis/frontend_builder.py",
+        "line": 63,
+        "severity": "non_blocking",
+        "description": "scoring_model in output uses {bucket_count, keyword_weight, engagement_weight, confidence_thresholds} while jade_dashboard.json uses {heat_weight, confidence_weight, audience_fit_weight, price_band_fit_weight}. Not consumed by frontend JS currently so non-blocking, but inconsistent with schema matching goal."
+      },
+      {
+        "file": "src/intelligence/analysis/frontend_builder.py",
+        "line": 5,
+        "severity": "non_blocking",
+        "description": "Uses random.randint() without seeding in _generate_movement_history(). This means movement_history values are non-deterministic across runs, making output irreproducible. For testing and debugging, a seeded RNG or deterministic computation would be preferable."
+      },
+      {
+        "file": "src/intelligence/analysis/direction_clustering.py",
+        "line": 191,
+        "severity": "non_blocking",
+        "description": "confidence_map only handles 'high', 'medium', 'low' but the feature spec and AGENTS.md mention 4 confidence levels: 高/中高/中/低. The ScoringEngine produces string labels from ConfidenceRule. If a pack configures a 'medium_high' confidence rule, it would default to '中'. The '中高' confidence level is never produced by the clustering code."
+      },
+      {
+        "file": "src/intelligence/analysis/direction_clustering.py",
+        "line": 219,
+        "severity": "non_blocking",
+        "description": "Direction dicts contain private fields '_aggregate_score' and '_members' (which hold full CanonicalSample + ScoringResult objects). These are used as internal communication between clustering and frontend builder, which is a design smell — a proper dataclass or named tuple would be cleaner and type-safe. Not a bug since _build_trend_direction creates clean output dicts, but fragile coupling."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "The feature spec says 'frozen dataclasses with slots=True' is a coding convention, and all existing modules use frozen dataclasses for data structures (ScoringResult, CanonicalSample, PackSpec, etc.). However, direction_clustering.py and frontend_builder.py use plain dicts throughout instead of frozen dataclasses for TrendDirection. AGENTS.md mentions 'TrendDirection dataclass' in architecture but no actual dataclass was created.",
+      "evidence": "direction_clustering.py returns list[dict[str, Any]] instead of a frozen dataclass. Compare to scoring/engine.py:36 @dataclass(frozen=True, slots=True) class ScoringResult. Architecture.md line 'NEW: TrendDirection dataclass for direction-level aggregation' references a dataclass that doesn't exist."
+    },
+    {
+      "area": "conventions",
+      "observation": "The fourteen_day_changes schema mismatch between the frontend builder output and jade_dashboard.json suggests that the schema reference in AGENTS.md could be more explicit about sub-field structures. AGENTS.md shows the top-level JSON structure but doesn't specify that fourteen_day_changes items are objects with {direction, change, reason} fields vs simple strings.",
+      "evidence": "AGENTS.md shows fourteen_day_changes with rising/cooling/newly_emerging keys but doesn't show the inner object structure. jade_dashboard.json lines 644-670 show the actual object structure. Worker produced string arrays instead."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "The direction clustering and frontend builder implement the core data bridge successfully — keyword group matching, direction aggregation, judgment state assignment, and pack_runner integration all work correctly with 7 output files generated. Tests cover key behaviors with 12 new tests passing. However, there is a blocking schema mismatch: fourteen_day_changes produces string arrays instead of the object arrays ({direction, change, reason}) that jade_dashboard.json uses and the frontend JS expects. This will cause the 14-day changes module on the homepage to display 'undefined' values. The test for field name correctness does not catch this because it only checks key names, not value structures. Additionally, there are several non-blocking issues: double-scoring in pack_runner.py, hardcoded product_line in evidence entries, non-deterministic movement_history, and use of plain dicts instead of frozen dataclasses per project conventions."
+}

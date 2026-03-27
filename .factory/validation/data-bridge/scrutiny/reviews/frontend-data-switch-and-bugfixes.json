@@ -1,0 +1,51 @@
+{
+  "featureId": "frontend-data-switch-and-bugfixes",
+  "reviewedAt": "2026-03-27T10:15:00.000Z",
+  "commitId": "18b4d58f9ecb24e548d2fb6e922d115c7df880df",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "The implementation covers all 7 feature requirements (data source switch, 观察中 judgment state, dynamic product lines, invalid direction ID error, data load failure handling, zero-evidence empty state, backward compatibility). However, there is one blocking CSS variable name mismatch that causes the 观察中 judgment state row to render without its intended blue styling. Additionally, there are two non-blocking XSS concerns with unsanitized user input being interpolated into innerHTML.",
+    "issues": [
+      {
+        "file": "dashboard/index.html",
+        "line": 53,
+        "severity": "blocking",
+        "description": "CSS variable name mismatch for 观察中 judgment state. The HTML references `var(--color-judgment-guancharzhong)` and `var(--color-judgment-guancharzhong-light)` but the CSS in style.css (lines 26, 32) defines them as `--color-judgment-guanchazu` and `--color-judgment-guanchazu-light`. Because these CSS custom properties are undefined, the 观察中 row will have no background color and no text color — it will fall back to browser defaults, breaking the visual consistency of the judgment summary. Fix: change `guancharzhong` to `guanchazu` in index.html lines 53-55, or rename the CSS variables to match."
+      },
+      {
+        "file": "dashboard/direction-detail.html",
+        "line": 362,
+        "severity": "non_blocking",
+        "description": "XSS via unsanitized directionId in innerHTML. The `directionId` comes from `urlParams.get('id')` and is interpolated directly into innerHTML via template literal: `(ID: ${directionId})`. A crafted URL like `?id=<img src=x onerror=alert(1)>` would execute arbitrary JavaScript. Since this is a local/internal dashboard, the risk is low, but best practice is to use textContent or HTML-escape the value."
+      },
+      {
+        "file": "dashboard/index.html",
+        "line": 193,
+        "severity": "non_blocking",
+        "description": "XSS via error.message in innerHTML. The `${error.message}` is interpolated into innerHTML in the error handler. While error messages from fetch() are typically safe, a custom error could contain HTML. This pattern is repeated in all 5 pages (index.html:193, direction-detail.html:394, direction-map.html:294, evidence.html:373, product-line.html:55). Low risk for internal dashboard but worth noting."
+      },
+      {
+        "file": "dashboard/js/data.js",
+        "line": 19,
+        "severity": "non_blocking",
+        "description": "The getDataPath() function allows absolute paths via URL parameter (e.g., ?data=/etc/passwd). Since fetch() is constrained to same-origin by default and this is a static file server, this is not exploitable in practice. However, the `dataParam.startsWith('/')` branch allows loading any file served by the HTTP server, not just files in /data/. Consider restricting to only allow filenames (no slashes) to enforce the /data/ prefix."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "CSS variable naming convention for judgment states is inconsistent. The CSS uses pinyin abbreviation 'guanchazu' for 观察中, but the worker used full pinyin 'guancharzhong'. AGENTS.md documents the judgment state colors but not the CSS variable naming convention. Adding the exact CSS variable names to AGENTS.md would prevent this class of bug.",
+      "evidence": "dashboard/css/style.css:26 defines --color-judgment-guanchazu, but dashboard/index.html:53-55 references --color-judgment-guancharzhong. The naming pattern for other states (zhidegeng, duanrezaoyin, xuyaobuzhengju) is documented in style.css but workers need to check these before adding HTML."
+    },
+    {
+      "area": "conventions",
+      "observation": "No XSS prevention convention is documented. The dashboard uses innerHTML with template literals throughout (pre-existing pattern), and the new code follows this pattern. Since direction names, descriptions, and other data come from pipeline-generated JSON (trusted), the main XSS vector is URL parameters interpolated into innerHTML. AGENTS.md could note: 'Never interpolate URL parameters or user input into innerHTML without escaping.'",
+      "evidence": "dashboard/direction-detail.html:362 interpolates directionId (from URL param) into innerHTML. All 5 pages interpolate error.message into innerHTML."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "The feature implementation is comprehensive and covers all specified requirements. Data source switching via getDataPath() works correctly with URL parameter fallback. Dynamic product lines use Object.keys() properly. Error handling is consistent across all 5 pages with Chinese messages. Zero-evidence shows '暂无相关证据。' correctly. However, there is one BLOCKING issue: the 观察中 judgment state row in index.html references CSS variables (--color-judgment-guancharzhong, --color-judgment-guancharzhong-light) that don't exist in style.css — the actual variables are named --color-judgment-guanchazu and --color-judgment-guanchazu-light. This means the 观察中 row renders without its intended blue color styling. This directly breaks VAL-BRIDGE-033 ('Homepage shows all 4 judgment states including 观察中') since while the element exists and the count populates, the visual presentation is broken (no background color, no text color). Two non-blocking XSS concerns are also noted for future hardening."
+}
