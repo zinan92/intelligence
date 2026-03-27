@@ -1,0 +1,125 @@
+{
+  "groupId": "frontend-rendering",
+  "testedAt": "2026-03-27T00:00:00Z",
+  "isolation": {
+    "port": 8765,
+    "appUrl": "http://localhost:8765",
+    "session": "dfe7911c4702__browser1",
+    "defaultData": "frontend_dashboard.json"
+  },
+  "toolsUsed": ["agent-browser"],
+  "assertions": [
+    {
+      "id": "VAL-BRIDGE-020",
+      "title": "Frontend loads pipeline-generated JSON",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Inspect data.js source code",
+          "expected": "DEFAULT_DATA_PATH points to frontend_dashboard.json",
+          "observed": "DEFAULT_DATA_PATH = '/data/frontend_dashboard.json' confirmed in source"
+        },
+        {
+          "action": "Open http://localhost:8765/index.html in browser",
+          "expected": "Page loads successfully",
+          "observed": "Page loaded with title '首页 - 翡翠信号图谱'"
+        },
+        {
+          "action": "Check JS console errors",
+          "expected": "0 console errors",
+          "observed": "0 console errors"
+        },
+        {
+          "action": "Verify data.js script is loaded",
+          "expected": "data.js loaded in page",
+          "observed": "Eval confirmed: 4 scripts loaded, data.js present"
+        }
+      ],
+      "evidence": {
+        "screenshots": ["data-bridge/frontend-rendering/VAL-BRIDGE-020-homepage-loaded.png"],
+        "consoleErrors": "none",
+        "network": "GET /data/frontend_dashboard.json -> 200 (confirmed by successful page render with streetwear data)"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-BRIDGE-021",
+      "title": "Homepage renders with real streetwear data",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Check Movement Board row count",
+          "expected": ">=6 rows with streetwear direction names",
+          "observed": "7 rows: 廓形风格, 图案印花, 日常穿搭, 复古美式, 街拍风格, 潮牌联名, 其他趋势"
+        },
+        {
+          "action": "Verify no jade terms present",
+          "expected": "No jade terms like 翡翠/金镶/冰种",
+          "observed": "All direction names are streetwear-related, no jade terms found"
+        },
+        {
+          "action": "Check Today's Judgments counts sum",
+          "expected": "Judgment counts sum to total direction count (7)",
+          "observed": "值得跟=0 + 观察中=0 + 短热噪音=3 + 需要补证据=4 = 7 (matches 7 directions)"
+        },
+        {
+          "action": "Check for undefined/null/NaN in page text",
+          "expected": "No undefined/null/NaN visible",
+          "observed": "JS eval confirmed: hasUndefined=false, hasNull=false, hasNaN=false"
+        }
+      ],
+      "evidence": {
+        "screenshots": ["data-bridge/frontend-rendering/VAL-BRIDGE-021-homepage-full.png"],
+        "consoleErrors": "none",
+        "accessibilitySnapshot": "Full accessibility tree captured showing 7 direction rows with complete data (heat change, time window, confidence, judgment labels, descriptions)"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-BRIDGE-022",
+      "title": "All 5 pages work with real data",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Load index.html (homepage)",
+          "expected": "Movement board populated, judgment summary visible, no empty sections, no JS errors",
+          "observed": "7 direction rows in movement board, Today's Judgments with 4 states, 值得关注方向 section with 4 directions, 风险提醒 with 4 risk items, 最近证据 with 6 evidence cards, 产品线观察 with 4 product lines, 14天变化 with rising/cooling sections. 0 JS errors."
+        },
+        {
+          "action": "Load direction-map.html (direction map)",
+          "expected": "Bubble matrix with direction bubbles, no empty sections, no JS errors",
+          "observed": "Stats showing 7 directions, bubble matrix SVG with all 7 streetwear directions labeled, judgment state legend present. 0 JS errors."
+        },
+        {
+          "action": "Load direction-detail.html?id=dir_001 (direction detail)",
+          "expected": "Direction detail with sections populated (overview, product lines, evidence), no JS errors",
+          "observed": "廓形风格 detail loaded with: 方向总览 (heat +15%, confidence 中, judgment 短热噪音), 一句话建议, 产品线决策卡 (上装, 下装), 为什么会涨 section with content cues, 风险提醒, 证据入口 with 3 evidence cards. 0 JS errors."
+        },
+        {
+          "action": "Load evidence.html (evidence library)",
+          "expected": "Evidence cards populated, filters present, no empty sections, no JS errors",
+          "observed": "28 evidence cards displayed with direction filters (7 directions), type filters (笔记/图片/评论), freshness filters. Each card shows weight, type, freshness, score, and related direction. 0 JS errors."
+        },
+        {
+          "action": "Load product-line.html (product line)",
+          "expected": "Product lines with strengthening/weakening directions, no empty sections, no JS errors",
+          "observed": "4 product lines (上装, 下装, 外套, 配饰) each showing opportunity/risk levels, status (稳定), 0 strengthening and 2 weakening directions per line. Direction links navigate to detail pages. 0 JS errors."
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "data-bridge/frontend-rendering/VAL-BRIDGE-021-homepage-full.png",
+          "data-bridge/frontend-rendering/VAL-BRIDGE-022-direction-map.png",
+          "data-bridge/frontend-rendering/VAL-BRIDGE-022-direction-detail.png",
+          "data-bridge/frontend-rendering/VAL-BRIDGE-022-evidence.png",
+          "data-bridge/frontend-rendering/VAL-BRIDGE-022-product-line.png"
+        ],
+        "consoleErrors": "none on all 5 pages"
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 3 assertions: 3 passed, 0 failed, 0 blocked. All 5 dashboard pages load with pipeline-generated streetwear data, 0 JS console errors across all pages, no undefined/null/NaN values, all primary content sections populated."
+}

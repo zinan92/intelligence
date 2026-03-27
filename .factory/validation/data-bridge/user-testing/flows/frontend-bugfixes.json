@@ -1,0 +1,133 @@
+{
+  "groupId": "frontend-bugfixes",
+  "testedAt": "2026-03-27T00:00:00.000Z",
+  "isolation": {
+    "appUrl": "http://localhost:8765",
+    "sessionName": "dfe7911c4702__browser2",
+    "defaultData": "frontend_dashboard.json",
+    "jadeData": "jade_dashboard.json"
+  },
+  "toolsUsed": ["agent-browser"],
+  "assertions": [
+    {
+      "id": "VAL-BRIDGE-032",
+      "title": "Homepage renders all four judgment states including 观察中",
+      "status": "pass",
+      "steps": [
+        { "action": "Navigate to http://localhost:8765/index.html", "expected": "Homepage loads with judgment module", "observed": "Homepage loads with 今日判断 module" },
+        { "action": "Inspect DOM for judgment rows", "expected": "4 rows: 值得跟, 观察中, 短热噪音, 需要补证据", "observed": "4 rows found with ids count-zhidegeng (0), count-guanchazu (0), count-duanrezaoyin (3), count-xuyaobuzhengju (4)" },
+        { "action": "Verify sum equals total directions", "expected": "Sum = 7 (total directions)", "observed": "0+0+3+4 = 7 = total directions count" },
+        { "action": "Check console errors", "expected": "No JS errors", "observed": "No JS errors" }
+      ],
+      "evidence": {
+        "screenshots": ["data-bridge/frontend-bugfixes/VAL-BRIDGE-032-homepage-judgments.png"],
+        "consoleErrors": "none",
+        "network": "GET /data/frontend_dashboard.json -> 200"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-BRIDGE-033",
+      "title": "Direction detail reads product lines dynamically from data",
+      "status": "pass",
+      "steps": [
+        { "action": "Navigate to direction-detail.html?id=dir_001 (streetwear data)", "expected": "Direction detail loads with streetwear product lines", "observed": "Direction 廓形风格 loaded successfully" },
+        { "action": "Inspect #product-line-cards DOM", "expected": "Product line cards show streetwear names (上装, 下装), not jade names", "observed": "2 cards found: 上装, 下装 — both are streetwear product lines" },
+        { "action": "Check for 暂无数据 text", "expected": "No card shows 暂无数据", "observed": "No 暂无数据 found; cards show opportunity/risk data" },
+        { "action": "Verify jade data shows jade product lines", "expected": "Jade direction shows jade product lines", "observed": "dir_001 with jade data shows 项链/吊坠, 耳饰, 戒指, 手串/叠戴" },
+        { "action": "Check console errors", "expected": "No JS errors", "observed": "No JS errors" }
+      ],
+      "evidence": {
+        "screenshots": ["data-bridge/frontend-bugfixes/VAL-BRIDGE-033-streetwear-direction-detail.png"],
+        "consoleErrors": "none",
+        "network": "GET /data/frontend_dashboard.json -> 200"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-BRIDGE-034",
+      "title": "Direction detail handles invalid direction ID gracefully",
+      "status": "pass",
+      "steps": [
+        { "action": "Navigate to direction-detail.html?id=nonexistent", "expected": "Chinese error message with back link, no blank page", "observed": "Page shows ⚠️ 方向未找到 with message '无法找到指定的方向 (ID: nonexistent)，请检查链接是否正确，或从首页重新选择方向。' and 返回首页 button" },
+        { "action": "Check console errors", "expected": "No JS errors", "observed": "No JS errors" }
+      ],
+      "evidence": {
+        "screenshots": ["data-bridge/frontend-bugfixes/VAL-BRIDGE-034-invalid-direction.png"],
+        "consoleErrors": "none",
+        "network": "GET /data/frontend_dashboard.json -> 200"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-BRIDGE-035",
+      "title": "Jade dashboard still renders after changes",
+      "status": "pass",
+      "steps": [
+        { "action": "Load index.html?data=jade_dashboard.json", "expected": "9 directions, correct judgment counts", "observed": "9 direction rows, judgments: 值得跟=2, 观察中=3, 短热噪音=1, 需要补证据=3, sum=9" },
+        { "action": "Load direction-map.html?data=jade_dashboard.json", "expected": "Page loads without errors", "observed": "Page loaded successfully, no JS errors" },
+        { "action": "Load direction-detail.html?id=dir_001&data=jade_dashboard.json", "expected": "4 jade product lines shown", "observed": "4 product line cards: 项链/吊坠, 耳饰, 戒指, 手串/叠戴" },
+        { "action": "Load evidence.html?data=jade_dashboard.json", "expected": "28 evidence entries", "observed": "28 evidence entries in #evidence-wall" },
+        { "action": "Load product-line.html?data=jade_dashboard.json", "expected": "4 jade product lines", "observed": "4 product lines: 项链/吊坠, 耳饰, 戒指, 手串/叠戴" },
+        { "action": "Check console errors on all 5 pages", "expected": "No JS errors on any page", "observed": "No JS errors on any of the 5 pages" }
+      ],
+      "evidence": {
+        "screenshots": [
+          "data-bridge/frontend-bugfixes/VAL-BRIDGE-035-jade-index.png",
+          "data-bridge/frontend-bugfixes/VAL-BRIDGE-035-jade-direction-map.png",
+          "data-bridge/frontend-bugfixes/VAL-BRIDGE-035-jade-direction-detail.png",
+          "data-bridge/frontend-bugfixes/VAL-BRIDGE-035-jade-evidence.png",
+          "data-bridge/frontend-bugfixes/VAL-BRIDGE-035-jade-product-line.png"
+        ],
+        "consoleErrors": "none",
+        "network": "GET /data/jade_dashboard.json -> 200 (all 5 pages)"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-BRIDGE-036",
+      "title": "Zero-evidence direction shows meaningful empty state",
+      "status": "pass",
+      "steps": [
+        { "action": "Load direction-detail.html?id=dir_001 and inspect evidence rendering code", "expected": "Code handles zero-evidence case with Chinese empty state message", "observed": "Code at line 643 checks evidenceEntries.length === 0 and renders '暂无相关证据。'" },
+        { "action": "Simulate zero-evidence state via JavaScript eval on evidence container", "expected": "'暂无相关证据' message displayed, no JS error, no empty grid", "observed": "Evidence section shows '暂无相关证据。' in a styled card, no empty grid, no JS error" },
+        { "action": "Check console errors", "expected": "No JS errors", "observed": "No JS errors" }
+      ],
+      "evidence": {
+        "screenshots": ["data-bridge/frontend-bugfixes/VAL-BRIDGE-036-zero-evidence.png"],
+        "consoleErrors": "none",
+        "network": "N/A"
+      },
+      "issues": "Note: All directions in both datasets have evidence. Tested by simulating empty evidence via JS eval to trigger the code path (confirmed code at direction-detail.html line 643 handles evidenceEntries.length === 0). The empty state message '暂无相关证据。' renders correctly in a card component."
+    },
+    {
+      "id": "VAL-BRIDGE-037",
+      "title": "Data load failure shows user-visible error",
+      "status": "pass",
+      "steps": [
+        { "action": "Load index.html?data=nonexistent.json", "expected": "Chinese error message instead of blank page", "observed": "Page shows '❌ 数据加载失败' with message '无法加载仪表盘数据。请检查数据文件是否存在，或稍后重试。' and '错误信息: HTTP error! status: 404' with 重新加载 button" },
+        { "action": "Load evidence.html?data=nonexistent.json", "expected": "Chinese error message instead of blank page", "observed": "Page shows '❌ 数据加载失败' with message '无法加载证据库数据。请检查数据文件是否存在，或稍后重试。' and '错误信息: HTTP error! status: 404' with 返回首页 button" },
+        { "action": "Check console errors", "expected": "No unhandled JS errors", "observed": "No unhandled JS errors (error is caught and displayed to user)" }
+      ],
+      "evidence": {
+        "screenshots": [
+          "data-bridge/frontend-bugfixes/VAL-BRIDGE-037-missing-data-index.png",
+          "data-bridge/frontend-bugfixes/VAL-BRIDGE-037-missing-data-evidence.png"
+        ],
+        "consoleErrors": "none",
+        "network": "GET /data/nonexistent.json -> 404"
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [
+    {
+      "description": "All directions in both datasets have evidence entries, making VAL-BRIDGE-036 impossible to test naturally. Had to simulate the empty state via JavaScript eval to verify the code path.",
+      "resolved": true,
+      "resolution": "Used agent-browser eval to clear evidence container and confirmed the empty state message renders correctly. Also verified source code (direction-detail.html line 643) handles evidenceEntries.length === 0 correctly.",
+      "affectedAssertions": ["VAL-BRIDGE-036"]
+    }
+  ],
+  "blockers": [],
+  "summary": "Tested 6 assertions: 6 passed, 0 failed. All frontend bug fix validations confirm correct behavior — 4 judgment states rendered on homepage, dynamic product lines on direction detail, graceful error handling for invalid IDs and missing data, jade backward compatibility on all 5 pages, and zero-evidence empty state."
+}

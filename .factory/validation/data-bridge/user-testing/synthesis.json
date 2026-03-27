@@ -1,0 +1,44 @@
+{
+  "milestone": "data-bridge",
+  "round": 1,
+  "status": "pass",
+  "assertionsSummary": {
+    "total": 21,
+    "passed": 21,
+    "failed": 0,
+    "blocked": 0
+  },
+  "passedAssertions": [
+    "VAL-BRIDGE-001",
+    "VAL-BRIDGE-002",
+    "VAL-BRIDGE-003",
+    "VAL-BRIDGE-004",
+    "VAL-BRIDGE-010",
+    "VAL-BRIDGE-011",
+    "VAL-BRIDGE-012",
+    "VAL-BRIDGE-013",
+    "VAL-BRIDGE-014",
+    "VAL-BRIDGE-015",
+    "VAL-BRIDGE-020",
+    "VAL-BRIDGE-021",
+    "VAL-BRIDGE-022",
+    "VAL-BRIDGE-030",
+    "VAL-BRIDGE-031",
+    "VAL-BRIDGE-032",
+    "VAL-BRIDGE-033",
+    "VAL-BRIDGE-034",
+    "VAL-BRIDGE-035",
+    "VAL-BRIDGE-036",
+    "VAL-BRIDGE-037"
+  ],
+  "failedAssertions": [],
+  "blockedAssertions": [],
+  "appliedUpdates": [
+    {
+      "target": "user-testing.md",
+      "description": "Added Flow Validator Guidance sections for Pipeline and Dashboard surfaces with isolation rules, session naming, and key constraints",
+      "source": "setup"
+    }
+  ],
+  "previousRound": null
+}

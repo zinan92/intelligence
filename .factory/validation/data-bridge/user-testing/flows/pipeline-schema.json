@@ -1,0 +1,224 @@
+{
+  "groupId": "pipeline-schema",
+  "testedAt": "2026-03-27T18:15:00Z",
+  "isolation": {
+    "pipeline_output_directory": "/tmp/sw-real-test",
+    "frontend_dashboard_json": "/tmp/sw-real-test/frontend_dashboard.json",
+    "working_directory": "/Users/wendy/work/content-co/intelligence",
+    "data_js_path": "/Users/wendy/work/content-co/intelligence/dashboard/js/data.js"
+  },
+  "toolsUsed": ["python3", "pytest"],
+  "assertions": [
+    {
+      "id": "VAL-BRIDGE-001",
+      "title": "Post-to-direction grouping produces 6-10 directions",
+      "status": "pass",
+      "steps": [
+        { "action": "Load frontend_dashboard.json", "expected": "JSON loads successfully", "observed": "JSON loaded, 25212 bytes" },
+        { "action": "Count trend_directions array length", "expected": "6-10 directions", "observed": "7 directions" }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "n/a (CLI test)",
+        "validation_output": "data-bridge/pipeline-schema/validation_output.txt",
+        "json_structure": "data-bridge/pipeline-schema/json_structure_evidence.json",
+        "detail": "trend_directions count = 7, within [6,10] range. Direction names: 廓形风格, 图案印花, 日常穿搭, 复古美式, 街拍风格, 潮牌联名, 其他趋势"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-BRIDGE-002",
+      "title": "Direction schema completeness",
+      "status": "pass",
+      "steps": [
+        { "action": "Check each direction for required fields: id, name, heat, confidence_level, judgment_state, top tags, member_post_count", "expected": "All fields present and valid", "observed": "All 7 directions have all required fields" },
+        { "action": "Validate heat in [0,100]", "expected": "All heats valid", "observed": "Heats: [45, 39, 33, 24, 20, 20, 18] - all in range" },
+        { "action": "Validate confidence_level in {高,中高,中,低}", "expected": "All valid", "observed": "All confidence levels valid (中 and 低)" },
+        { "action": "Validate judgment_state in {值得跟,观察中,短热噪音,需要补证据}", "expected": "All valid", "observed": "3x 短热噪音, 4x 需要补证据" },
+        { "action": "Check top tags (comment_themes) >= 1", "expected": "Each direction has >= 1 tag", "observed": "All have 3 comment themes" },
+        { "action": "Check member_post_count (sample_count) >= 1", "expected": "Each >= 1", "observed": "Counts: [27, 7, 200, 10, 3, 36, 10] - all >= 1" }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "n/a (CLI test)",
+        "validation_output": "data-bridge/pipeline-schema/validation_output.txt",
+        "detail": "Checked 7 directions. All have valid id, name, heat(0-100), confidence_level, judgment_state, comment_themes(>=1), sample_count(>=1)"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-BRIDGE-003",
+      "title": "Multi-keyword posts are not lost",
+      "status": "pass",
+      "steps": [
+        { "action": "Sum sample_count across all directions", "expected": ">= 293", "observed": "Sum = 293 (27+7+200+10+3+36+10)" }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "n/a (CLI test)",
+        "validation_output": "data-bridge/pipeline-schema/validation_output.txt",
+        "detail": "Sum of member_post_count (sample_count) = 293, exactly matching the 293 input posts"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-BRIDGE-004",
+      "title": "Directions ranked by aggregate score",
+      "status": "pass",
+      "steps": [
+        { "action": "Extract heat scores from trend_directions array", "expected": "Non-increasing order", "observed": "Heat scores: [45, 39, 33, 24, 20, 20, 18] - strictly non-increasing" }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "n/a (CLI test)",
+        "validation_output": "data-bridge/pipeline-schema/validation_output.txt",
+        "detail": "Heat scores in descending order: 45, 39, 33, 24, 20, 20, 18"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-BRIDGE-010",
+      "title": "Frontend-compatible JSON generated",
+      "status": "pass",
+      "steps": [
+        { "action": "Verify frontend_dashboard.json exists", "expected": "File exists, non-empty", "observed": "Exists, 25212 bytes" },
+        { "action": "Check all 10 required top-level keys", "expected": "All present", "observed": "All 10 keys present: evidence_entries, executive_summary, fourteen_day_changes, keyword_groups, product_lines, product_name, scoring_model, timestamp, today_judgments, trend_directions" }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "n/a (CLI test)",
+        "validation_output": "data-bridge/pipeline-schema/validation_output.txt",
+        "json_structure": "data-bridge/pipeline-schema/json_structure_evidence.json",
+        "detail": "All 10 required top-level keys present in frontend_dashboard.json"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-BRIDGE-011",
+      "title": "trend_directions has all required fields",
+      "status": "pass",
+      "steps": [
+        { "action": "Check each of 7 directions against 22 required fields", "expected": "All fields present", "observed": "All 22 fields present in all 7 directions" },
+        { "action": "Validate movement_history is array of 14 numbers", "expected": "14 numbers each", "observed": "All 7 directions have exactly 14 numeric values" },
+        { "action": "Validate opportunity, risk, heat in [0,100]", "expected": "All in range", "observed": "All values in valid range" },
+        { "action": "Validate product_line_breakdown is object, risks is array", "expected": "Correct types", "observed": "All directions have correct types" }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "n/a (CLI test)",
+        "validation_output": "data-bridge/pipeline-schema/validation_output.txt",
+        "json_structure": "data-bridge/pipeline-schema/json_structure_evidence.json",
+        "detail": "All 22 required fields present: id, name, description, heat_magnitude, time_window, confidence_level, classification, judgment_state, audience_fit, price_band_fit, opportunity, risk, heat, movement_history, product_line_breakdown, risks, evidence_summary, proof_snapshot, one_line_recommendation, content_cues, why_it_matters, freshness"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-BRIDGE-012",
+      "title": "product_lines with strengthening/weakening directions",
+      "status": "pass",
+      "steps": [
+        { "action": "Check product_lines array has >= 1 entry", "expected": ">= 1", "observed": "4 product lines: 上装, 下装, 外套, 配饰" },
+        { "action": "Check each has required fields: name, opportunity_level, risk_level, strengthening_directions, weakening_directions", "expected": "All fields present", "observed": "All fields present on all 4 product lines" },
+        { "action": "Check status/movement_status field exists", "expected": "Present", "observed": "movement_status present on all" },
+        { "action": "Verify referenced direction names exist in trend_directions", "expected": "All references valid", "observed": "Weakening directions reference 图案印花 and 日常穿搭 - both exist in trend_directions" }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "n/a (CLI test)",
+        "validation_output": "data-bridge/pipeline-schema/validation_output.txt",
+        "detail": "4 product lines (上装, 下装, 外套, 配饰) with all required fields. All referenced direction names exist."
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-BRIDGE-013",
+      "title": "Evidence entries linked to directions",
+      "status": "pass",
+      "steps": [
+        { "action": "Check evidence_entries has >= 1 entry", "expected": ">= 1", "observed": "21 evidence entries" },
+        { "action": "Validate each entry has id, type, title, related_direction, freshness, weight", "expected": "All fields present and valid", "observed": "All 21 entries have valid fields" },
+        { "action": "Validate type in {笔记,图片,评论,视频}", "expected": "All valid", "observed": "All entries type=笔记" },
+        { "action": "Validate weight in {high,medium,low}", "expected": "All valid", "observed": "Mix of medium and low weights" },
+        { "action": "Check >= 50% of directions have >= 1 evidence entry", "expected": ">= 50%", "observed": "7/7 directions have evidence (100%)" }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "n/a (CLI test)",
+        "validation_output": "data-bridge/pipeline-schema/validation_output.txt",
+        "detail": "21 evidence entries. All 7/7 directions have evidence (100% coverage). All entries use valid types and weights."
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-BRIDGE-014",
+      "title": "Judgment summary and 14-day changes present",
+      "status": "pass",
+      "steps": [
+        { "action": "Check today_judgments has all 4 judgment state keys", "expected": "值得跟, 观察中, 短热噪音, 需要补证据", "observed": "All 4 present: {值得跟: 0, 观察中: 0, 短热噪音: 3, 需要补证据: 4}" },
+        { "action": "Verify sum equals direction count", "expected": "Sum = 7", "observed": "0+0+3+4 = 7 = direction count" },
+        { "action": "Check fourteen_day_changes has rising, cooling, newly_emerging arrays", "expected": "All 3 present as arrays", "observed": "All 3 present as arrays" },
+        { "action": "Check executive_summary has one_line, key_opportunity, key_risk as non-empty strings", "expected": "All non-empty", "observed": "one_line='廓形风格领先，7 个趋势方向值得关注', key_opportunity and key_risk also non-empty" }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "n/a (CLI test)",
+        "validation_output": "data-bridge/pipeline-schema/validation_output.txt",
+        "detail": "today_judgments sums to 7 (matching direction count). fourteen_day_changes has all 3 required arrays. executive_summary has all 3 non-empty strings."
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-BRIDGE-015",
+      "title": "Existing 7 output files still generated",
+      "status": "pass",
+      "steps": [
+        { "action": "Check all 7 files exist in /tmp/sw-real-test/", "expected": "All 7 present", "observed": "All 7 files present" },
+        { "action": "Check none are empty (0 bytes)", "expected": "All > 0 bytes", "observed": "All non-empty: normalized_samples.json(1271328), scored_samples.json(1434050), report.json(23084), report.md(21701), report.html(29157), dashboard.json(718768), frontend_dashboard.json(25212)" }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "n/a (CLI test)",
+        "file_listing": "data-bridge/pipeline-schema/file_listing.txt",
+        "detail": "All 7 files exist and are non-empty. Total output: ~3.5MB"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-BRIDGE-030",
+      "title": "fourteen_day_changes sub-keys match actual schema",
+      "status": "pass",
+      "steps": [
+        { "action": "Inspect fourteen_day_changes keys", "expected": "rising, cooling, newly_emerging (NOT warming/new_appearances)", "observed": "Keys: ['cooling', 'newly_emerging', 'rising'] - correct schema" },
+        { "action": "Verify no legacy keys present", "expected": "No warming or new_appearances", "observed": "No legacy keys found" }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "n/a (CLI test)",
+        "validation_output": "data-bridge/pipeline-schema/validation_output.txt",
+        "detail": "fourteen_day_changes uses correct keys: rising, cooling, newly_emerging. No warming/new_appearances."
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-BRIDGE-031",
+      "title": "Evidence entries use related_direction and weight",
+      "status": "pass",
+      "steps": [
+        { "action": "Check evidence entries use related_direction (not direction_id)", "expected": "All use related_direction", "observed": "All 21 entries have related_direction field, no direction_id found" },
+        { "action": "Check evidence entries use weight (not relevance_weight)", "expected": "All use weight with values high/medium/low", "observed": "All 21 entries have weight field (medium or low), no relevance_weight found" },
+        { "action": "Simulate getEvidenceByDirection compatibility", "expected": ">= 50% directions have matching evidence", "observed": "7/7 directions have matching evidence (100%)" },
+        { "action": "Verify data.js getEvidenceByDirection function filters by related_direction", "expected": "Function matches on related_direction", "observed": "data.js line: entries.filter(e => e.related_direction === directionName) - compatible" }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "n/a (CLI test)",
+        "validation_output": "data-bridge/pipeline-schema/validation_output.txt",
+        "detail": "All evidence entries use related_direction (string name) and weight (high/medium/low). getEvidenceByDirection returns results for 100% of directions."
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 12 assertions: 12 passed, 0 failed, 0 blocked. All pipeline schema validations pass. Pipeline output at /tmp/sw-real-test contains all 7 expected files. frontend_dashboard.json has correct schema with 7 directions, 21 evidence entries, 4 product lines, proper judgment counts, and correct field names. Existing pytest suite (135 tests) also passes."
+}

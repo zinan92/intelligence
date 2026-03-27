@@ -47,3 +47,42 @@ Every frontend change must be tested with BOTH:
 2. Existing jade_dashboard.json (backward compat)
 
 The data.js loader should support both data sources.
+
+## Flow Validator Guidance: Pipeline (pytest + CLI)
+
+**Testing tool:** Direct shell commands (python3, jq, pytest)
+
+**Isolation:** Pipeline validators operate on separate output directories. Each validator uses /tmp/sw-real-test for streetwear data. Since pipeline operations are read-only against input data and write to separate output dirs, they can run concurrently.
+
+**Key constraints:**
+- Do NOT modify source code or test files
+- Run pipeline command first if output doesn't exist: `python3 -m intelligence run-pack designer_streetwear --input examples/designer_streetwear/real_pilot/streetwear_collected.jsonl --output-dir /tmp/sw-real-test`
+- Validate generated JSON files using python3 -c or jq
+- For pytest assertions, run `python3 -m pytest tests/ -x -q`
+- Output data is at /tmp/sw-real-test/frontend_dashboard.json
+
+## Flow Validator Guidance: Dashboard (agent-browser)
+
+**Testing tool:** agent-browser skill (Chromium browser automation)
+
+**Server:** Dashboard server must be running on port 8765. Healthcheck: `curl -sf http://localhost:8765/index.html`
+
+**Isolation:** Browser validators share the same HTTP server on port 8765. This is safe because all browser operations are read-only (no mutations). Each subagent must use its own --session name to avoid conflicts.
+
+**Key constraints:**
+- Always invoke agent-browser skill at session start for full documentation
+- Use unique session names (e.g., "dfe7911c4702__browser1", "dfe7911c4702__browser2")
+- Close sessions when done: `agent-browser --session "<session>" close`
+- Default data: http://localhost:8765/index.html loads frontend_dashboard.json (streetwear data)
+- Jade data: append ?data=jade_dashboard.json to any URL
+- Check for JS console errors on every page load
+- Save evidence screenshots to mission evidence directory
+- Direction IDs from streetwear data can be discovered by loading the data JSON first
+- For direction-detail testing, load the data to find valid direction IDs first
+
+**Page URLs:**
+- Homepage: http://localhost:8765/index.html
+- Direction Map: http://localhost:8765/direction-map.html
+- Direction Detail: http://localhost:8765/direction-detail.html?id=<direction_id>
+- Evidence Library: http://localhost:8765/evidence.html
+- Product Line: http://localhost:8765/product-line.html
