@@ -19,6 +19,62 @@
       }
     }
     
+    /* === Statistics Section === */
+    .evidence-statistics {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .statistics-header {
+      margin-bottom: var(--space-lg);
+    }
+    
+    .statistics-header h2 {
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-xs);
+    }
+    
+    .statistics-header .subtitle {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+    }
+    
+    .statistics-charts {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: var(--space-xl);
+    }
+    
+    @media (max-width: 968px) {
+      .statistics-charts {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .chart-container {
+      background-color: var(--color-bg-primary);
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .chart-title {
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-md);
+    }
+    
+    .chart-svg {
+      width: 100%;
+      height: auto;
+    }
+    
     /* === Header with inline filters === */
     .evidence-header {
       background-color: var(--color-bg-primary);
@@ -248,7 +304,7 @@
         <div class="header-top">
           <h1>证据库</h1>
           <p class="subtitle">
-            精选 28 条高质量证据，展示每条证据如何支撑趋势判断、关联哪个方向、为什么重要。
+            精选高质量证据，展示每条证据如何支撑趋势判断、关联哪个方向、为什么重要。
             所有证据都经过策展，强调相关性和新鲜度，而非原始数据堆砌。
           </p>
         </div>
@@ -301,6 +357,28 @@
         </div>
       </header>
       
+      <!-- === STATISTICS SECTION === -->
+      <section class="evidence-statistics" id="evidence-statistics">
+        <div class="statistics-header">
+          <h2>证据分布统计</h2>
+          <p class="subtitle">当前显示证据的类型和方向分布</p>
+        </div>
+        <div class="statistics-charts">
+          <div class="chart-container">
+            <h3 class="chart-title">证据类型分布</h3>
+            <svg class="chart-svg" id="type-distribution-chart" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid meet">
+              <!-- Will be populated by JavaScript -->
+            </svg>
+          </div>
+          <div class="chart-container">
+            <h3 class="chart-title">方向证据分布</h3>
+            <svg class="chart-svg" id="direction-distribution-chart" viewBox="0 0 600 300" preserveAspectRatio="xMidYMid meet">
+              <!-- Will be populated by JavaScript -->
+            </svg>
+          </div>
+        </div>
+      </section>
+      
       <!-- === EVIDENCE WALL (Waterfall Grid) === -->
       <div class="evidence-wall" id="evidence-wall">
         <!-- Will be populated by JavaScript -->
@@ -350,6 +428,16 @@
         const directionParam = getDirectionFromUrl();
         if (directionParam) {
           activeFilters.direction = directionParam;
+          // Update the active filter chip if it exists
+          setTimeout(() => {
+            document.querySelectorAll('.filter-chip[data-filter-type="direction"]').forEach(chip => {
+              if (chip.dataset.filterValue === directionParam) {
+                chip.classList.add('active');
+              } else if (chip.dataset.filterValue === 'all') {
+                chip.classList.remove('active');
+              }
+            });
+          }, 0);
         }
         
         // Apply filters and render
@@ -460,8 +548,224 @@
         return true;
       });
       
-      // Render the evidence wall
+      // Render the statistics and evidence wall
+      renderEvidenceStats(filteredEvidence);
       renderEvidenceWall();
+    }
+    
+    /**
+     * Render evidence statistics charts
+     */
+    function renderEvidenceStats(evidenceEntries) {
+      renderTypeDistributionChart(evidenceEntries);
+      renderDirectionDistributionChart(evidenceEntries);
+    }
+    
+    /**
+     * Render type distribution chart (horizontal bar chart)
+     */
+    function renderTypeDistributionChart(evidenceEntries) {
+      const svg = document.getElementById('type-distribution-chart');
+      if (!svg) return;
+      
+      // Clear existing content
+      svg.innerHTML = '';
+      
+      // Count evidence by type
+      const typeCounts = {};
+      evidenceEntries.forEach(evidence => {
+        const type = evidence.type;
+        typeCounts[type] = (typeCounts[type] || 0) + 1;
+      });
+      
+      // Convert to array and sort
+      const typeData = Object.entries(typeCounts)
+        .map(([type, count]) => ({ type, count }))
+        .sort((a, b) => b.count - a.count);
+      
+      if (typeData.length === 0) {
+        // Show empty state
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', '150');
+        text.setAttribute('y', '100');
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('fill', '#6a7178');
+        text.setAttribute('font-size', '14');
+        text.textContent = '暂无数据';
+        svg.appendChild(text);
+        return;
+      }
+      
+      // Chart dimensions
+      const width = 300;
+      const height = 200;
+      const padding = { top: 10, right: 20, bottom: 30, left: 80 };
+      const chartWidth = width - padding.left - padding.right;
+      const chartHeight = height - padding.top - padding.bottom;
+      
+      // Max count for scaling
+      const maxCount = Math.max(...typeData.map(d => d.count));
+      
+      // Type colors
+      const typeColors = {
+        '笔记': '#3b82f6',
+        '图片': '#10b981',
+        '评论': '#f59e0b',
+        '视频': '#8b5cf6'
+      };
+      
+      // Bar height
+      const barHeight = chartHeight / typeData.length * 0.7;
+      const barSpacing = chartHeight / typeData.length;
+      
+      // Render bars
+      typeData.forEach((item, index) => {
+        const barWidth = (item.count / maxCount) * chartWidth;
+        const y = padding.top + index * barSpacing + (barSpacing - barHeight) / 2;
+        
+        // Bar
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rect.setAttribute('x', padding.left);
+        rect.setAttribute('y', y);
+        rect.setAttribute('width', barWidth);
+        rect.setAttribute('height', barHeight);
+        rect.setAttribute('fill', typeColors[item.type] || '#6b7280');
+        rect.setAttribute('rx', '4');
+        svg.appendChild(rect);
+        
+        // Type label (left)
+        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        label.setAttribute('x', padding.left - 10);
+        label.setAttribute('y', y + barHeight / 2);
+        label.setAttribute('text-anchor', 'end');
+        label.setAttribute('dominant-baseline', 'middle');
+        label.setAttribute('fill', '#1a1d21');
+        label.setAttribute('font-size', '13');
+        label.setAttribute('font-weight', '500');
+        label.textContent = item.type;
+        svg.appendChild(label);
+        
+        // Count label (right)
+        const countLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        countLabel.setAttribute('x', padding.left + barWidth + 5);
+        countLabel.setAttribute('y', y + barHeight / 2);
+        countLabel.setAttribute('text-anchor', 'start');
+        countLabel.setAttribute('dominant-baseline', 'middle');
+        countLabel.setAttribute('fill', '#4a5056');
+        countLabel.setAttribute('font-size', '12');
+        countLabel.setAttribute('font-weight', '600');
+        countLabel.textContent = item.count;
+        svg.appendChild(countLabel);
+      });
+    }
+    
+    /**
+     * Render direction distribution chart (horizontal bar chart)
+     */
+    function renderDirectionDistributionChart(evidenceEntries) {
+      const svg = document.getElementById('direction-distribution-chart');
+      if (!svg) return;
+      
+      // Clear existing content
+      svg.innerHTML = '';
+      
+      // Count evidence by direction
+      const directionCounts = {};
+      evidenceEntries.forEach(evidence => {
+        const direction = evidence.related_direction;
+        directionCounts[direction] = (directionCounts[direction] || 0) + 1;
+      });
+      
+      // Convert to array and sort by count (descending)
+      const directionData = Object.entries(directionCounts)
+        .map(([direction, count]) => ({ direction, count }))
+        .sort((a, b) => b.count - a.count);
+      
+      if (directionData.length === 0) {
+        // Show empty state
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', '300');
+        text.setAttribute('y', '150');
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('fill', '#6a7178');
+        text.setAttribute('font-size', '14');
+        text.textContent = '暂无数据';
+        svg.appendChild(text);
+        return;
+      }
+      
+      // Chart dimensions
+      const width = 600;
+      const height = 300;
+      const padding = { top: 10, right: 40, bottom: 30, left: 120 };
+      const chartWidth = width - padding.left - padding.right;
+      const chartHeight = height - padding.top - padding.bottom;
+      
+      // Max count for scaling
+      const maxCount = Math.max(...directionData.map(d => d.count));
+      
+      // Bar height
+      const barHeight = Math.min(24, chartHeight / directionData.length * 0.7);
+      const barSpacing = chartHeight / directionData.length;
+      
+      // Get judgment state for each direction
+      const directionJudgments = {};
+      if (window.cachedDirections) {
+        window.cachedDirections.forEach(dir => {
+          directionJudgments[dir.name] = dir.judgment_state;
+        });
+      }
+      
+      // Judgment state colors
+      const judgmentColors = {
+        '值得跟': '#10b981',
+        '观察中': '#3b82f6',
+        '短热噪音': '#f59e0b',
+        '需要补证据': '#6b7280'
+      };
+      
+      // Render bars
+      directionData.forEach((item, index) => {
+        const barWidth = (item.count / maxCount) * chartWidth;
+        const y = padding.top + index * barSpacing + (barSpacing - barHeight) / 2;
+        const judgment = directionJudgments[item.direction] || '需要补证据';
+        const color = judgmentColors[judgment] || '#6b7280';
+        
+        // Bar
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rect.setAttribute('x', padding.left);
+        rect.setAttribute('y', y);
+        rect.setAttribute('width', barWidth);
+        rect.setAttribute('height', barHeight);
+        rect.setAttribute('fill', color);
+        rect.setAttribute('rx', '4');
+        svg.appendChild(rect);
+        
+        // Direction label (left) - truncate if too long
+        const directionName = item.direction.length > 12 ? item.direction.substring(0, 11) + '…' : item.direction;
+        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        label.setAttribute('x', padding.left - 10);
+        label.setAttribute('y', y + barHeight / 2);
+        label.setAttribute('text-anchor', 'end');
+        label.setAttribute('dominant-baseline', 'middle');
+        label.setAttribute('fill', '#1a1d21');
+        label.setAttribute('font-size', '12');
+        label.setAttribute('font-weight', '500');
+        label.textContent = directionName;
+        svg.appendChild(label);
+        
+        // Count label (right)
+        const countLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        countLabel.setAttribute('x', padding.left + barWidth + 5);
+        countLabel.setAttribute('y', y + barHeight / 2);
+        countLabel.setAttribute('text-anchor', 'start');
+        countLabel.setAttribute('dominant-baseline', 'middle');
+        countLabel.setAttribute('fill', '#4a5056');
+        countLabel.setAttribute('font-size', '12');
+        countLabel.setAttribute('font-weight', '600');
+        countLabel.textContent = item.count;
+        svg.appendChild(countLabel);
+      });
     }
     
     /**
