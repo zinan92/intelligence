@@ -168,6 +168,46 @@
       color: var(--color-text-secondary);
     }
     
+    /* Bubble tooltip */
+    .bubble-tooltip {
+      position: fixed;
+      background-color: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 0.75rem;
+      border-radius: var(--radius-md);
+      font-size: var(--font-size-sm);
+      pointer-events: none;
+      z-index: var(--z-index-tooltip);
+      box-shadow: var(--shadow-lg);
+      min-width: 200px;
+      display: none;
+    }
+    
+    .bubble-tooltip.visible {
+      display: block;
+    }
+    
+    .bubble-tooltip .tooltip-title {
+      font-weight: var(--font-weight-semibold);
+      margin-bottom: 0.5rem;
+      font-size: var(--font-size-base);
+    }
+    
+    .bubble-tooltip .tooltip-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.25rem;
+    }
+    
+    .bubble-tooltip .tooltip-label {
+      color: #d1d5db;
+    }
+    
+    .bubble-tooltip .tooltip-value {
+      font-weight: var(--font-weight-semibold);
+      margin-left: 1rem;
+    }
+    
     @media (max-width: 1280px) {
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -247,6 +287,27 @@
           <!-- Will be populated by JavaScript -->
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Bubble tooltip -->
+  <div id="bubble-tooltip" class="bubble-tooltip">
+    <div class="tooltip-title" id="tooltip-title"></div>
+    <div class="tooltip-row">
+      <span class="tooltip-label">热度:</span>
+      <span class="tooltip-value" id="tooltip-heat">0</span>
+    </div>
+    <div class="tooltip-row">
+      <span class="tooltip-label">机会:</span>
+      <span class="tooltip-value" id="tooltip-opportunity">0</span>
+    </div>
+    <div class="tooltip-row">
+      <span class="tooltip-label">风险:</span>
+      <span class="tooltip-value" id="tooltip-risk">0</span>
+    </div>
+    <div class="tooltip-row">
+      <span class="tooltip-label">判断:</span>
+      <span class="tooltip-value" id="tooltip-judgment">-</span>
     </div>
   </div>
 
@@ -368,6 +429,34 @@
       const yScale = (value) => margin.top + ((100 - value) / 100) * plotHeight; // Inverted Y
       const sizeScale = (heat) => Math.max(15, Math.min(50, (heat / 100) * 50));
       
+      // Draw quadrant background shading
+      const quadrantGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      
+      // Define quadrants: (x, y, color, label)
+      // Top-left: high opportunity, low risk → green/teal
+      // Top-right: high opportunity, high risk → yellow/amber
+      // Bottom-left: low opportunity, low risk → gray
+      // Bottom-right: low opportunity, high risk → red/pink
+      const quadrants = [
+        { x: 0, y: 0, width: 50, height: 50, color: '#d1d5db', opacity: 0.1 }, // Bottom-left: low opp, low risk (gray)
+        { x: 50, y: 0, width: 50, height: 50, color: '#fca5a5', opacity: 0.1 }, // Bottom-right: low opp, high risk (red)
+        { x: 0, y: 50, width: 50, height: 50, color: '#6ee7b7', opacity: 0.12 }, // Top-left: high opp, low risk (green)
+        { x: 50, y: 50, width: 50, height: 50, color: '#fcd34d', opacity: 0.1 } // Top-right: high opp, high risk (yellow)
+      ];
+      
+      quadrants.forEach(quadrant => {
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rect.setAttribute('x', margin.left + (quadrant.x / 100) * plotWidth);
+        rect.setAttribute('y', margin.top + ((100 - quadrant.y - quadrant.height) / 100) * plotHeight);
+        rect.setAttribute('width', (quadrant.width / 100) * plotWidth);
+        rect.setAttribute('height', (quadrant.height / 100) * plotHeight);
+        rect.setAttribute('fill', quadrant.color);
+        rect.setAttribute('fill-opacity', quadrant.opacity);
+        quadrantGroup.appendChild(rect);
+      });
+      
+      svg.appendChild(quadrantGroup);
+      
       // Draw grid lines
       const gridGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
       for (let i = 0; i <= 100; i += 25) {
@@ -482,6 +571,19 @@
           window.location.href = `direction-detail.html?id=${dir.id}`;
         });
         
+        // Hover handlers for tooltip
+        bubble.addEventListener('mouseenter', (e) => {
+          showBubbleTooltip(dir, e);
+        });
+        
+        bubble.addEventListener('mousemove', (e) => {
+          updateTooltipPosition(e);
+        });
+        
+        bubble.addEventListener('mouseleave', () => {
+          hideBubbleTooltip();
+        });
+        
         bubbleGroup.appendChild(bubble);
         
         // Bubble label (direction name)
@@ -518,6 +620,69 @@
           <span class="legend-label">${state}</span>
         </div>
       `).join('');
+    }
+    
+    /**
+     * Show bubble tooltip with direction data
+     * @param {Object} direction - Direction object
+     * @param {MouseEvent} event - Mouse event
+     */
+    function showBubbleTooltip(direction, event) {
+      const tooltip = document.getElementById('bubble-tooltip');
+      if (!tooltip) return;
+      
+      // Populate tooltip content
+      document.getElementById('tooltip-title').textContent = direction.name;
+      document.getElementById('tooltip-heat').textContent = direction.heat || 0;
+      document.getElementById('tooltip-opportunity').textContent = direction.opportunity || 0;
+      document.getElementById('tooltip-risk').textContent = direction.risk || 0;
+      document.getElementById('tooltip-judgment').textContent = direction.judgment_state || '-';
+      
+      // Show tooltip
+      tooltip.classList.add('visible');
+      
+      // Position tooltip
+      updateTooltipPosition(event);
+    }
+    
+    /**
+     * Update tooltip position
+     * @param {MouseEvent} event - Mouse event
+     */
+    function updateTooltipPosition(event) {
+      const tooltip = document.getElementById('bubble-tooltip');
+      if (!tooltip || !tooltip.classList.contains('visible')) return;
+      
+      const offset = 15;
+      let x = event.clientX + offset;
+      let y = event.clientY + offset;
+      
+      // Get tooltip dimensions
+      const tooltipRect = tooltip.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      
+      // Adjust if tooltip would overflow viewport
+      if (x + tooltipRect.width > viewportWidth) {
+        x = event.clientX - tooltipRect.width - offset;
+      }
+      
+      if (y + tooltipRect.height > viewportHeight) {
+        y = event.clientY - tooltipRect.height - offset;
+      }
+      
+      tooltip.style.left = x + 'px';
+      tooltip.style.top = y + 'px';
+    }
+    
+    /**
+     * Hide bubble tooltip
+     */
+    function hideBubbleTooltip() {
+      const tooltip = document.getElementById('bubble-tooltip');
+      if (!tooltip) return;
+      
+      tooltip.classList.remove('visible');
     }
     
     // Initialize on page load

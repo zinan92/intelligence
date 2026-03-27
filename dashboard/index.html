@@ -45,6 +45,14 @@
         
         <div class="card">
           <div class="card-body">
+            <!-- Donut chart -->
+            <div style="margin-bottom: 1.5rem; display: flex; justify-content: center;">
+              <svg id="judgment-donut-chart" viewBox="0 0 200 200" style="width: 200px; height: 200px;">
+                <!-- Will be populated by JavaScript -->
+              </svg>
+            </div>
+            
+            <!-- Stats breakdown -->
             <div style="display: flex; flex-direction: column; gap: 1rem;">
               <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--color-judgment-zhidegeng-light); border-radius: var(--radius-md);">
                 <span class="font-semibold" style="color: var(--color-judgment-zhidegeng);">值得跟</span>
@@ -270,6 +278,143 @@
       document.getElementById('count-guanchazu').textContent = judgments['观察中'] || 0;
       document.getElementById('count-duanrezaoyin').textContent = judgments['短热噪音'] || 0;
       document.getElementById('count-xuyaobuzhengju').textContent = judgments['需要补证据'] || 0;
+      
+      // Render donut chart
+      renderJudgmentDonutChart(judgments);
+    }
+    
+    /**
+     * Render judgment distribution donut chart
+     * @param {Object} judgments - Judgment counts object
+     */
+    function renderJudgmentDonutChart(judgments) {
+      const svg = document.getElementById('judgment-donut-chart');
+      if (!svg) return;
+      
+      // Clear existing content
+      svg.innerHTML = '';
+      
+      // Judgment states with colors
+      const judgmentStates = [
+        { name: '值得跟', count: judgments['值得跟'] || 0, color: '#10b981' },
+        { name: '观察中', count: judgments['观察中'] || 0, color: '#3b82f6' },
+        { name: '短热噪音', count: judgments['短热噪音'] || 0, color: '#f59e0b' },
+        { name: '需要补证据', count: judgments['需要补证据'] || 0, color: '#6b7280' }
+      ];
+      
+      // Calculate total
+      const total = judgmentStates.reduce((sum, state) => sum + state.count, 0);
+      
+      if (total === 0) {
+        // Show empty state
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', '100');
+        text.setAttribute('y', '100');
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('dominant-baseline', 'middle');
+        text.setAttribute('font-size', '14');
+        text.setAttribute('fill', '#6b7280');
+        text.textContent = '暂无数据';
+        svg.appendChild(text);
+        return;
+      }
+      
+      // Donut chart parameters
+      const cx = 100;
+      const cy = 100;
+      const radius = 70;
+      const strokeWidth = 35;
+      
+      // Calculate cumulative angles
+      let currentAngle = -90; // Start at top
+      
+      judgmentStates.forEach((state, index) => {
+        if (state.count === 0) return;
+        
+        const percentage = state.count / total;
+        const angleDegrees = percentage * 360;
+        const angleRadians = (angleDegrees * Math.PI) / 180;
+        
+        // Calculate arc path
+        const startAngleRad = (currentAngle * Math.PI) / 180;
+        const endAngleRad = ((currentAngle + angleDegrees) * Math.PI) / 180;
+        
+        const startX = cx + radius * Math.cos(startAngleRad);
+        const startY = cy + radius * Math.sin(startAngleRad);
+        const endX = cx + radius * Math.cos(endAngleRad);
+        const endY = cy + radius * Math.sin(endAngleRad);
+        
+        const largeArcFlag = angleDegrees > 180 ? 1 : 0;
+        
+        // Create path for arc segment
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        const pathData = [
+          `M ${startX} ${startY}`,
+          `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY}`
+        ].join(' ');
+        
+        path.setAttribute('d', pathData);
+        path.setAttribute('fill', 'none');
+        path.setAttribute('stroke', state.color);
+        path.setAttribute('stroke-width', strokeWidth);
+        path.setAttribute('stroke-linecap', 'round');
+        
+        svg.appendChild(path);
+        
+        // Add label at midpoint if segment is large enough
+        if (percentage >= 0.08) {
+          const midAngle = currentAngle + angleDegrees / 2;
+          const midAngleRad = (midAngle * Math.PI) / 180;
+          const labelRadius = radius;
+          const labelX = cx + labelRadius * Math.cos(midAngleRad);
+          const labelY = cy + labelRadius * Math.sin(midAngleRad);
+          
+          const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          label.setAttribute('x', labelX);
+          label.setAttribute('y', labelY);
+          label.setAttribute('text-anchor', 'middle');
+          label.setAttribute('dominant-baseline', 'middle');
+          label.setAttribute('font-size', '12');
+          label.setAttribute('font-weight', '600');
+          label.setAttribute('fill', '#ffffff');
+          label.setAttribute('style', 'pointer-events: none;');
+          label.textContent = state.count;
+          
+          svg.appendChild(label);
+        }
+        
+        currentAngle += angleDegrees;
+      });
+      
+      // Add center circle for donut effect
+      const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      centerCircle.setAttribute('cx', cx);
+      centerCircle.setAttribute('cy', cy);
+      centerCircle.setAttribute('r', radius - strokeWidth / 2 - 5);
+      centerCircle.setAttribute('fill', '#ffffff');
+      svg.appendChild(centerCircle);
+      
+      // Add total count in center
+      const totalText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      totalText.setAttribute('x', cx);
+      totalText.setAttribute('y', cy - 5);
+      totalText.setAttribute('text-anchor', 'middle');
+      totalText.setAttribute('dominant-baseline', 'middle');
+      totalText.setAttribute('font-size', '24');
+      totalText.setAttribute('font-weight', 'bold');
+      totalText.setAttribute('fill', '#1a1d21');
+      totalText.textContent = total;
+      svg.appendChild(totalText);
+      
+      const totalLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      totalLabel.setAttribute('x', cx);
+      totalLabel.setAttribute('y', cy + 15);
+      totalLabel.setAttribute('text-anchor', 'middle');
+      totalLabel.setAttribute('dominant-baseline', 'middle');
+      totalLabel.setAttribute('font-size', '12');
+      totalLabel.setAttribute('fill', '#6b7280');
+      totalLabel.textContent = '方向总数';
+      svg.appendChild(totalLabel);
     }
 
     /**
