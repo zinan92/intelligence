@@ -435,6 +435,8 @@
       
       if (!container) return;
       
+      const colors = getJudgmentColors(direction.judgment_state);
+      
       container.innerHTML = `
         <div class="overview-stats">
           <div class="stat-card">
@@ -456,6 +458,26 @@
             </div>
           </div>
         </div>
+        
+        <!-- 14-Day Trend Chart -->
+        <div class="card" style="margin-top: var(--space-lg);">
+          <div class="card-header">
+            <h3 class="card-title">14天趋势图</h3>
+            <p class="card-subtitle">热度变化趋势分析</p>
+          </div>
+          <div class="card-body" style="display: flex; justify-content: center; align-items: center; padding: var(--space-xl);">
+            ${renderAreaChart(direction.movement_history || [], {
+              width: Math.min(800, window.innerWidth - 200),
+              height: 180,
+              fillColor: colors.fillColor,
+              strokeColor: colors.strokeColor,
+              showDots: true,
+              showLabels: true,
+              showGradient: true
+            })}
+          </div>
+        </div>
+        
         <div class="card" style="margin-top: var(--space-lg);">
           <div class="card-body">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl);">

@@ -277,6 +277,149 @@ function renderRiskCard(risk) {
   `;
 }
 
+/**
+ * Render an area chart from movement history data
+ * @param {Array<number>} data - Array of numeric values (typically 14 data points for movement_history)
+ * @param {Object} options - Configuration options
+ * @param {number} options.width - Width of SVG in pixels (default: 400)
+ * @param {number} options.height - Height of SVG in pixels (default: 180)
+ * @param {string} options.fillColor - Fill color for area (default: '#10b981')
+ * @param {string} options.strokeColor - Stroke color for line (default: '#059669')
+ * @param {boolean} options.showDots - Whether to show data point dots (default: false)
+ * @param {boolean} options.showLabels - Whether to show axis labels (default: false)
+ * @param {boolean} options.showGradient - Whether to use gradient fill (default: true)
+ * @param {string} options.className - CSS class for container (default: '')
+ * @returns {string} SVG element as HTML string
+ */
+function renderAreaChart(data, options = {}) {
+  // Validate input
+  if (!data || !Array.isArray(data) || data.length < 2) {
+    return '<span class="text-sm text-muted">数据不足</span>';
+  }
+  
+  // Default options
+  const {
+    width = 400,
+    height = 180,
+    fillColor = '#10b981',
+    strokeColor = '#059669',
+    showDots = false,
+    showLabels = false,
+    showGradient = true,
+    className = ''
+  } = options;
+  
+  // Calculate padding for labels
+  const paddingTop = showLabels ? 20 : 10;
+  const paddingBottom = showLabels ? 30 : 10;
+  const paddingLeft = showLabels ? 40 : 10;
+  const paddingRight = 10;
+  
+  const chartWidth = width - paddingLeft - paddingRight;
+  const chartHeight = height - paddingTop - paddingBottom;
+  
+  // Find min and max values
+  const max = Math.max(...data);
+  const min = Math.min(...data);
+  const range = max - min || 1;
+  
+  // Generate points for the area path
+  const points = data.map((value, index) => {
+    const x = paddingLeft + (index / (data.length - 1)) * chartWidth;
+    const y = paddingTop + chartHeight - ((value - min) / range) * chartHeight;
+    return { x, y, value };
+  });
+  
+  // Create SVG path for area
+  const areaPath = [
+    `M ${points[0].x} ${height - paddingBottom}`, // Start at bottom-left
+    ...points.map(p => `L ${p.x} ${p.y}`), // Line to each data point
+    `L ${points[points.length - 1].x} ${height - paddingBottom}`, // Line down to bottom-right
+    'Z' // Close path
+  ].join(' ');
+  
+  // Create SVG path for line
+  const linePath = points.map((p, i) => 
+    i === 0 ? `M ${p.x} ${p.y}` : `L ${p.x} ${p.y}`
+  ).join(' ');
+  
+  // Generate unique ID for gradient
+  const gradientId = `gradient-${Math.random().toString(36).substr(2, 9)}`;
+  
+  // Generate dots HTML if enabled
+  const dotsHtml = showDots ? points.map(p => 
+    `<circle cx="${p.x}" cy="${p.y}" r="3" fill="${strokeColor}" />`
+  ).join('\n') : '';
+  
+  // Generate labels HTML if enabled
+  let labelsHtml = '';
+  if (showLabels) {
+    // X-axis labels (first and last day)
+    labelsHtml += `
+      <text x="${paddingLeft}" y="${height - 5}" font-size="12" fill="#6a7178" text-anchor="start">第1天</text>
+      <text x="${width - paddingRight}" y="${height - 5}" font-size="12" fill="#6a7178" text-anchor="end">第${data.length}天</text>
+    `;
+    
+    // Y-axis labels (min and max)
+    labelsHtml += `
+      <text x="${paddingLeft - 5}" y="${paddingTop + 5}" font-size="12" fill="#6a7178" text-anchor="end">${max}</text>
+      <text x="${paddingLeft - 5}" y="${height - paddingBottom}" font-size="12" fill="#6a7178" text-anchor="end">${min}</text>
+    `;
+  }
+  
+  return `
+    <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" class="${className}" style="display: block;">
+      <defs>
+        ${showGradient ? `
+          <linearGradient id="${gradientId}" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:${fillColor};stop-opacity:0.6" />
+            <stop offset="100%" style="stop-color:${fillColor};stop-opacity:0.05" />
+          </linearGradient>
+        ` : ''}
+      </defs>
+      
+      <!-- Area fill -->
+      <path
+        d="${areaPath}"
+        fill="${showGradient ? `url(#${gradientId})` : fillColor}"
+        opacity="${showGradient ? '1' : '0.2'}"
+      />
+      
+      <!-- Line stroke -->
+      <path
+        d="${linePath}"
+        fill="none"
+        stroke="${strokeColor}"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      
+      <!-- Data point dots -->
+      ${dotsHtml}
+      
+      <!-- Axis labels -->
+      ${labelsHtml}
+    </svg>
+  `;
+}
+
+/**
+ * Helper function to get judgment state color for charts
+ * @param {string} judgmentState - Judgment state
+ * @returns {Object} Object with fillColor and strokeColor
+ */
+function getJudgmentColors(judgmentState) {
+  const colorMap = {
+    '值得跟': { fillColor: '#10b981', strokeColor: '#059669' },
+    '观察中': { fillColor: '#3b82f6', strokeColor: '#2563eb' },
+    '短热噪音': { fillColor: '#f59e0b', strokeColor: '#d97706' },
+    '需要补证据': { fillColor: '#6b7280', strokeColor: '#4b5563' }
+  };
+  
+  return colorMap[judgmentState] || colorMap['需要补证据'];
+}
+
 // Export functions for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
@@ -289,6 +432,8 @@ if (typeof module !== 'undefined' && module.exports) {
     renderDirectionCard,
     renderProductLineCard,
     renderEvidenceCard,
-    renderRiskCard
+    renderRiskCard,
+    renderAreaChart,
+    getJudgmentColors
   };
 }
