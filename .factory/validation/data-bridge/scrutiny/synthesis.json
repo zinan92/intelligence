@@ -1,109 +1,57 @@
 {
   "milestone": "data-bridge",
-  "round": 1,
-  "status": "fail",
+  "round": 2,
+  "status": "pass",
   "validatorsRun": {
-    "test": { "passed": true, "command": "python3 -m pytest tests/ -x -q", "exitCode": 0, "details": "135 passed in 3.06s" },
+    "test": { "passed": true, "command": "python3 -m pytest tests/ -x -q", "exitCode": 0, "details": "135 passed in 3.10s" },
     "typecheck": { "passed": true, "command": "echo \"No typecheck configured (pure Python, no mypy)\"", "exitCode": 0 },
     "lint": { "passed": true, "command": "echo \"No lint configured\"", "exitCode": 0 }
   },
   "reviewsSummary": {
-    "total": 2,
-    "passed": 0,
-    "failed": 2,
-    "failedFeatures": ["direction-clustering-and-frontend-json", "frontend-data-switch-and-bugfixes"]
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "failedFeatures": []
   },
-  "blockingIssues": [
-    {
-      "featureId": "direction-clustering-and-frontend-json",
-      "severity": "blocking",
-      "description": "fourteen_day_changes schema mismatch: _generate_fourteen_day_changes() in frontend_builder.py returns dict[str, list[str]] (simple direction name strings), but jade_dashboard.json uses dict[str, list[dict]] where each item is {\"direction\": str, \"change\": str, \"reason\": str}. The frontend (index.html:483-511) accesses item.direction, item.change, item.reason — these will all be 'undefined' with string values, breaking the 14-day changes module on the homepage."
-    },
-    {
-      "featureId": "direction-clustering-and-frontend-json",
-      "severity": "blocking",
-      "description": "test_field_name_correctness in tests/test_frontend_builder.py only checks that 'rising', 'cooling', 'newly_emerging' keys exist but does NOT validate the inner structure (objects with direction/change/reason fields vs plain strings). The test passes despite the schema being wrong, creating a false sense of correctness."
-    },
-    {
-      "featureId": "frontend-data-switch-and-bugfixes",
-      "severity": "blocking",
-      "description": "CSS variable name mismatch for 观察中 judgment state: index.html references --color-judgment-guancharzhong and --color-judgment-guancharzhong-light, but style.css defines them as --color-judgment-guanchazu and --color-judgment-guanchazu-light. The 观察中 row renders without its intended blue color styling, breaking the visual consistency of the judgment summary module."
-    }
-  ],
+  "blockingIssues": [],
   "nonBlockingIssues": [
     {
-      "featureId": "direction-clustering-and-frontend-json",
+      "featureId": "fix-fourteen-day-changes-and-css-mismatch",
       "severity": "non_blocking",
-      "description": "Double-scoring in pack_runner.py: every sample is scored twice (once for scored_samples, once for scored_samples_for_clustering). Should score once and reuse results."
+      "description": "Minor list comprehension inefficiency in _generate_fourteen_day_changes(): newly_emerging filter rebuilds [d['name'] for d in rising_dirs] per iteration. Should extract to a set."
     },
     {
-      "featureId": "direction-clustering-and-frontend-json",
+      "featureId": "fix-fourteen-day-changes-and-css-mismatch",
       "severity": "non_blocking",
-      "description": "All evidence entries have product_line hardcoded to '上装' regardless of direction or post content."
+      "description": "Change values in fourteen_day_changes are synthetic (derived from heat via formula), not real 14-day deltas. Acceptable for current single-snapshot pipeline."
     },
     {
-      "featureId": "direction-clustering-and-frontend-json",
+      "featureId": "fix-fourteen-day-changes-and-css-mismatch",
       "severity": "non_blocking",
-      "description": "Non-deterministic random.randint() in movement_history generation without seeding."
-    },
-    {
-      "featureId": "direction-clustering-and-frontend-json",
-      "severity": "non_blocking",
-      "description": "scoring_model field uses different schema than jade_dashboard.json."
-    },
-    {
-      "featureId": "direction-clustering-and-frontend-json",
-      "severity": "non_blocking",
-      "description": "中高 confidence level never produced by clustering code — only 高/中/低."
-    },
-    {
-      "featureId": "direction-clustering-and-frontend-json",
-      "severity": "non_blocking",
-      "description": "Direction dicts use private fields '_aggregate_score' and '_members' for internal communication instead of proper dataclasses."
-    },
-    {
-      "featureId": "frontend-data-switch-and-bugfixes",
-      "severity": "non_blocking",
-      "description": "XSS via unsanitized directionId from URL parameter interpolated into innerHTML in direction-detail.html."
-    },
-    {
-      "featureId": "frontend-data-switch-and-bugfixes",
-      "severity": "non_blocking",
-      "description": "error.message interpolated into innerHTML across all 5 pages — minor XSS risk."
-    },
-    {
-      "featureId": "frontend-data-switch-and-bugfixes",
-      "severity": "non_blocking",
-      "description": "getDataPath() allows absolute paths via URL parameter — not exploitable due to same-origin constraint but unnecessarily permissive."
+      "description": "Commit 3a7e397 includes 32 unrelated files (22 PNGs, 7 output files, 3 doc files) alongside the 5 relevant source/data files. Caused by 'git add -A' sweeping up previously untracked files."
     }
   ],
   "appliedUpdates": [],
   "suggestedGuidanceUpdates": [
     {
       "target": "AGENTS.md",
-      "suggestion": "Add explicit sub-field structure documentation for fourteen_day_changes in the Dashboard JSON Schema Reference. Currently only top-level keys (rising, cooling, newly_emerging) are documented, but each array item must be an object {direction, change, reason}, not a plain string. This omission directly caused the blocking fourteen_day_changes schema mismatch.",
-      "evidence": "direction-clustering-and-frontend-json worker produced string arrays instead of object arrays because AGENTS.md schema reference did not specify the inner structure. jade_dashboard.json lines 644-670 show the expected object structure.",
+      "suggestion": "Fix CSS variable name typo: AGENTS.md says '--color-judgment-zhidegen' (missing trailing 'g') but the actual CSS and HTML consistently use '--color-judgment-zhidegeng'. Change 'zhidegen' to 'zhidegeng' in the 'CSS Variable Names for Judgment States' section to match the real code.",
+      "evidence": "dashboard/css/style.css:25 defines '--color-judgment-zhidegeng: #10b981', dashboard/index.html:49-51 uses '--color-judgment-zhidegeng', but AGENTS.md documents it as '--color-judgment-zhidegen'. The same typo appears in .factory/skills/dashboard-visual-worker/SKILL.md:44.",
       "isSystemic": true
     },
     {
       "target": "AGENTS.md",
-      "suggestion": "Add CSS variable naming convention for judgment states. Document exact variable names: --color-judgment-zhidegen (值得跟), --color-judgment-guanchazu (观察中), --color-judgment-duanrezaoyin (短热噪音), --color-judgment-xuyaobuzhengju (需要补证据). Each has a -light variant. Workers must reference existing CSS variables rather than inventing new names.",
-      "evidence": "frontend-data-switch-and-bugfixes worker used --color-judgment-guancharzhong instead of --color-judgment-guanchazu because the CSS variable naming was not documented in AGENTS.md. The worker guessed the pinyin romanization differently from the original author.",
+      "suggestion": "Add git staging convention: 'When committing, only stage files directly related to the feature. Avoid git add -A which sweeps unrelated files into the commit.' This prevents bloated commits that mix feature changes with unrelated artifacts.",
+      "evidence": "fix-fourteen-day-changes-and-css-mismatch commit 3a7e397 included 32 unrelated files (PNGs, output files, docs) alongside 5 relevant source files due to 'git add -A'.",
       "isSystemic": true
     },
     {
-      "target": "AGENTS.md",
-      "suggestion": "Add XSS prevention convention: 'Never interpolate URL parameters or user-provided strings into innerHTML without HTML-escaping. Use textContent for untrusted values, or create a sanitize() helper.' Low priority since dashboard is internal/local only, but good practice.",
-      "evidence": "frontend-data-switch-and-bugfixes review found directionId from URL param and error.message interpolated into innerHTML in multiple pages. Pre-existing pattern in codebase, not introduced by this worker.",
-      "isSystemic": true
-    },
-    {
-      "target": "AGENTS.md",
-      "suggestion": "Clarify that direction data structures should use frozen dataclasses (consistent with CanonicalSample, ScoringResult, PackSpec) rather than plain dicts. The architecture.md references a TrendDirection dataclass that was never created.",
-      "evidence": "direction-clustering-and-frontend-json uses plain dicts for TrendDirection instead of frozen dataclasses with slots=True as specified in coding conventions. The architecture.md library file references 'NEW: TrendDirection dataclass' but no dataclass was created.",
+      "target": "skills",
+      "suggestion": "bridge-worker SKILL.md Step 4 requires agent-browser visual verification for any frontend changes. The fix worker verified CSS variable changes via grep only (sufficient for this case but deviated from procedure). Consider clarifying that grep-based verification is acceptable for pure text substitution changes (CSS variable renames, etc.) where visual rendering is already validated by a prior worker or will be validated in user-testing.",
+      "evidence": "fix-fourteen-day-changes-and-css-mismatch worker's transcript shows grep verification only (no agent-browser). The original frontend-data-switch-and-bugfixes worker had already verified the 观察中 row rendering via agent-browser, and user-testing will re-verify.",
       "isSystemic": false
     }
   ],
   "rejectedObservations": [],
-  "previousRound": null
+  "previousRound": ".factory/validation/data-bridge/scrutiny/synthesis-round1.json"
 }

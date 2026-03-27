@@ -1,0 +1,53 @@
+{
+  "featureId": "fix-fourteen-day-changes-and-css-mismatch",
+  "reviewedAt": "2026-03-27T10:30:00.000Z",
+  "commitId": "3a7e397",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "All 3 blocking issues from round 1 are properly fixed. Bug 1: _generate_fourteen_day_changes() now returns list[dict] with direction/change/reason keys matching jade_dashboard.json schema exactly. The test_field_name_correctness test was updated to validate dict structure with all 3 required keys as strings. Bug 2: All 4 occurrences of 'guancharzhong' in index.html were changed to 'guanchazu', matching the CSS variable names in style.css (lines 26, 32). Bug 3: pack_runner.py now scores samples once via scored_samples_for_clustering and reuses those results to build scored_samples. The regenerated frontend_dashboard.json in dashboard/data/ has the correct schema. All 135 tests pass.",
+    "issues": [
+      {
+        "file": "src/intelligence/analysis/frontend_builder.py",
+        "line": 294,
+        "severity": "non_blocking",
+        "description": "Minor inefficiency: the newly_emerging_dirs filter rebuilds [d['name'] for d in rising_dirs] on every iteration of the list comprehension. Should extract to a set beforehand: rising_names = {d['name'] for d in rising_dirs}. Not a correctness issue — just wasteful for large direction lists."
+      },
+      {
+        "file": "src/intelligence/analysis/frontend_builder.py",
+        "line": 300,
+        "severity": "non_blocking",
+        "description": "The change values are derived from heat via simple formulas (e.g., '+{heat//3}%' for rising, '-{(100-heat)//4}%' for cooling). While these produce plausible-looking values, they don't represent actual 14-day changes since the pipeline processes a single snapshot. This is acceptable as synthetic data generation matching the jade_dashboard.json pattern, but worth noting for future pipeline iterations that may have real time-series data."
+      },
+      {
+        "file": "git commit",
+        "line": null,
+        "severity": "non_blocking",
+        "description": "The commit includes 22 PNG screenshots in dashboard/exploration/, 7 output files in output/streetwear/, and 3 docs/plans files — totaling 32 extra files beyond the 4 source files actually changed for the 3 bug fixes. These appear to be previously untracked files that were swept up by 'git add -A'. Not harmful but inflates the commit."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "AGENTS.md now includes explicit CSS variable names for all 4 judgment states under 'CSS Variable Names for Judgment States' section, which directly prevents the Bug 2 class of error. However, there's a minor inconsistency: AGENTS.md says '--color-judgment-zhidegen' (no trailing 'g') while the actual CSS and HTML consistently use '--color-judgment-zhidegeng' (with trailing 'g'). This discrepancy hasn't caused a bug yet because both the CSS definition and HTML usage are consistent with each other, but the AGENTS.md documentation is wrong.",
+      "evidence": "AGENTS.md line: '值得跟: --color-judgment-zhidegen / --color-judgment-zhidegen-light' vs dashboard/css/style.css:25: '--color-judgment-zhidegeng: #10b981' and dashboard/index.html:49-51 uses '--color-judgment-zhidegeng'. The actual variable name has 'zhidegeng' (with trailing g) everywhere in the code."
+    },
+    {
+      "area": "conventions",
+      "observation": "The worker used 'git add -A' which included unrelated files (22 PNGs, 7 output files, 3 doc files). AGENTS.md and the bridge-worker skill don't document a convention for targeted git staging. A convention like 'only stage files directly related to the feature' would keep commits clean.",
+      "evidence": "git show 3a7e397 --stat shows 40 files changed, but only 4 files (frontend_builder.py, pack_runner.py, test_frontend_builder.py, index.html) plus 1 data file (frontend_dashboard.json) were directly related to the 3 bug fixes."
+    },
+    {
+      "area": "skills",
+      "observation": "The bridge-worker skill says to 'Use agent-browser to load affected pages, screenshot and verify rendering' for frontend changes (Step 4). The worker's transcript shows no agent-browser usage for this fix — the CSS variable fix was verified only via grep, not by visually confirming the 观察中 row renders with blue styling. The grep verification is sufficient for this particular fix (variable name substitution), but the skill procedure wasn't followed. skillFeedback.followedProcedure=true in the handoff is slightly inaccurate.",
+      "evidence": "Transcript skeleton shows verification via grep -c 'guancharzhong' (expect 0) and grep -c 'guanchazu' (expect >=3), but no agent-browser invocation. Bridge-worker SKILL.md Step 4 says: 'For any feature that modifies dashboard HTML/JS... Use agent-browser to load affected pages, screenshot and verify rendering.'"
+    }
+  ],
+  "addressesFailureFrom": [
+    ".factory/validation/data-bridge/scrutiny/reviews/direction-clustering-and-frontend-json.json",
+    ".factory/validation/data-bridge/scrutiny/reviews/frontend-data-switch-and-bugfixes.json"
+  ],
+  "summary": "All 3 blocking issues from scrutiny round 1 are adequately fixed. (1) fourteen_day_changes now returns list[dict] with direction/change/reason keys matching jade_dashboard.json schema — verified both in code and generated output. (2) CSS variable name mismatch fixed: all 4 occurrences of 'guancharzhong' replaced with 'guanchazu' in index.html, matching style.css definitions. (3) Double-scoring eliminated in pack_runner.py: samples scored once via scored_samples_for_clustering, results reused for scored_samples. Tests updated to validate the dict structure. All 135 tests pass. No new blocking issues introduced. Three non-blocking observations noted: minor filter inefficiency, synthetic change values, and bloated commit with unrelated files."
+}
