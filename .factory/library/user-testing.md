@@ -1,19 +1,27 @@
 # User Testing
 
-**What belongs here:** How to test the pipeline, what tools to use, concurrency limits.
+**What belongs here:** How to test the dashboard and pipeline, tools, concurrency limits.
 
 ---
 
-## Validation Surface
+## Validation Surfaces
 
-**Surface type:** CLI + output file inspection (no browser needed)
-**Test command:** `python3 -m pytest tests/ -x -q`
-**Pack run commands:**
-- `python -m intelligence run-pack jade --output-dir /tmp/jade-test`
-- `python -m intelligence run-pack designer_streetwear --output-dir /tmp/sw-test`
-- `python -m intelligence run-pack designer_streetwear --input examples/designer_streetwear/real_pilot/streetwear_collected.jsonl --output-dir /tmp/sw-real-test`
+### Surface 1: Pipeline (pytest + CLI)
+- **Test command:** `python3 -m pytest tests/ -x -q`
+- **Pack commands:**
+  - `python3 -m intelligence run-pack designer_streetwear --input examples/designer_streetwear/real_pilot/streetwear_collected.jsonl --output-dir /tmp/sw-real-test`
+  - `python3 -m intelligence run-pack jade --output-dir /tmp/jade-test`
+- **Validation:** JSON schema checks, file existence, field-by-field assertions
 
-**Testing tool:** pytest + shell commands (no agent-browser needed)
+### Surface 2: Dashboard (agent-browser)
+- **Server:** `python3 -m http.server 8765 --directory dashboard`
+- **Pages to test:**
+  - http://localhost:8765/index.html (homepage)
+  - http://localhost:8765/direction-map.html (bubble matrix)
+  - http://localhost:8765/direction-detail.html?id=<id> (direction detail)
+  - http://localhost:8765/evidence.html (evidence library)
+  - http://localhost:8765/product-line.html (product line watch)
+- **Validation:** Screenshots, DOM inspection, console error checks, interaction tests
 
 ## Validation Concurrency
 
@@ -21,31 +29,21 @@
 
 **Rationale:**
 - Machine: 16GB RAM, 10 CPU cores
-- Each validator runs pytest (lightweight, ~3s) or a pack CLI command (~5s for 293 posts)
-- No browser, no server, no long-running process
-- Conservative limit of 3 is well within resource budget
+- Each agent-browser session: ~488MB (Chromium + HTTP server)
+- Baseline usage: ~6GB
+- Available headroom: ~10GB * 0.7 = 7GB
+- 3 sessions: ~1.5GB (well within budget)
 
-## Flow Validator Guidance: CLI
+## Data Sources for Testing
 
-**Surface:** Python CLI + pytest + output file inspection
-**Working directory:** `/Users/wendy/work/content-co/intelligence`
-**No services needed:** This is a pure Python pipeline with no database, no network, no server.
+- **Streetwear real data:** `examples/designer_streetwear/real_pilot/streetwear_collected.jsonl` (293 posts)
+- **Jade mock data:** `dashboard/data/jade_dashboard.json` (9 directions, 28 evidence — for backward compat testing)
+- **Pipeline-generated:** `frontend_dashboard.json` in output directory (generated from streetwear real data)
 
-**Isolation rules:**
-- Each validator should use its own output directory (e.g., `/tmp/val-<group-id>/`) for CLI runs
-- Validators do NOT modify source code — they only run tests and inspect outputs
-- pytest tests are read-only and can safely run in parallel
-- CLI pack runs write to separate output dirs, no shared state
+## Important: Backward Compatibility Testing
 
-**Testing approach:**
-- For pytest-based assertions: run `python3 -m pytest tests/ -k <test_pattern> -v` to target specific tests
-- For CLI output assertions: run `python -m intelligence run-pack <pack> --output-dir /tmp/val-<id>/` then inspect JSON files
-- For schema assertions: use Python one-liners to import and construct dataclasses
-- Evidence: capture command output and exit codes
+Every frontend change must be tested with BOTH:
+1. Pipeline-generated streetwear data (primary)
+2. Existing jade_dashboard.json (backward compat)
 
-**Key paths:**
-- Schema: `src/intelligence/schema/canonical.py`
-- Adapters: `src/intelligence/adapters/` (mediacrawler.py, xhs_downloader.py, douyin_downloader.py, _common.py)
-- Scoring: `src/intelligence/scoring/engine.py`
-- Pack runner: `src/intelligence/workflows/pack_runner.py`
-- Tests: `tests/`
+The data.js loader should support both data sources.
