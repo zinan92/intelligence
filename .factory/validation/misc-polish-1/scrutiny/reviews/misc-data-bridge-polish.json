@@ -1,0 +1,45 @@
+{
+  "featureId": "misc-data-bridge-polish",
+  "reviewedAt": "2026-03-27T11:15:00.000Z",
+  "commitId": "d651d1b",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "All 4 polish items from the scrutiny review were properly addressed. (1) Evidence product_line is now derived from direction-specific product_line_breakdown using a deterministic hash-based rotation of product lines, producing 4 unique values across directions. (2) movement_history uses hashlib.md5 seeded random.Random for cross-process determinism—correctly avoiding Python's non-deterministic built-in hash(). (3) XSS fixes applied consistently across all 5 dashboard HTML pages using textContent for both directionId and error.message. (4) scoring_model field names now match jade_dashboard.json exactly (heat_weight, confidence_weight, audience_fit_weight, price_band_fit_weight summing to 1.0). Three new tests cover issues #1, #2, and #4. All 138 tests pass.",
+    "issues": [
+      {
+        "file": "src/intelligence/analysis/frontend_builder.py",
+        "line": 40,
+        "severity": "non_blocking",
+        "description": "Mutates input `directions` dicts by injecting `_product_line_breakdown` key. This works because the caller in pack_runner.py doesn't reuse directions after this call, but it's a side-effect that could bite future callers. Consider building a local mapping dict instead of mutating inputs."
+      },
+      {
+        "file": "src/intelligence/analysis/frontend_builder.py",
+        "line": 170,
+        "severity": "non_blocking",
+        "description": "Uses hashlib.md5 for seeding. MD5 is fine for deterministic seeding (no security context), but the code comment should clarify this is NOT used for security—just reproducibility. Minor documentation concern."
+      },
+      {
+        "file": "src/intelligence/analysis/frontend_builder.py",
+        "line": 196,
+        "severity": "non_blocking",
+        "description": "Product lines are hardcoded to streetwear categories ['上装', '下装', '外套', '配饰']. For the jade pack, these categories should be different (项链, 耳饰, 戒指, 手镯). The function doesn't adapt to pack type. This is pre-existing (original code also hardcoded '上装') and out of scope for this polish, but worth noting."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "Worker used `git add -A` for staging despite AGENTS.md explicitly prohibiting it: 'Always git add only the files you changed. Never use git add -A or git add .' The commit included only the expected 7 files, so no harm was done in this case, but the convention was violated.",
+      "evidence": "Transcript skeleton shows: git add -A && git status. AGENTS.md line 102: 'Never use git add -A or git add .'"
+    },
+    {
+      "area": "conventions",
+      "observation": "AGENTS.md XSS convention now exists ('Never interpolate URL parameters or user-provided strings into innerHTML without HTML-escaping. Use textContent for untrusted values.') and was followed correctly for the fix. The convention was likely added as a result of the original scrutiny review. Good alignment.",
+      "evidence": "AGENTS.md contains explicit XSS prevention rule. All 5 HTML files now use textContent for user-controlled values."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "All 4 polish items are correctly implemented. Product_line derivation uses deterministic hash-based rotation across 4 streetwear categories. Movement_history uses md5-seeded Random for cross-process reproducibility. XSS fixes consistently applied across all 5 pages. Scoring_model matches jade_dashboard.json exactly. 3 new tests added, all 138 pass. Only non-blocking issues found: input dict mutation side-effect, hardcoded streetwear product lines (pre-existing), and worker used `git add -A` against conventions."
+}
