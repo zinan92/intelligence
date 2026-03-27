@@ -268,8 +268,14 @@ def _generate_evidence_entries(
     return evidence_entries
 
 
-def _generate_fourteen_day_changes(directions: list[dict[str, Any]]) -> dict[str, list[str]]:
-    """Generate fourteen_day_changes with rising/cooling/newly_emerging keys."""
+def _generate_fourteen_day_changes(directions: list[dict[str, Any]]) -> dict[str, list[dict[str, str]]]:
+    """Generate fourteen_day_changes with rising/cooling/newly_emerging keys.
+    
+    Each item is a dict with:
+    - direction: direction name (str)
+    - change: change indicator like '+12%' or 'new' (str)
+    - reason: short Chinese explanation (str)
+    """
     # Top 30% by heat are rising
     # Bottom 30% are cooling
     # Middle can be newly_emerging if heat is moderate
@@ -279,14 +285,42 @@ def _generate_fourteen_day_changes(directions: list[dict[str, Any]]) -> dict[str
     rising_count = max(1, len(sorted_dirs) // 3)
     cooling_count = max(1, len(sorted_dirs) // 3)
     
-    rising = [d["name"] for d in sorted_dirs[:rising_count]]
-    cooling = [d["name"] for d in sorted_dirs[-cooling_count:]]
+    rising_dirs = sorted_dirs[:rising_count]
+    cooling_dirs = sorted_dirs[-cooling_count:]
     
     # Newly emerging: directions with moderate heat but low member count (small but growing)
-    newly_emerging = [
-        d["name"] for d in directions
-        if 40 <= d["heat"] <= 70 and d["member_post_count"] < 30 and d["name"] not in rising
+    newly_emerging_dirs = [
+        d for d in directions
+        if 40 <= d["heat"] <= 70 and d["member_post_count"] < 30 and d["name"] not in [d["name"] for d in rising_dirs]
     ][:2]
+    
+    # Build dicts with direction/change/reason
+    rising = [
+        {
+            "direction": d["name"],
+            "change": f"+{d['heat'] // 3}%",
+            "reason": f"热度上升至 {d['heat']}/100，样本量 {d['member_post_count']}"
+        }
+        for d in rising_dirs
+    ]
+    
+    cooling = [
+        {
+            "direction": d["name"],
+            "change": f"-{(100 - d['heat']) // 4}%",
+            "reason": f"热度降至 {d['heat']}/100，关注度下降"
+        }
+        for d in cooling_dirs
+    ]
+    
+    newly_emerging = [
+        {
+            "direction": d["name"],
+            "change": "new",
+            "reason": f"新兴趋势，当前热度 {d['heat']}/100"
+        }
+        for d in newly_emerging_dirs
+    ]
     
     return {
         "rising": rising,

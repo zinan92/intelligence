@@ -50,9 +50,9 @@
                 <span class="font-semibold" style="color: var(--color-judgment-zhidegeng);">值得跟</span>
                 <span class="text-2xl font-bold" style="color: var(--color-judgment-zhidegeng);" id="count-zhidegeng">0</span>
               </div>
-              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--color-judgment-guancharzhong-light); border-radius: var(--radius-md);">
-                <span class="font-semibold" style="color: var(--color-judgment-guancharzhong);">观察中</span>
-                <span class="text-2xl font-bold" style="color: var(--color-judgment-guancharzhong);" id="count-guancharzhong">0</span>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--color-judgment-guanchazu-light); border-radius: var(--radius-md);">
+                <span class="font-semibold" style="color: var(--color-judgment-guanchazu);">观察中</span>
+                <span class="text-2xl font-bold" style="color: var(--color-judgment-guanchazu);" id="count-guanchazu">0</span>
               </div>
               <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--color-judgment-duanrezaoyin-light); border-radius: var(--radius-md);">
                 <span class="font-semibold" style="color: var(--color-judgment-duanrezaoyin);">短热噪音</span>
@@ -285,7 +285,7 @@
       const judgments = getTodayJudgments(data);
       
       document.getElementById('count-zhidegeng').textContent = judgments['值得跟'] || 0;
-      document.getElementById('count-guancharzhong').textContent = judgments['观察中'] || 0;
+      document.getElementById('count-guanchazu').textContent = judgments['观察中'] || 0;
       document.getElementById('count-duanrezaoyin').textContent = judgments['短热噪音'] || 0;
       document.getElementById('count-xuyaobuzhengju').textContent = judgments['需要补证据'] || 0;
     }

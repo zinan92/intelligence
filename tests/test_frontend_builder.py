@@ -102,6 +102,17 @@ class TestFrontendBuilder(unittest.TestCase):
         self.assertNotIn("warming", dashboard["fourteen_day_changes"])
         self.assertNotIn("new_appearances", dashboard["fourteen_day_changes"])
         
+        # Check fourteen_day_changes items are dicts with direction/change/reason
+        for category in ["rising", "cooling", "newly_emerging"]:
+            for item in dashboard["fourteen_day_changes"][category]:
+                self.assertIsInstance(item, dict, f"Item in {category} should be a dict")
+                self.assertIn("direction", item, f"Item in {category} missing 'direction' key")
+                self.assertIn("change", item, f"Item in {category} missing 'change' key")
+                self.assertIn("reason", item, f"Item in {category} missing 'reason' key")
+                self.assertIsInstance(item["direction"], str)
+                self.assertIsInstance(item["change"], str)
+                self.assertIsInstance(item["reason"], str)
+        
         # Check evidence entries use correct field names
         if dashboard["evidence_entries"]:
             evidence = dashboard["evidence_entries"][0]

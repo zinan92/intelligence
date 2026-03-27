@@ -1,0 +1,168 @@
+{
+  "generated_at": "2026-03-27T10:01:21.664955+00:00",
+  "pack_name": "designer_streetwear",
+  "total_count": 3,
+  "summary": {
+    "tag_frequency": {
+      "街头穿搭": 1,
+      "oversize": 1,
+      "layering": 1,
+      "graphic": 1,
+      "Nike": 1,
+      "Stussy": 1,
+      "联名": 1,
+      "bomber": 1,
+      "潮牌": 1,
+      "美食": 1,
+      "蛋炒饭": 1
+    },
+    "score_distribution": {
+      "min": 0.05,
+      "max": 0.52,
+      "mean": 0.34,
+      "median": 0.45
+    },
+    "engagement_range": {
+      "min_likes": 15,
+      "max_likes": 580,
+      "min_saves": 3,
+      "max_saves": 290
+    }
+  },
+  "samples": [
+    {
+      "title": "oversized graphic tee layering look",
+      "content": "layering an oversized graphic tee over a hoodie with wide-leg cargo pants. silhouette is boxy on top, relaxed below. street style vibes.",
+      "tags": [
+        "街头穿搭",
+        "oversize",
+        "layering",
+        "graphic"
+      ],
+      "engagement": {
+        "likes": 320,
+        "saves": 150,
+        "comments": 45,
+        "shares": 28
+      },
+      "creator": {
+        "id": "creator-sw-001",
+        "name": "streetstyle_daily",
+        "avatar_url": "https://example.com/avatar1.jpg",
+        "location": "Shanghai"
+      },
+      "media": {
+        "content_type": "video",
+        "image_urls": [
+          "https://example.com/image1.jpg"
+        ],
+        "video_url": "https://example.com/video1.mp4"
+      },
+      "score": {
+        "weighted_score": 0.45,
+        "bucket_scores": {
+          "silhouette": 1.0,
+          "graphic": 0.8,
+          "layering": 0.7,
+          "brand": 0.0,
+          "material": 0.0,
+          "commerce": 0.0,
+          "interaction_strength": 0.45593314994969664,
+          "commercial_intent": 0.46875,
+          "propagation_velocity": 0.0875
+        },
+        "confidence": "medium",
+        "classification": "weak_signal"
+      }
+    },
+    {
+      "title": "Nike x Stussy collab bomber jacket review",
+      "content": "Finally got the Nike x Stussy bomber. Premium nylon shell, oversized fit, embroidered logo on back. Price point around 2000 yuan. Worth it for the quality and brand collab hype.",
+      "tags": [
+        "Nike",
+        "Stussy",
+        "联名",
+        "bomber",
+        "潮牌"
+      ],
+      "engagement": {
+        "likes": 580,
+        "saves": 290,
+        "comments": 72,
+        "shares": 41
+      },
+      "creator": {
+        "id": "creator-sw-002",
+        "name": "hypebeast_cn",
+        "avatar_url": "https://example.com/avatar2.jpg",
+        "location": "Beijing"
+      },
+      "media": {
+        "content_type": "normal",
+        "image_urls": [
+          "https://example.com/image2.jpg"
+        ],
+        "video_url": null
+      },
+      "score": {
+        "weighted_score": 0.52,
+        "bucket_scores": {
+          "silhouette": 1.0,
+          "graphic": 0.8,
+          "layering": 0.0,
+          "brand": 0.6,
+          "material": 0.5,
+          "commerce": 0.5,
+          "interaction_strength": 0.4988325164052236,
+          "commercial_intent": 0.5,
+          "propagation_velocity": 0.0706896551724138
+        },
+        "confidence": "medium",
+        "classification": "emerging_pattern"
+      }
+    },
+    {
+      "title": "今天做了蛋炒饭",
+      "content": "简单的蛋炒饭，加了一点酱油和葱花。",
+      "tags": [
+        "美食",
+        "蛋炒饭"
+      ],
+      "engagement": {
+        "likes": 15,
+        "saves": 3,
+        "comments": 1,
+        "shares": 0
+      },
+      "creator": {
+        "id": "creator-sw-003",
+        "name": "foodie_daily",
+        "avatar_url": "https://example.com/avatar3.jpg",
+        "location": "Guangzhou"
+      },
+      "media": {
+        "content_type": "normal",
+        "image_urls": [
+          "https://example.com/image3.jpg"
+        ],
+        "video_url": null
+      },
+      "score": {
+        "weighted_score": 0.05,
+        "bucket_scores": {
+          "silhouette": 0.0,
+          "graphic": 0.0,
+          "layering": 0.0,
+          "brand": 0.0,
+          "material": 0.0,
+          "commerce": 0.0,
+          "interaction_strength": 0.21683833261066354,
+          "commercial_intent": 0.2,
+          "propagation_velocity": 0.0
+        },
+        "confidence": "low",
+        "classification": "noise"
+      }
+    }
+  ]
+}

@@ -63,15 +63,17 @@ def run_pack_flow(
     normalized_samples = [_sample_payload(sample) for sample in samples]
 
     engine = ScoringEngine(spec.scoring_config)
-    scored_samples = [
-        _score_payload(sample, engine.score(spec.bucket_scores_fn(sample)))
-        for sample in samples
-    ]
     
-    # Prepare scored samples with both sample and result for clustering
+    # Score samples once and prepare both formats
     scored_samples_for_clustering = [
         {"sample": sample, "result": engine.score(spec.bucket_scores_fn(sample))}
         for sample in samples
+    ]
+    
+    # Build scored_samples from already-scored data
+    scored_samples = [
+        _score_payload(item["sample"], item["result"])
+        for item in scored_samples_for_clustering
     ]
 
     report = _build_report(
