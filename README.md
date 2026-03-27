@@ -4,6 +4,8 @@
 
 **把社交平台采集的内容变成结构化信号、趋势图谱和产品决策简报**
 
+Chinese social media intelligence pipeline and dashboard. Crawls platforms (XHS, Douyin), scores posts by keyword relevance + engagement strength, clusters results into trend directions, and renders a 5-page interactive dashboard — all with zero external dependencies.
+
 [![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://python.org)
 [![License](https://img.shields.io/badge/license-Proprietary-red.svg)](LICENSE)
 
@@ -31,112 +33,61 @@ Scoring uses a 70/30 keyword-to-engagement weight split. Engagement buckets (`in
 ## 架构
 
 ```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│  采集工具        │     │  intelligence    │     │  输出层          │
-│  MediaCrawler    │────▶│                 │────▶│  JSON / MD / HTML│
-│  抖音 Downloader │     │  Adapters       │     │  决策报告         │
-│  小红书 Downloader│     │  → Schema       │     └─────────────────┘
-└─────────────────┘     │  → Scoring      │
-                        │  → Reporting    │
-                        └────────┬────────┘
-                                 │
-                        ┌────────▼────────┐
-                        │  Project Packs   │
-                        │  jade / ...      │
-                        │  config + 关键词  │
-                        │  + 模板 + 示例    │
-                        └─────────────────┘
+Collected posts (.jsonl)
+  → Adapters (normalize XHS/Douyin schemas)
+  → Scoring (70% keyword + 30% engagement)
+  → Clustering (group into trend directions)
+  → Pipeline JSON outputs
+  → frontend_dashboard.json → Dashboard (static HTML/CSS/JS)
 ```
+
+**Pipeline** (`src/intelligence/`): adapters → scoring → analysis → workflows → reporting.
+Stdlib-only Python — no pip dependencies required at runtime.
+
+**Dashboard** (`dashboard/`): 5 static HTML pages with vanilla JS and inline SVG charts (area charts, bubble matrix, judgment donut, product-line comparison). All UI text is in Chinese.
+
+| Page | Purpose |
+|------|---------|
+| 首页 (`index.html`) | Executive signal dashboard — movements, judgment, watchlist, risk alerts |
+| 方向地图 (`direction-map.html`) | Sortable/filterable direction comparison table |
+| 方向详情 (`direction-detail.html`) | Deep-dive on a single trend direction |
+| 产品线观察 (`product-line.html`) | Market view by product line |
+| 证据库 (`evidence.html`) | 3-panel evidence browser with filters and statistics |
 
 ## 快速开始
 
-```bash
-# 1. 克隆仓库
-git clone https://github.com/zinan92/intelligence.git
-cd intelligence
-
-# 2. 安装（开发模式，零外部依赖）
-pip install -e .
-
-# 3. 运行 jade pack demo（使用内置 fixture 数据）
-intelligence run-pack jade --output-dir /tmp/jade-demo
-
-# 4. 查看输出
-ls /tmp/jade-demo/
-# → normalized_samples.json  scored_samples.json  report.json  report.md  report.html
-```
-
-## 功能一览
-
-| 功能 | 说明 | 状态 |
-|------|------|------|
-| 多源适配器 | MediaCrawler / 抖音 / 小红书 JSONL → 统一 schema | ✅ 已完成 |
-| Canonical Schema | 不可变数据类，provenance + content 分离 | ✅ 已完成 |
-| 评分引擎 | 加权桶评分 + 置信度/分类规则，品类无关 | ✅ 已完成 |
-| 多格式报告 | JSON / Markdown / HTML 三种渲染器 | ✅ 已完成 |
-| Project Pack | 按品类组织 config、关键词、模板、示例 | ✅ 已完成 |
-| Pack 发现机制 | 自动扫描并校验 pack 目录结构 | ✅ 已完成 |
-| 审核状态 | ReviewState / ValidationState 独立于评分 | ✅ 已完成 |
-| Workflow 编排 | ingest → normalize → score → validate → report | 🔧 占位中 |
-
-## 核心概念
-
-### Canonical Schema
-
-所有采集数据归一化为 `CanonicalSample`，由两部分组成：
-
-- **`CanonicalProvenance`** — 来源元数据（平台、ID、URL、时间戳、原始字段）
-- **`CanonicalContent`** — 内容本体（标题、正文、摘要、标签）
-
-所有 dataclass 均为 `frozen=True`，确保不可变。
-
-### Scoring Engine
-
-品类无关的加权评分引擎：
-
-```python
-ScoringConfig(
-    bucket_weights={"jade_signal": 0.5, "modernity": 0.25, "commerce": 0.25},
-    confidence_rules=(ConfidenceRule(0.8, "high"), ConfidenceRule(0.5, "medium")),
-    classification_rules=(ClassificationRule(0.8, "confirmed"), ClassificationRule(0.6, "emerging")),
-)
-```
-
-输出 `ScoringResult`：加权分数 + 置信度标签 + 分类标签。
-
-## Dashboard prototype — 翡翠信号图谱
-
-A high-fidelity Chinese dashboard prototype lives in `dashboard/`. This is the business-owner-facing signal product surface, separate from the compact evaluation reports.
+### Run the pipeline
 
 ```bash
-# View the dashboard
+python3 -m intelligence run-pack designer_streetwear \
+  --input examples/designer_streetwear/real_pilot/streetwear_collected.jsonl \
+  --output-dir output/streetwear
+```
+
+### Serve the dashboard
+
+```bash
 python3 -m http.server 8765 --directory dashboard
-# Open http://localhost:8765/ in your browser
+# Open http://localhost:8765/
 ```
 
-**Pages:**
-- **首页** — Executive signal dashboard with 7 modules (movement board, judgment summary, watchlist, risk alerts, evidence feed, product line snapshot, 14-day change)
-- **方向地图** — Sortable/filterable direction comparison table
-- **方向详情** — Deep-dive on a specific trend direction with product-line decision cards
-- **产品线观察** — Market view by product line (which directions help/hurt each line)
-- **证据库** — 3-panel evidence exploration with filters
-
-The prototype uses local mock data (`dashboard/data/jade_dashboard.json`) with jade as the first content case. See `dashboard/README.md` for details.
+The pipeline copies `frontend_dashboard.json` into `dashboard/data/` automatically, so the dashboard reflects the latest run.
 
 ## Pipeline output files
 
-Each pack run produces 6 output files:
+Each run produces 7 files:
 
 | File | Description |
 |------|-------------|
-| `normalized_samples.json` | All samples in canonical form with engagement, creator, and media fields |
-| `scored_samples.json` | All samples with scoring results (keyword + engagement buckets) |
-| `dashboard.json` | Dashboard-ready output with structured fields and aggregation summaries |
+| `normalized_samples.json` | Posts in canonical form with engagement, creator, media fields |
+| `scored_samples.json` | Posts with keyword + engagement bucket scores |
+| `dashboard.json` | Aggregated dashboard data (backend format) |
+| `frontend_dashboard.json` | Dashboard-ready JSON consumed by the HTML frontend |
 | `report.json` | Compressed summary (Report model) |
-| `report.md` | Markdown render of the report |
-| `report.html` | HTML render of the report |
+| `report.md` | Markdown report |
+| `report.html` | HTML report |
 
-The schema supports Chinese number format parsing for engagement counts (e.g., "10万+" → 100000, "2.1万" → 21000) extracted from XHS and Douyin data.
+## Testing
 
 ### Project Pack
 
@@ -152,6 +103,12 @@ projects/jade/
 
 Pack 通过 `discover_project_pack("jade")` 自动发现和校验。
 
+## Testing
+
+```bash
+python3 -m pytest tests/ -x -q    # 138 tests, all passing
+```
+
 ## 技术栈
 
 | 层级 | 技术 | 用途 |
@@ -161,38 +118,26 @@ Pack 通过 `discover_project_pack("jade")` 自动发现和校验。
 | 序列化 | 标准库 json | JSONL 读取 / JSON 输出 |
 | 模板 | string.Template | HTML 报告渲染 |
 | 构建 | 自定义 build backend | 零外部依赖打包 |
-| 测试 | pytest | 730 行测试覆盖 |
+| 测试 | pytest | 138 tests |
 
 **零外部依赖** — 仅使用 Python 标准库。
 
-## 项目结构
+## Key directories
 
 ```
-intelligence/
-├── src/intelligence/
-│   ├── adapters/             # 采集工具输出适配器
-│   │   ├── _common.py        #   共享 JSONL 读取 + sample 构建
-│   │   ├── mediacrawler.py   #   MediaCrawler 适配
-│   │   ├── douyin_downloader.py  # 抖音适配
-│   │   └── xhs_downloader.py    # 小红书适配
-│   ├── schema/               # 数据模型
-│   │   ├── canonical.py      #   CanonicalSample / Provenance / Content
-│   │   └── review.py         #   ReviewState / ValidationState
-│   ├── scoring/              # 评分引擎
-│   │   └── engine.py         #   ScoringEngine + Config + Result
-│   ├── reporting/            # 报告生成
-│   │   ├── model.py          #   Report / ReportBlock 数据模型
-│   │   ├── json_report.py    #   JSON 渲染
-│   │   ├── markdown_report.py #  Markdown 渲染
-│   │   └── html_report.py    #   HTML 渲染
-│   ├── projects/             # Project Pack 目录
-│   │   └── jade/             #   第一个品类 pack
-│   ├── workflows/            # 工作流编排（占位中）
-│   └── cli.py                # CLI 入口
-├── tests/                    # pytest 测试
-├── docs/                     # 架构文档 + 案例研究
-├── examples/                 # 使用示例
-└── pyproject.toml
+src/intelligence/
+  adapters/       # XHS/Douyin normalizers
+  scoring/        # Keyword + engagement scoring
+  analysis/       # Clustering, trend direction extraction
+  workflows/      # Pipeline orchestration
+  reporting/      # Report and dashboard generation
+  projects/       # Pack definitions (jade, designer_streetwear)
+  schema/         # Shared data models
+dashboard/
+  data/           # frontend_dashboard.json (auto-generated)
+  css/ js/        # Shared styles and scripts
+tests/            # 138 unit + integration tests
+examples/         # Sample inputs and pre-generated outputs
 ```
 
 ## For AI Agents
