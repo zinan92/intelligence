@@ -1,12 +1,35 @@
 // Data loading and access utilities for Jade Signal Atlas Dashboard
 
+// Configurable data source path
+// Default: frontend_dashboard.json (pipeline-generated with real streetwear data)
+// Alternative: jade_dashboard.json (hand-crafted jade data for backward compatibility)
+// Can also be overridden via URL parameter: ?data=jade_dashboard.json
+const DEFAULT_DATA_PATH = '/data/frontend_dashboard.json';
+
+/**
+ * Get the data file path from URL parameter or default
+ * @returns {string} Data file path
+ */
+function getDataPath() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const dataParam = urlParams.get('data');
+  
+  if (dataParam) {
+    // If data parameter is provided, use it (with /data/ prefix if not absolute)
+    return dataParam.startsWith('/') ? dataParam : `/data/${dataParam}`;
+  }
+  
+  return DEFAULT_DATA_PATH;
+}
+
 /**
  * Load the dashboard data from JSON file
  * @returns {Promise<Object>} Dashboard data object
  */
 async function loadDashboardData() {
   try {
-    const response = await fetch('/data/jade_dashboard.json');
+    const dataPath = getDataPath();
+    const response = await fetch(dataPath);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }

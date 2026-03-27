@@ -353,11 +353,17 @@
         if (!direction) {
           console.error('Direction not found:', directionId);
           document.querySelector('.container').innerHTML = `
-            <div class="card">
+            <div class="card" style="margin-top: var(--space-2xl); text-align: center; padding: var(--space-2xl);">
               <div class="card-body">
-                <h2>方向未找到</h2>
-                <p>无法找到指定的方向。</p>
-                <a href="index.html">返回首页</a>
+                <h2 style="font-size: var(--font-size-3xl); color: var(--color-text-primary); margin-bottom: var(--space-lg);">
+                  ⚠️ 方向未找到
+                </h2>
+                <p style="font-size: var(--font-size-lg); color: var(--color-text-secondary); margin-bottom: var(--space-xl);">
+                  无法找到指定的方向 (ID: ${directionId})。请检查链接是否正确，或从首页重新选择方向。
+                </p>
+                <a href="index.html" class="button" style="display: inline-block; background-color: var(--color-brand-primary); color: white; padding: var(--space-md) var(--space-xl); border-radius: var(--radius-md); text-decoration: none; font-weight: var(--font-weight-semibold);">
+                  返回首页
+                </a>
               </div>
             </div>
           `;
@@ -375,6 +381,27 @@
         
       } catch (error) {
         console.error('Failed to initialize direction detail page:', error);
+        document.querySelector('.container').innerHTML = `
+          <div class="card" style="margin-top: var(--space-2xl); text-align: center; padding: var(--space-2xl);">
+            <div class="card-body">
+              <h2 style="font-size: var(--font-size-3xl); color: var(--color-danger); margin-bottom: var(--space-lg);">
+                ❌ 数据加载失败
+              </h2>
+              <p style="font-size: var(--font-size-lg); color: var(--color-text-secondary); margin-bottom: var(--space-md);">
+                无法加载方向详情数据。请检查数据文件是否存在，或稍后重试。
+              </p>
+              <p style="font-size: var(--font-size-sm); color: var(--color-text-tertiary); margin-bottom: var(--space-xl);">
+                错误信息: ${error.message}
+              </p>
+              <a href="index.html" class="button" style="display: inline-block; background-color: var(--color-brand-primary); color: white; padding: var(--space-md) var(--space-xl); border-radius: var(--radius-md); text-decoration: none; font-weight: var(--font-weight-semibold); margin-right: var(--space-md);">
+                返回首页
+              </a>
+              <button onclick="location.reload()" class="button" style="display: inline-block; background-color: var(--color-secondary); color: white; padding: var(--space-md) var(--space-xl); border-radius: var(--radius-md); border: none; cursor: pointer; font-weight: var(--font-weight-semibold);">
+                重新加载
+              </button>
+            </div>
+          </div>
+        `;
       }
     }
     
@@ -469,31 +496,27 @@
       
       if (!container) return;
       
-      const productLines = [
-        { name: '项链/吊坠', key: '项链/吊坠' },
-        { name: '耳饰', key: '耳饰' },
-        { name: '戒指', key: '戒指' },
-        { name: '手串/叠戴', key: '手串/叠戴' }
-      ];
+      // Read product lines dynamically from the direction's product_line_breakdown
+      const productLineBreakdown = direction.product_line_breakdown || {};
+      const productLineKeys = Object.keys(productLineBreakdown);
       
-      container.innerHTML = productLines.map(line => {
-        const breakdown = direction.product_line_breakdown[line.key];
-        
-        if (!breakdown) {
-          return `
-            <div class="product-line-card">
-              <h3>${line.name}</h3>
-              <div class="levels">
-                <span class="badge badge-info">暂无数据</span>
-              </div>
-              <p class="rationale">暂无产品线分析数据</p>
+      if (productLineKeys.length === 0) {
+        container.innerHTML = `
+          <div class="card">
+            <div class="card-body">
+              <p class="text-secondary">暂无产品线分析数据</p>
             </div>
-          `;
-        }
+          </div>
+        `;
+        return;
+      }
+      
+      container.innerHTML = productLineKeys.map(lineName => {
+        const breakdown = productLineBreakdown[lineName];
         
         return `
           <div class="product-line-card">
-            <h3>${line.name}</h3>
+            <h3>${lineName}</h3>
             <div class="levels">
               ${renderOpportunityRiskLevel(breakdown.opportunity, 'opportunity')}
               ${renderOpportunityRiskLevel(breakdown.risk, 'risk')}

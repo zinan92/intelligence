@@ -50,6 +50,10 @@
                 <span class="font-semibold" style="color: var(--color-judgment-zhidegeng);">值得跟</span>
                 <span class="text-2xl font-bold" style="color: var(--color-judgment-zhidegeng);" id="count-zhidegeng">0</span>
               </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--color-judgment-guancharzhong-light); border-radius: var(--radius-md);">
+                <span class="font-semibold" style="color: var(--color-judgment-guancharzhong);">观察中</span>
+                <span class="text-2xl font-bold" style="color: var(--color-judgment-guancharzhong);" id="count-guancharzhong">0</span>
+              </div>
               <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--color-judgment-duanrezaoyin-light); border-radius: var(--radius-md);">
                 <span class="font-semibold" style="color: var(--color-judgment-duanrezaoyin);">短热噪音</span>
                 <span class="text-2xl font-bold" style="color: var(--color-judgment-duanrezaoyin);" id="count-duanrezaoyin">0</span>
@@ -176,6 +180,24 @@
         
       } catch (error) {
         console.error('Failed to initialize homepage:', error);
+        document.querySelector('.container').innerHTML = `
+          <div class="card" style="margin-top: var(--space-2xl); text-align: center; padding: var(--space-2xl);">
+            <div class="card-body">
+              <h2 style="font-size: var(--font-size-3xl); color: var(--color-danger); margin-bottom: var(--space-lg);">
+                ❌ 数据加载失败
+              </h2>
+              <p style="font-size: var(--font-size-lg); color: var(--color-text-secondary); margin-bottom: var(--space-md);">
+                无法加载仪表盘数据。请检查数据文件是否存在，或稍后重试。
+              </p>
+              <p style="font-size: var(--font-size-sm); color: var(--color-text-tertiary); margin-bottom: var(--space-xl);">
+                错误信息: ${error.message}
+              </p>
+              <button onclick="location.reload()" class="button" style="display: inline-block; background-color: var(--color-brand-primary); color: white; padding: var(--space-md) var(--space-xl); border-radius: var(--radius-md); border: none; cursor: pointer; font-weight: var(--font-weight-semibold);">
+                重新加载
+              </button>
+            </div>
+          </div>
+        `;
       }
     }
 
@@ -263,6 +285,7 @@
       const judgments = getTodayJudgments(data);
       
       document.getElementById('count-zhidegeng').textContent = judgments['值得跟'] || 0;
+      document.getElementById('count-guancharzhong').textContent = judgments['观察中'] || 0;
       document.getElementById('count-duanrezaoyin').textContent = judgments['短热噪音'] || 0;
       document.getElementById('count-xuyaobuzhengju').textContent = judgments['需要补证据'] || 0;
     }

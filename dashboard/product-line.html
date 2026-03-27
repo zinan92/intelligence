@@ -42,6 +42,27 @@
         
       } catch (error) {
         console.error('Failed to initialize product line watch:', error);
+        document.querySelector('.container').innerHTML = `
+          <div class="card" style="margin-top: var(--space-2xl); text-align: center; padding: var(--space-2xl);">
+            <div class="card-body">
+              <h2 style="font-size: var(--font-size-3xl); color: var(--color-danger); margin-bottom: var(--space-lg);">
+                ❌ 数据加载失败
+              </h2>
+              <p style="font-size: var(--font-size-lg); color: var(--color-text-secondary); margin-bottom: var(--space-md);">
+                无法加载产品线数据。请检查数据文件是否存在，或稍后重试。
+              </p>
+              <p style="font-size: var(--font-size-sm); color: var(--color-text-tertiary); margin-bottom: var(--space-xl);">
+                错误信息: ${error.message}
+              </p>
+              <a href="index.html" class="button" style="display: inline-block; background-color: var(--color-brand-primary); color: white; padding: var(--space-md) var(--space-xl); border-radius: var(--radius-md); text-decoration: none; font-weight: var(--font-weight-semibold); margin-right: var(--space-md);">
+                返回首页
+              </a>
+              <button onclick="location.reload()" class="button" style="display: inline-block; background-color: var(--color-secondary); color: white; padding: var(--space-md) var(--space-xl); border-radius: var(--radius-md); border: none; cursor: pointer; font-weight: var(--font-weight-semibold);">
+                重新加载
+              </button>
+            </div>
+          </div>
+        `;
       }
     }
 

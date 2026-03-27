@@ -1,0 +1,880 @@
+{
+  "product_name": "潮流信号图谱",
+  "timestamp": "2026-03-27",
+  "executive_summary": {
+    "one_line": "廓形风格领先，7 个趋势方向值得关注",
+    "key_opportunity": "廓形风格热度 45/100，样本量 27",
+    "key_risk": "廓形风格需要更多验证"
+  },
+  "today_judgments": {
+    "值得跟": 0,
+    "观察中": 0,
+    "短热噪音": 3,
+    "需要补证据": 4
+  },
+  "trend_directions": [
+    {
+      "id": "dir_001",
+      "name": "廓形风格",
+      "description": "廓形风格趋势方向的核心特征和受众定位",
+      "heat_magnitude": "+15%",
+      "time_window": "最近30天",
+      "confidence_level": "中",
+      "classification": "avoid_for_now",
+      "judgment_state": "短热噪音",
+      "audience_fit": "18-35 核心群体",
+      "price_band_fit": "中/低中",
+      "opportunity": 45,
+      "risk": 43,
+      "heat": 45,
+      "movement_history": [
+        20,
+        23,
+        21,
+        23,
+        25,
+        28,
+        34,
+        30,
+        35,
+        40,
+        42,
+        39,
+        42,
+        48
+      ],
+      "product_line_breakdown": {
+        "上装": {
+          "opportunity": "中",
+          "risk": "中高",
+          "rationale": "趋势得分 0.46，适配度良好"
+        },
+        "下装": {
+          "opportunity": "中",
+          "risk": "中高",
+          "rationale": "与核心趋势匹配"
+        }
+      },
+      "risks": [
+        {
+          "description": "市场饱和风险",
+          "severity": "medium",
+          "mitigation": "差异化定位"
+        }
+      ],
+      "evidence_summary": "27 个相关内容，评论聚焦核心标签",
+      "proof_snapshot": {
+        "sample_count": 27,
+        "strongest_examples": [
+          "示例 #1",
+          "示例 #2",
+          "示例 #3"
+        ],
+        "comment_themes": [
+          "ootd每日穿搭",
+          "中性风穿搭",
+          "今天穿什么香"
+        ],
+        "cross_category_support": "多场景适配"
+      },
+      "one_line_recommendation": "基于 27 个样本的趋势判断",
+      "content_cues": {
+        "how_to_photograph": "清晰展示产品特征",
+        "how_to_narrate": "突出核心卖点",
+        "what_not_to_do": "避免过度修图"
+      },
+      "why_it_matters": "廓形风格在最近数据中显示出稳定的趋势特征，值得关注。",
+      "freshness": "最近30天"
+    },
+    {
+      "id": "dir_002",
+      "name": "图案印花",
+      "description": "图案印花趋势方向的核心特征和受众定位",
+      "heat_magnitude": "+13%",
+      "time_window": "最近30天",
+      "confidence_level": "低",
+      "classification": "avoid_for_now",
+      "judgment_state": "短热噪音",
+      "audience_fit": "18-35 核心群体",
+      "price_band_fit": "中/低中",
+      "opportunity": 39,
+      "risk": 48,
+      "heat": 39,
+      "movement_history": [
+        21,
+        22,
+        19,
+        24,
+        22,
+        27,
+        26,
+        29,
+        32,
+        32,
+        34,
+        36,
+        37,
+        41
+      ],
+      "product_line_breakdown": {
+        "上装": {
+          "opportunity": "中",
+          "risk": "中高",
+          "rationale": "趋势得分 0.40，适配度良好"
+        },
+        "下装": {
+          "opportunity": "中",
+          "risk": "中高",
+          "rationale": "与核心趋势匹配"
+        }
+      },
+      "risks": [
+        {
+          "description": "市场饱和风险",
+          "severity": "medium",
+          "mitigation": "差异化定位"
+        }
+      ],
+      "evidence_summary": "7 个相关内容，评论聚焦核心标签",
+      "proof_snapshot": {
+        "sample_count": 7,
+        "strongest_examples": [
+          "示例 #1",
+          "示例 #2",
+          "示例 #3"
+        ],
+        "comment_themes": [
+          "ootd",
+          "男生穿搭",
+          "超会穿企划"
+        ],
+        "cross_category_support": "多场景适配"
+      },
+      "one_line_recommendation": "基于 7 个样本的趋势判断",
+      "content_cues": {
+        "how_to_photograph": "清晰展示产品特征",
+        "how_to_narrate": "突出核心卖点",
+        "what_not_to_do": "避免过度修图"
+      },
+      "why_it_matters": "图案印花在最近数据中显示出稳定的趋势特征，值得关注。",
+      "freshness": "最近30天"
+    },
+    {
+      "id": "dir_003",
+      "name": "日常穿搭",
+      "description": "日常穿搭趋势方向的核心特征和受众定位",
+      "heat_magnitude": "+11%",
+      "time_window": "最近30天",
+      "confidence_level": "低",
+      "classification": "avoid_for_now",
+      "judgment_state": "短热噪音",
+      "audience_fit": "18-35 核心群体",
+      "price_band_fit": "中/低中",
+      "opportunity": 33,
+      "risk": 52,
+      "heat": 33,
+      "movement_history": [
+        23,
+        23,
+        19,
+        26,
+        23,
+        22,
+        26,
+        30,
+        26,
+        26,
+        30,
+        31,
+        35,
+        33
+      ],
+      "product_line_breakdown": {
+        "上装": {
+          "opportunity": "中",
+          "risk": "中高",
+          "rationale": "趋势得分 0.34，适配度良好"
+        },
+        "下装": {
+          "opportunity": "中",
+          "risk": "中高",
+          "rationale": "与核心趋势匹配"
+        }
+      },
+      "risks": [
+        {
+          "description": "市场饱和风险",
+          "severity": "medium",
+          "mitigation": "差异化定位"
+        }
+      ],
+      "evidence_summary": "200 个相关内容，评论聚焦核心标签",
+      "proof_snapshot": {
+        "sample_count": 200,
+        "strongest_examples": [
+          "示例 #1",
+          "示例 #2",
+          "示例 #3"
+        ],
+        "comment_themes": [
+          "穿搭",
+          "ootd",
+          "潮流POV"
+        ],
+        "cross_category_support": "多场景适配"
+      },
+      "one_line_recommendation": "基于 200 个样本的趋势判断",
+      "content_cues": {
+        "how_to_photograph": "清晰展示产品特征",
+        "how_to_narrate": "突出核心卖点",
+        "what_not_to_do": "避免过度修图"
+      },
+      "why_it_matters": "日常穿搭在最近数据中显示出稳定的趋势特征，值得关注。",
+      "freshness": "最近30天"
+    },
+    {
+      "id": "dir_004",
+      "name": "复古美式",
+      "description": "复古美式趋势方向的核心特征和受众定位",
+      "heat_magnitude": "+8%",
+      "time_window": "最近30天",
+      "confidence_level": "低",
+      "classification": "emerging_opportunity",
+      "judgment_state": "需要补证据",
+      "audience_fit": "18-35 核心群体",
+      "price_band_fit": "中/低中",
+      "opportunity": 24,
+      "risk": 60,
+      "heat": 24,
+      "movement_history": [
+        17,
+        17,
+        18,
+        19,
+        23,
+        23,
+        23,
+        21,
+        23,
+        21,
+        26,
+        22,
+        22,
+        27
+      ],
+      "product_line_breakdown": {
+        "上装": {
+          "opportunity": "中",
+          "risk": "中高",
+          "rationale": "趋势得分 0.24，适配度良好"
+        },
+        "下装": {
+          "opportunity": "中",
+          "risk": "中高",
+          "rationale": "与核心趋势匹配"
+        }
+      },
+      "risks": [
+        {
+          "description": "市场饱和风险",
+          "severity": "medium",
+          "mitigation": "差异化定位"
+        }
+      ],
+      "evidence_summary": "10 个相关内容，评论聚焦核心标签",
+      "proof_snapshot": {
+        "sample_count": 10,
+        "strongest_examples": [
+          "示例 #1",
+          "示例 #2",
+          "示例 #3"
+        ],
+        "comment_themes": [
+          "复古",
+          "开箱",
+          "Randomevent"
+        ],
+        "cross_category_support": "多场景适配"
+      },
+      "one_line_recommendation": "基于 10 个样本的趋势判断",
+      "content_cues": {
+        "how_to_photograph": "清晰展示产品特征",
+        "how_to_narrate": "突出核心卖点",
+        "what_not_to_do": "避免过度修图"
+      },
+      "why_it_matters": "复古美式在最近数据中显示出稳定的趋势特征，值得关注。",
+      "freshness": "最近30天"
+    },
+    {
+      "id": "dir_005",
+      "name": "街拍风格",
+      "description": "街拍风格趋势方向的核心特征和受众定位",
+      "heat_magnitude": "+6%",
+      "time_window": "最近30天",
+      "confidence_level": "低",
+      "classification": "emerging_opportunity",
+      "judgment_state": "需要补证据",
+      "audience_fit": "18-35 核心群体",
+      "price_band_fit": "中/低中",
+      "opportunity": 20,
+      "risk": 63,
+      "heat": 20,
+      "movement_history": [
+        19,
+        19,
+        18,
+        23,
+        18,
+        23,
+        19,
+        23,
+        22,
+        23,
+        23,
+        19,
+        17,
+        22
+      ],
+      "product_line_breakdown": {
+        "上装": {
+          "opportunity": "中",
+          "risk": "中高",
+          "rationale": "趋势得分 0.21，适配度良好"
+        },
+        "下装": {
+          "opportunity": "中",
+          "risk": "中高",
+          "rationale": "与核心趋势匹配"
+        }
+      },
+      "risks": [
+        {
+          "description": "市场饱和风险",
+          "severity": "medium",
+          "mitigation": "差异化定位"
+        }
+      ],
+      "evidence_summary": "3 个相关内容，评论聚焦核心标签",
+      "proof_snapshot": {
+        "sample_count": 3,
+        "strongest_examples": [
+          "示例 #1",
+          "示例 #2",
+          "示例 #3"
+        ],
+        "comment_themes": [
+          "上海citywalk",
+          "肌肉女生",
+          "街头摄影"
+        ],
+        "cross_category_support": "多场景适配"
+      },
+      "one_line_recommendation": "基于 3 个样本的趋势判断",
+      "content_cues": {
+        "how_to_photograph": "清晰展示产品特征",
+        "how_to_narrate": "突出核心卖点",
+        "what_not_to_do": "避免过度修图"
+      },
+      "why_it_matters": "街拍风格在最近数据中显示出稳定的趋势特征，值得关注。",
+      "freshness": "最近30天"
+    },
+    {
+      "id": "dir_006",
+      "name": "潮牌联名",
+      "description": "潮牌联名趋势方向的核心特征和受众定位",
+      "heat_magnitude": "+6%",
+      "time_window": "最近30天",
+      "confidence_level": "低",
+      "classification": "emerging_opportunity",
+      "judgment_state": "需要补证据",
+      "audience_fit": "18-35 核心群体",
+      "price_band_fit": "中/低中",
+      "opportunity": 20,
+      "risk": 63,
+      "heat": 20,
+      "movement_history": [
+        22,
+        18,
+        19,
+        22,
+        21,
+        22,
+        18,
+        21,
+        18,
+        18,
+        21,
+        23,
+        17,
+        17
+      ],
+      "product_line_breakdown": {
+        "上装": {
+          "opportunity": "中",
+          "risk": "中高",
+          "rationale": "趋势得分 0.21，适配度良好"
+        },
+        "下装": {
+          "opportunity": "中",
+          "risk": "中高",
+          "rationale": "与核心趋势匹配"
+        }
+      },
+      "risks": [
+        {
+          "description": "市场饱和风险",
+          "severity": "medium",
+          "mitigation": "差异化定位"
+        }
+      ],
+      "evidence_summary": "36 个相关内容，评论聚焦核心标签",
+      "proof_snapshot": {
+        "sample_count": 36,
+        "strongest_examples": [
+          "示例 #1",
+          "示例 #2",
+          "示例 #3"
+        ],
+        "comment_themes": [
+          "supreme",
+          "bape",
+          "sacai"
+        ],
+        "cross_category_support": "多场景适配"
+      },
+      "one_line_recommendation": "基于 36 个样本的趋势判断",
+      "content_cues": {
+        "how_to_photograph": "清晰展示产品特征",
+        "how_to_narrate": "突出核心卖点",
+        "what_not_to_do": "避免过度修图"
+      },
+      "why_it_matters": "潮牌联名在最近数据中显示出稳定的趋势特征，值得关注。",
+      "freshness": "最近30天"
+    },
+    {
+      "id": "dir_007",
+      "name": "其他趋势",
+      "description": "其他趋势趋势方向的核心特征和受众定位",
+      "heat_magnitude": "+6%",
+      "time_window": "最近30天",
+      "confidence_level": "低",
+      "classification": "emerging_opportunity",
+      "judgment_state": "需要补证据",
+      "audience_fit": "18-35 核心群体",
+      "price_band_fit": "中/低中",
+      "opportunity": 18,
+      "risk": 65,
+      "heat": 18,
+      "movement_history": [
+        20,
+        20,
+        20,
+        18,
+        17,
+        16,
+        19,
+        17,
+        16,
+        20,
+        21,
+        16,
+        20,
+        16
+      ],
+      "product_line_breakdown": {
+        "上装": {
+          "opportunity": "中",
+          "risk": "中高",
+          "rationale": "趋势得分 0.19，适配度良好"
+        },
+        "下装": {
+          "opportunity": "中",
+          "risk": "中高",
+          "rationale": "与核心趋势匹配"
+        }
+      },
+      "risks": [
+        {
+          "description": "市场饱和风险",
+          "severity": "medium",
+          "mitigation": "差异化定位"
+        }
+      ],
+      "evidence_summary": "10 个相关内容，评论聚焦核心标签",
+      "proof_snapshot": {
+        "sample_count": 10,
+        "strongest_examples": [
+          "示例 #1",
+          "示例 #2",
+          "示例 #3"
+        ],
+        "comment_themes": [
+          "时尚",
+          "潮流",
+          "设计"
+        ],
+        "cross_category_support": "多场景适配"
+      },
+      "one_line_recommendation": "基于 10 个样本的趋势判断",
+      "content_cues": {
+        "how_to_photograph": "清晰展示产品特征",
+        "how_to_narrate": "突出核心卖点",
+        "what_not_to_do": "避免过度修图"
+      },
+      "why_it_matters": "其他趋势在最近数据中显示出稳定的趋势特征，值得关注。",
+      "freshness": "最近30天"
+    }
+  ],
+  "product_lines": [
+    {
+      "id": "pl_001",
+      "name": "上装",
+      "opportunity_level": "中",
+      "risk_level": "中",
+      "movement_status": "稳定",
+      "reasoning": "0 个趋势支持，2 个趋势削弱",
+      "strengthening_directions": [],
+      "weakening_directions": [
+        "图案印花",
+        "日常穿搭"
+      ]
+    },
+    {
+      "id": "pl_002",
+      "name": "下装",
+      "opportunity_level": "中",
+      "risk_level": "中",
+      "movement_status": "稳定",
+      "reasoning": "0 个趋势支持，2 个趋势削弱",
+      "strengthening_directions": [],
+      "weakening_directions": [
+        "图案印花",
+        "日常穿搭"
+      ]
+    },
+    {
+      "id": "pl_003",
+      "name": "外套",
+      "opportunity_level": "中",
+      "risk_level": "中",
+      "movement_status": "稳定",
+      "reasoning": "0 个趋势支持，2 个趋势削弱",
+      "strengthening_directions": [],
+      "weakening_directions": [
+        "图案印花",
+        "日常穿搭"
+      ]
+    },
+    {
+      "id": "pl_004",
+      "name": "配饰",
+      "opportunity_level": "中",
+      "risk_level": "中",
+      "movement_status": "稳定",
+      "reasoning": "0 个趋势支持，2 个趋势削弱",
+      "strengthening_directions": [],
+      "weakening_directions": [
+        "图案印花",
+        "日常穿搭"
+      ]
+    }
+  ],
+  "evidence_entries": [
+    {
+      "id": "evid_001",
+      "type": "笔记",
+      "title": "日潮品牌质量做工个人分享",
+      "source": "mediacrawler",
+      "related_direction": "廓形风格",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.68",
+      "weight": "medium",
+      "product_line": "上装",
+      "timestamp": "2023-12-15"
+    },
+    {
+      "id": "evid_002",
+      "type": "笔记",
+      "title": "私藏分享✅谁穿谁好看的平价女装穿搭店铺",
+      "source": "mediacrawler",
+      "related_direction": "廓形风格",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.57",
+      "weight": "medium",
+      "product_line": "上装",
+      "timestamp": "2025-06-06"
+    },
+    {
+      "id": "evid_003",
+      "type": "笔记",
+      "title": "🌵王阳｜春晚第三次联排私服同款穿搭",
+      "source": "mediacrawler",
+      "related_direction": "廓形风格",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.56",
+      "weight": "medium",
+      "product_line": "上装",
+      "timestamp": "2024-01-29"
+    },
+    {
+      "id": "evid_004",
+      "type": "笔记",
+      "title": "双层的废土风卫衣外套真的太有叛逆感\n搭配可拆卸机能弯刀工装裤\n口袋的造型特立独行\n可拆卸设计能从夏季穿到秋冬，短长裤随意切换\n糟糕！内裤边又被你们看到啦\n鼠标logo的白色版本，太为ootd加分了👏🏻\n常出现的马丁靴搭配这裤子满满的美式复古感\n-\n#ootd[话题]#\n#男生穿搭[话题]#\n#超会穿企划[话题]#\n#小红书RFL时尚轻单[话题]#\n\t\n#ins风穿搭[话题]#\n#裤子推荐[话题]#\n#秋冬穿搭[话题]#",
+      "source": "mediacrawler",
+      "related_direction": "图案印花",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.57",
+      "weight": "medium",
+      "product_line": "上装",
+      "timestamp": "2024-10-17"
+    },
+    {
+      "id": "evid_005",
+      "type": "笔记",
+      "title": "在东京街头穷人与富人穿搭啥区别？",
+      "source": "mediacrawler",
+      "related_direction": "图案印花",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.48",
+      "weight": "medium",
+      "product_line": "上装",
+      "timestamp": "2025-11-06"
+    },
+    {
+      "id": "evid_006",
+      "type": "笔记",
+      "title": "🌟cleanfit 通勤 | 百元高质感店铺分享",
+      "source": "mediacrawler",
+      "related_direction": "图案印花",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.38",
+      "weight": "low",
+      "product_line": "上装",
+      "timestamp": "2025-03-26"
+    },
+    {
+      "id": "evid_007",
+      "type": "笔记",
+      "title": "Stussy才是掌管潮流圈的神吧🎱",
+      "source": "mediacrawler",
+      "related_direction": "日常穿搭",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.57",
+      "weight": "medium",
+      "product_line": "上装",
+      "timestamp": "2024-09-09"
+    },
+    {
+      "id": "evid_008",
+      "type": "笔记",
+      "title": "首尔开箱#supreme #openyy #carhartt",
+      "source": "mediacrawler",
+      "related_direction": "日常穿搭",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.55",
+      "weight": "medium",
+      "product_line": "上装",
+      "timestamp": "2025-06-06"
+    },
+    {
+      "id": "evid_009",
+      "type": "笔记",
+      "title": "拆箱一件bape猿人短袖 没人告诉这么酷🥁🎸",
+      "source": "mediacrawler",
+      "related_direction": "日常穿搭",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.54",
+      "weight": "medium",
+      "product_line": "上装",
+      "timestamp": "2025-03-30"
+    },
+    {
+      "id": "evid_010",
+      "type": "笔记",
+      "title": "bape鲨鱼卫衣测评🛒花小钱装大杯‼️一张拿下",
+      "source": "mediacrawler",
+      "related_direction": "复古美式",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.35",
+      "weight": "low",
+      "product_line": "上装",
+      "timestamp": "2025-09-22"
+    },
+    {
+      "id": "evid_011",
+      "type": "笔记",
+      "title": "首发开箱Supreme联名擎天柱！",
+      "source": "mediacrawler",
+      "related_direction": "复古美式",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.34",
+      "weight": "low",
+      "product_line": "上装",
+      "timestamp": "2025-04-17"
+    },
+    {
+      "id": "evid_012",
+      "type": "笔记",
+      "title": "Sacai x Carhartt工装原来可以做得如此时髦",
+      "source": "mediacrawler",
+      "related_direction": "复古美式",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.33",
+      "weight": "low",
+      "product_line": "上装",
+      "timestamp": "2023-01-28"
+    },
+    {
+      "id": "evid_013",
+      "type": "笔记",
+      "title": "当年21岁时出门逛街被站姐当成明星了",
+      "source": "mediacrawler",
+      "related_direction": "街拍风格",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.34",
+      "weight": "low",
+      "product_line": "上装",
+      "timestamp": "2025-12-03"
+    },
+    {
+      "id": "evid_014",
+      "type": "笔记",
+      "title": "跳出被定义的钢铁直女。#上海citywalk[话题]# #肌肉女生[话题]# #街头摄影[话题]# #见人不如健身[话题]# #女性力量[话题]#",
+      "source": "mediacrawler",
+      "related_direction": "街拍风格",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.14",
+      "weight": "low",
+      "product_line": "上装",
+      "timestamp": "2025-02-27"
+    },
+    {
+      "id": "evid_015",
+      "type": "笔记",
+      "title": "陈星旭 ~ Off-White™",
+      "source": "mediacrawler",
+      "related_direction": "街拍风格",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.14",
+      "weight": "low",
+      "product_line": "上装",
+      "timestamp": "2026-03-15"
+    },
+    {
+      "id": "evid_016",
+      "type": "笔记",
+      "title": "Supreme摄像机钥匙扣开箱视频",
+      "source": "mediacrawler",
+      "related_direction": "潮牌联名",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.33",
+      "weight": "low",
+      "product_line": "上装",
+      "timestamp": "2025-10-09"
+    },
+    {
+      "id": "evid_017",
+      "type": "笔记",
+      "title": "3w人蹲的bape milo外套开箱测评来咯❗️",
+      "source": "mediacrawler",
+      "related_direction": "潮牌联名",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.32",
+      "weight": "low",
+      "product_line": "上装",
+      "timestamp": "2026-03-05"
+    },
+    {
+      "id": "evid_018",
+      "type": "笔记",
+      "title": "# 好好学习 天天向上",
+      "source": "mediacrawler",
+      "related_direction": "潮牌联名",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.29",
+      "weight": "low",
+      "product_line": "上装",
+      "timestamp": "2024-06-03"
+    },
+    {
+      "id": "evid_019",
+      "type": "笔记",
+      "title": "🌚他有花不完的💰，但他不喜欢这种生活",
+      "source": "mediacrawler",
+      "related_direction": "其他趋势",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.28",
+      "weight": "low",
+      "product_line": "上装",
+      "timestamp": "2025-02-11"
+    },
+    {
+      "id": "evid_020",
+      "type": "笔记",
+      "title": "一旦穿过工装裙裤！根本停不下来啊啊啊！！！",
+      "source": "mediacrawler",
+      "related_direction": "其他趋势",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.25",
+      "weight": "low",
+      "product_line": "上装",
+      "timestamp": "2026-03-09"
+    },
+    {
+      "id": "evid_021",
+      "type": "笔记",
+      "title": "是谁最后一天还在开箱？",
+      "source": "mediacrawler",
+      "related_direction": "其他趋势",
+      "freshness": "最近7天",
+      "relevance_explanation": "得分 0.23",
+      "weight": "low",
+      "product_line": "上装",
+      "timestamp": "2025-12-31"
+    }
+  ],
+  "fourteen_day_changes": {
+    "rising": [
+      "廓形风格",
+      "图案印花"
+    ],
+    "cooling": [
+      "潮牌联名",
+      "其他趋势"
+    ],
+    "newly_emerging": []
+  },
+  "scoring_model": {
+    "bucket_count": 9,
+    "keyword_weight": 0.7,
+    "engagement_weight": 0.3,
+    "confidence_thresholds": [
+      "高",
+      "中高",
+      "中",
+      "低"
+    ]
+  },
+  "keyword_groups": {
+    "廓形风格": [
+      "oversized",
+      "宽松",
+      "廓形"
+    ],
+    "图案印花": [
+      "graphic",
+      "印花",
+      "图案"
+    ],
+    "日常穿搭": [
+      "ootd",
+      "穿搭",
+      "搭配"
+    ],
+    "潮牌联名": [
+      "潮牌",
+      "联名",
+      "限定"
+    ]
+  }
+}
