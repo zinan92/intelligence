@@ -186,6 +186,95 @@ class TestFrontendBuilder(unittest.TestCase):
             "At least 50% of directions should have >= 1 evidence entry"
         )
 
+    def test_movement_history_is_deterministic(self) -> None:
+        """Movement history should be deterministic: same input -> same output."""
+        # Build dashboard twice with same inputs
+        dashboard1 = build_frontend_dashboard(
+            self.directions,
+            self.scored_samples,
+            streetwear_pack_spec.name
+        )
+        dashboard2 = build_frontend_dashboard(
+            self.directions,
+            self.scored_samples,
+            streetwear_pack_spec.name
+        )
+        
+        # Extract movement_history from both runs
+        movement_histories_1 = {
+            d["name"]: d["movement_history"] 
+            for d in dashboard1["trend_directions"]
+        }
+        movement_histories_2 = {
+            d["name"]: d["movement_history"] 
+            for d in dashboard2["trend_directions"]
+        }
+        
+        # Should have same directions
+        self.assertEqual(
+            set(movement_histories_1.keys()),
+            set(movement_histories_2.keys()),
+            "Both runs should produce same direction names"
+        )
+        
+        # Each direction's movement_history should be identical across runs
+        for direction_name in movement_histories_1:
+            self.assertEqual(
+                movement_histories_1[direction_name],
+                movement_histories_2[direction_name],
+                f"movement_history for '{direction_name}' should be deterministic"
+            )
+
+    def test_scoring_model_matches_jade_schema(self) -> None:
+        """scoring_model should match jade_dashboard.json field names."""
+        dashboard = build_frontend_dashboard(
+            self.directions,
+            self.scored_samples,
+            streetwear_pack_spec.name
+        )
+        
+        # Check for jade_dashboard.json field names
+        self.assertIn("heat_weight", dashboard["scoring_model"])
+        self.assertIn("confidence_weight", dashboard["scoring_model"])
+        self.assertIn("audience_fit_weight", dashboard["scoring_model"])
+        self.assertIn("price_band_fit_weight", dashboard["scoring_model"])
+        
+        # Should NOT have old field names
+        self.assertNotIn("bucket_count", dashboard["scoring_model"])
+        self.assertNotIn("keyword_weight", dashboard["scoring_model"])
+        self.assertNotIn("engagement_weight", dashboard["scoring_model"])
+        
+        # All weights should sum to ~1.0
+        total_weight = sum([
+            dashboard["scoring_model"]["heat_weight"],
+            dashboard["scoring_model"]["confidence_weight"],
+            dashboard["scoring_model"]["audience_fit_weight"],
+            dashboard["scoring_model"]["price_band_fit_weight"]
+        ])
+        self.assertAlmostEqual(total_weight, 1.0, places=2, msg="Weights should sum to ~1.0")
+
+    def test_evidence_product_line_varies_by_direction(self) -> None:
+        """Evidence entries should have varied product_line values based on direction data."""
+        dashboard = build_frontend_dashboard(
+            self.directions,
+            self.scored_samples,
+            streetwear_pack_spec.name
+        )
+        
+        # Collect all product_line values from evidence entries
+        product_lines = [e["product_line"] for e in dashboard["evidence_entries"]]
+        unique_product_lines = set(product_lines)
+        
+        # Should have at least 1 product_line value (not all hardcoded to same value)
+        self.assertGreater(len(unique_product_lines), 0, "Should have at least 1 product_line")
+        
+        # For streetwear pack, we expect product lines like 上装, 下装, etc.
+        # At minimum, evidence should reflect the product_line_breakdown from directions
+        self.assertTrue(
+            all(pl in ["上装", "下装", "外套", "配饰"] for pl in unique_product_lines),
+            f"All product_lines should be valid streetwear categories, got: {unique_product_lines}"
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -188,7 +188,8 @@
         
       } catch (error) {
         console.error('Failed to initialize homepage:', error);
-        document.querySelector('.container').innerHTML = `
+        const container = document.querySelector('.container');
+        container.innerHTML = `
           <div class="card" style="margin-top: var(--space-2xl); text-align: center; padding: var(--space-2xl);">
             <div class="card-body">
               <h2 style="font-size: var(--font-size-3xl); color: var(--color-danger); margin-bottom: var(--space-lg);">
@@ -198,7 +199,7 @@
                 无法加载仪表盘数据。请检查数据文件是否存在，或稍后重试。
               </p>
               <p style="font-size: var(--font-size-sm); color: var(--color-text-tertiary); margin-bottom: var(--space-xl);">
-                错误信息: ${error.message}
+                错误信息: <span class="error-message-placeholder"></span>
               </p>
               <button onclick="location.reload()" class="button" style="display: inline-block; background-color: var(--color-brand-primary); color: white; padding: var(--space-md) var(--space-xl); border-radius: var(--radius-md); border: none; cursor: pointer; font-weight: var(--font-weight-semibold);">
                 重新加载
@@ -206,6 +207,8 @@
             </div>
           </div>
         `;
+        // Safely insert error message using textContent
+        container.querySelector('.error-message-placeholder').textContent = error.message;
       }
     }
 

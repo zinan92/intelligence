@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import random
 import statistics
 from collections import Counter
@@ -31,8 +32,13 @@ def build_frontend_dashboard(
     Returns:
         Dashboard JSON dict matching jade_dashboard.json schema
     """
-    # Build fully-specified trend_directions
-    trend_directions = [_build_trend_direction(d, i+1) for i, d in enumerate(directions)]
+    # Build fully-specified trend_directions and enrich directions with product_line_breakdown
+    trend_directions = []
+    for i, d in enumerate(directions):
+        trend_dir = _build_trend_direction(d, i+1)
+        # Store product_line_breakdown back in direction for evidence generation
+        d["_product_line_breakdown"] = trend_dir["product_line_breakdown"]
+        trend_directions.append(trend_dir)
     
     # Count judgment states
     today_judgments = {
@@ -45,7 +51,7 @@ def build_frontend_dashboard(
     # Generate product lines
     product_lines = _generate_product_lines(directions, pack_name)
     
-    # Generate evidence entries
+    # Generate evidence entries (now has access to product_line_breakdown)
     evidence_entries = _generate_evidence_entries(directions, scored_samples)
     
     # Generate fourteen_day_changes
@@ -57,12 +63,12 @@ def build_frontend_dashboard(
     # Generate keyword groups
     keyword_groups = _generate_keyword_groups(pack_name)
     
-    # Generate scoring model info
+    # Generate scoring model info (matching jade_dashboard.json schema)
     scoring_model = {
-        "bucket_count": 9,
-        "keyword_weight": 0.7,
-        "engagement_weight": 0.3,
-        "confidence_thresholds": ["高", "中高", "中", "低"],
+        "heat_weight": 0.3,
+        "confidence_weight": 0.25,
+        "audience_fit_weight": 0.25,
+        "price_band_fit_weight": 0.2,
     }
     
     return {
@@ -88,7 +94,7 @@ def _build_trend_direction(direction: dict[str, Any], idx: int) -> dict[str, Any
     # Generate synthetic movement_history (14 data points)
     # Simulate trend from engagement distribution
     heat = direction["heat"]
-    movement_history = _generate_movement_history(heat, members)
+    movement_history = _generate_movement_history(heat, members, direction["name"])
     
     # Map confidence to classification
     classification_map = {
@@ -147,16 +153,30 @@ def _build_trend_direction(direction: dict[str, Any], idx: int) -> dict[str, Any
     }
 
 
-def _generate_movement_history(heat: int, members: list[dict[str, Any]]) -> list[int]:
-    """Generate synthetic 14-day movement history from heat and member distribution."""
+def _generate_movement_history(heat: int, members: list[dict[str, Any]], direction_name: str) -> list[int]:
+    """Generate synthetic 14-day movement history from heat and member distribution.
+    
+    Args:
+        heat: Current heat value (0-100)
+        members: List of member post dicts
+        direction_name: Direction name for deterministic seeding
+    
+    Returns:
+        List of 14 integers representing movement history
+    """
+    # Seed random with deterministic hash of direction name (using hashlib for reproducibility)
+    # Python's built-in hash() is randomized across processes for security
+    seed = int(hashlib.md5(direction_name.encode('utf-8')).hexdigest(), 16) % (2**32)
+    rng = random.Random(seed)
+    
     # Simulate trend curve: start lower, trend upward to current heat
     base = max(heat - 30, 20)
     trend = []
     for i in range(14):
         # Linear growth from base to heat
         value = base + (heat - base) * i / 13
-        # Add some randomness
-        noise = random.randint(-3, 3)
+        # Add some randomness (now deterministic)
+        noise = rng.randint(-3, 3)
         trend.append(max(0, min(100, int(value + noise))))
     return trend
 
@@ -167,24 +187,55 @@ def _generate_product_line_breakdown(direction: dict[str, Any], score: float) ->
     # For streetwear: tops, bottoms, outerwear, accessories
     # For jade: necklace, earrings, rings, bracelets
     
-    # Generate generic breakdown based on score
+    # Generate varied breakdown based on direction characteristics
+    # Use deterministic hash to pick primary product line
+    direction_name = direction["name"]
+    seed = int(hashlib.md5(direction_name.encode('utf-8')).hexdigest(), 16)
+    
+    # Product line priorities based on direction name hash (deterministic)
+    product_lines = ["上装", "下装", "外套", "配饰"]
+    # Rotate product lines based on seed to vary primary line
+    primary_idx = seed % len(product_lines)
+    secondary_idx = (seed + 1) % len(product_lines)
+    tertiary_idx = (seed + 2) % len(product_lines)
+    fourth_idx = (seed + 3) % len(product_lines)
+    
+    primary_line = product_lines[primary_idx]
+    secondary_line = product_lines[secondary_idx]
+    tertiary_line = product_lines[tertiary_idx]
+    fourth_line = product_lines[fourth_idx]
+    
+    # Generate opportunity/risk based on score
     if score >= 0.7:
-        opportunity, risk = "高", "低中"
+        primary_opp, primary_risk = "高", "低中"
+        secondary_opp, secondary_risk = "中高", "中"
     elif score >= 0.5:
-        opportunity, risk = "中高", "中"
+        primary_opp, primary_risk = "中高", "中"
+        secondary_opp, secondary_risk = "中", "中高"
     else:
-        opportunity, risk = "中", "中高"
+        primary_opp, primary_risk = "中", "中高"
+        secondary_opp, secondary_risk = "低中", "高"
     
     return {
-        "上装": {
-            "opportunity": opportunity,
-            "risk": risk,
-            "rationale": f"趋势得分 {score:.2f}，适配度良好"
+        primary_line: {
+            "opportunity": primary_opp,
+            "risk": primary_risk,
+            "rationale": f"趋势得分 {score:.2f}，{primary_line}适配度高"
         },
-        "下装": {
-            "opportunity": opportunity,
-            "risk": risk,
+        secondary_line: {
+            "opportunity": secondary_opp,
+            "risk": secondary_risk,
             "rationale": "与核心趋势匹配"
+        },
+        tertiary_line: {
+            "opportunity": "中",
+            "risk": "中",
+            "rationale": "证据中等"
+        },
+        fourth_line: {
+            "opportunity": "低中",
+            "risk": "中高",
+            "rationale": "证据较少"
         }
     }
 
@@ -229,6 +280,20 @@ def _generate_evidence_entries(
         if not members:
             continue
         
+        # Derive primary product line from direction's product_line_breakdown
+        product_line_breakdown = direction.get("_product_line_breakdown", {})
+        if product_line_breakdown:
+            # Pick the product line with highest opportunity
+            primary_product_line = max(
+                product_line_breakdown.keys(),
+                key=lambda k: {"高": 3, "中高": 2, "中": 1, "低": 0, "低中": 0.5}.get(
+                    product_line_breakdown[k].get("opportunity", "中"), 1
+                )
+            )
+        else:
+            # Fallback to "上装" if no breakdown available
+            primary_product_line = "上装"
+        
         # Get top 3 scoring members
         top_members = sorted(members, key=lambda m: m["result"].weighted_score, reverse=True)[:3]
         
@@ -253,7 +318,7 @@ def _generate_evidence_entries(
                 "freshness": "最近7天",
                 "relevance_explanation": f"得分 {result.weighted_score:.2f}",
                 "weight": weight,
-                "product_line": "上装",
+                "product_line": primary_product_line,
                 "timestamp": sample.provenance.published_at.date().isoformat() if sample.provenance.published_at else "2026-03-27"
             })
             entry_id += 1

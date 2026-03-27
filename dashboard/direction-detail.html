@@ -352,14 +352,15 @@
         
         if (!direction) {
           console.error('Direction not found:', directionId);
-          document.querySelector('.container').innerHTML = `
+          const container = document.querySelector('.container');
+          container.innerHTML = `
             <div class="card" style="margin-top: var(--space-2xl); text-align: center; padding: var(--space-2xl);">
               <div class="card-body">
                 <h2 style="font-size: var(--font-size-3xl); color: var(--color-text-primary); margin-bottom: var(--space-lg);">
                   ⚠️ 方向未找到
                 </h2>
                 <p style="font-size: var(--font-size-lg); color: var(--color-text-secondary); margin-bottom: var(--space-xl);">
-                  无法找到指定的方向 (ID: ${directionId})。请检查链接是否正确，或从首页重新选择方向。
+                  无法找到指定的方向 (ID: <span class="direction-id-placeholder"></span>)。请检查链接是否正确，或从首页重新选择方向。
                 </p>
                 <a href="index.html" class="button" style="display: inline-block; background-color: var(--color-brand-primary); color: white; padding: var(--space-md) var(--space-xl); border-radius: var(--radius-md); text-decoration: none; font-weight: var(--font-weight-semibold);">
                   返回首页
@@ -367,6 +368,8 @@
               </div>
             </div>
           `;
+          // Safely insert directionId using textContent
+          container.querySelector('.direction-id-placeholder').textContent = directionId;
           return;
         }
         
@@ -381,7 +384,8 @@
         
       } catch (error) {
         console.error('Failed to initialize direction detail page:', error);
-        document.querySelector('.container').innerHTML = `
+        const container = document.querySelector('.container');
+        container.innerHTML = `
           <div class="card" style="margin-top: var(--space-2xl); text-align: center; padding: var(--space-2xl);">
             <div class="card-body">
               <h2 style="font-size: var(--font-size-3xl); color: var(--color-danger); margin-bottom: var(--space-lg);">
@@ -391,7 +395,7 @@
                 无法加载方向详情数据。请检查数据文件是否存在，或稍后重试。
               </p>
               <p style="font-size: var(--font-size-sm); color: var(--color-text-tertiary); margin-bottom: var(--space-xl);">
-                错误信息: ${error.message}
+                错误信息: <span class="error-message-placeholder"></span>
               </p>
               <a href="index.html" class="button" style="display: inline-block; background-color: var(--color-brand-primary); color: white; padding: var(--space-md) var(--space-xl); border-radius: var(--radius-md); text-decoration: none; font-weight: var(--font-weight-semibold); margin-right: var(--space-md);">
                 返回首页
@@ -402,6 +406,8 @@
             </div>
           </div>
         `;
+        // Safely insert error message using textContent
+        container.querySelector('.error-message-placeholder').textContent = error.message;
       }
     }
     
