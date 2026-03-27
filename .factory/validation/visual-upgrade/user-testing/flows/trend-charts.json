@@ -1,0 +1,65 @@
+{
+  "flowId": "trend-charts",
+  "testedAt": "2026-03-27T00:00:00Z",
+  "isolation": {
+    "appUrl": "http://localhost:8765",
+    "dataSource": "frontend_dashboard.json",
+    "session": "efb58340b4fe__browser1"
+  },
+  "toolsUsed": ["agent-browser", "grep"],
+  "assertions": [
+    {
+      "id": "VAL-VIS-001",
+      "title": "Homepage movement board has visible area/line charts",
+      "status": "pass",
+      "steps": [
+        { "action": "Navigate to http://localhost:8765/index.html", "expected": "Homepage loads with movement board", "observed": "Homepage loaded with 实时异动榜 (Movement Board) showing 7 direction rows" },
+        { "action": "Inspect SVG elements in movement board table rows", "expected": "SVG charts >=100px wide x 40px tall with path elements", "observed": "7 SVG elements found in table rows, each 120x48px with viewBox '0 0 120 48'. Each has 2 paths: one with gradient fill (area) and one with stroke (line)" },
+        { "action": "Verify path data represents movement_history", "expected": "14 data points rendered as area/line", "observed": "Path 'd' attributes contain 14 coordinate pairs matching movement_history data. Area path uses gradient fill, line path uses colored stroke (#d97706 for 短热噪音, #4b5563 for 需要补证据)" },
+        { "action": "Check console errors", "expected": "No JS errors", "observed": "No console errors" }
+      ],
+      "evidence": {
+        "screenshots": ["visual-upgrade/trend-charts/VAL-VIS-001-homepage-overview.png"],
+        "consoleErrors": "none",
+        "domInspection": "7 SVGs in table rows: 120x48px each, viewBox='0 0 120 48', 2 paths per SVG (area fill with gradient + line stroke)"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-VIS-002",
+      "title": "Direction detail has prominent 14-day trend area chart",
+      "status": "pass",
+      "steps": [
+        { "action": "Navigate to http://localhost:8765/direction-detail.html?id=dir_001", "expected": "Direction detail page for 廓形风格 loads", "observed": "Direction detail page loaded showing 廓形风格 with 14天趋势图 section" },
+        { "action": "Inspect SVG chart dimensions", "expected": "SVG >=300px wide x 150px tall", "observed": "SVG is 800x180px with viewBox '0 0 800 180' — well exceeds minimum requirements" },
+        { "action": "Verify area fill and line paths", "expected": "Area chart with gradient fill and stroke line", "observed": "2 paths: area path with gradient fill 'url(#gradient-...)' and line path with stroke '#d97706'. 14 circle elements for data points" },
+        { "action": "Verify axis labels", "expected": "Axis labels present", "observed": "4 text elements: '第1天', '第14天' (x-axis), '42', '19' (y-axis min/max values)" },
+        { "action": "Check console errors", "expected": "No JS errors", "observed": "No console errors" }
+      ],
+      "evidence": {
+        "screenshots": ["visual-upgrade/trend-charts/VAL-VIS-002-direction-detail-trend.png", "visual-upgrade/trend-charts/VAL-VIS-002-direction-detail-trend-chart.png"],
+        "consoleErrors": "none",
+        "domInspection": "1 SVG: 800x180px, viewBox='0 0 800 180', 2 paths (area+line), 14 circles (data points), 4 text elements (axis labels: 第1天, 第14天, 42, 19)"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-VIS-003",
+      "title": "Charts are pure SVG, no external libraries",
+      "status": "pass",
+      "steps": [
+        { "action": "Search all HTML files for external charting library script tags", "expected": "No d3, chart.js, plotly, recharts, highcharts, echarts, apex references", "observed": "All 5 HTML files only reference local scripts: js/data.js, js/components.js, js/nav.js. No external library script tags found" },
+        { "action": "Search JS files for import/require of charting libraries", "expected": "No import or require statements for charting libraries", "observed": "No import or require statements found in any JS files" },
+        { "action": "Search for CDN references to charting libraries", "expected": "No CDN URLs for d3js, chartjs, plotly, highcharts, echarts, apexcharts", "observed": "No CDN references found" },
+        { "action": "Verify SVG elements use document.createElementNS (vanilla JS)", "expected": "Charts created programmatically without library abstractions", "observed": "All SVG charts use viewBox and contain raw path/circle/text elements — consistent with vanilla JS SVG creation per AGENTS.md coding conventions" }
+      ],
+      "evidence": {
+        "sourceCodeSearch": "Grepped dashboard/ for: d3, chart.js, plotly, recharts, highcharts, echarts, apex in script tags, import statements, and CDN URLs. Zero matches. Only local script sources: js/data.js, js/components.js, js/nav.js"
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 3 assertions: 3 passed. Homepage sparkline charts (120x48px, area+line) render for all 7 directions. Direction detail trend chart (800x180px) shows 14-day movement with area fill, line, data points, and axis labels. No external charting libraries used — all charts are pure SVG/vanilla JS."
+}

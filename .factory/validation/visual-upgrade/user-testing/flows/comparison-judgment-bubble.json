@@ -1,0 +1,133 @@
+{
+  "flowId": "comparison-judgment-bubble",
+  "testedAt": "2026-03-27T00:00:00Z",
+  "isolation": {
+    "appUrl": "http://localhost:8765",
+    "session": "efb58340b4fe__browser2",
+    "data": "frontend_dashboard.json"
+  },
+  "toolsUsed": ["agent-browser"],
+  "assertions": [
+    {
+      "id": "VAL-VIS-010",
+      "title": "Product line page has visual comparison chart",
+      "status": "pass",
+      "steps": [
+        { "action": "Navigate to product-line.html", "expected": "Page loads without errors", "observed": "Page loaded successfully, 0 console errors" },
+        { "action": "Inspect SVG elements", "expected": "SVG chart comparing product lines side-by-side", "observed": "SVG with viewBox='0 0 1000 400' found. Title '产品线机会与风险对比'. 4 product lines (上装, 下装, 外套, 配饰) shown side-by-side with horizontal bars." },
+        { "action": "Check chart has bars for each product line", "expected": "Each product line has comparison bars", "observed": "10 rect elements: 8 data bars (2 per product line for opportunity and risk) + 2 legend color swatches. Axis labels 0-100." }
+      ],
+      "evidence": {
+        "screenshots": ["visual-upgrade/comparison-judgment-bubble/VAL-VIS-010-product-line-page.png"],
+        "consoleErrors": "none",
+        "domInspection": "SVG viewBox='0 0 1000 400', 10 rects, 20 text elements, 5 lines. Product lines: 上装, 下装, 外套, 配饰 all represented."
+      },
+      "issues": null,
+      "evidenceFiles": ["visual-upgrade/comparison-judgment-bubble/VAL-VIS-010-product-line-page.png"]
+    },
+    {
+      "id": "VAL-VIS-011",
+      "title": "Comparison chart shows opportunity and risk",
+      "status": "pass",
+      "steps": [
+        { "action": "Inspect bar colors in SVG", "expected": "Different colors for opportunity and risk", "observed": "Green (#10b981) bars for opportunity, Red (#ef4444) bars for risk. Each product line has one green and one red bar." },
+        { "action": "Check legend", "expected": "Legend distinguishes 机会 vs 风险", "observed": "Legend present with green rect + '机会' and red rect + '风险'. Legend swatches at (0,0) and (0,25) with text at (25,10) and (25,35)." },
+        { "action": "Verify data values", "expected": "Values match data", "observed": "All bars show value 50 (matching data: opportunity_level=中, risk_level=中). Values displayed next to each bar." }
+      ],
+      "evidence": {
+        "screenshots": ["visual-upgrade/comparison-judgment-bubble/VAL-VIS-010-product-line-page.png"],
+        "consoleErrors": "none",
+        "svgInspection": "8 data rects alternating #10b981 (opportunity/green) and #ef4444 (risk/red). Legend has 机会 with green swatch and 风险 with red swatch."
+      },
+      "issues": null,
+      "evidenceFiles": ["visual-upgrade/comparison-judgment-bubble/VAL-VIS-010-product-line-page.png"]
+    },
+    {
+      "id": "VAL-VIS-020",
+      "title": "Donut/pie chart shows judgment state distribution",
+      "status": "pass",
+      "steps": [
+        { "action": "Navigate to homepage", "expected": "Page loads without errors", "observed": "index.html loaded, 0 console errors" },
+        { "action": "Find donut/pie SVG", "expected": "SVG with arc segments for judgment states", "observed": "SVG (viewBox='0 0 200 200') found with 1 white center circle (r=47.5, donut hole) and 2 arc paths creating donut segments." },
+        { "action": "Check arc colors", "expected": "4 segments: green/blue/orange/gray", "observed": "2 non-zero segments: orange (#f59e0b) for 短热噪音 (3 directions) and gray (#6b7280) for 需要补证据 (4 directions). 值得跟=0 and 观察中=0 correctly omitted as zero-count arcs." },
+        { "action": "Check center label", "expected": "Shows total count", "observed": "Center text shows '7' and '方向总数'. Individual counts 3 and 4 also displayed." }
+      ],
+      "evidence": {
+        "screenshots": ["visual-upgrade/comparison-judgment-bubble/VAL-VIS-020-homepage-judgment.png"],
+        "consoleErrors": "none",
+        "svgInspection": "Donut chart: circle r=47.5 fill=#ffffff (center hole), path stroke=#f59e0b (短热噪音, 3), path stroke=#6b7280 (需要补证据, 4). strokeWidth=35. Colors match spec: orange for 短热噪音, gray for 需要补证据."
+      },
+      "issues": "Data has 0 for 值得跟 and 观察中, so only 2 arcs rendered instead of 4. This is correct behavior — zero-count segments should not create arcs. If all 4 states had non-zero counts, 4 arcs would appear.",
+      "evidenceFiles": ["visual-upgrade/comparison-judgment-bubble/VAL-VIS-020-homepage-judgment.png"]
+    },
+    {
+      "id": "VAL-VIS-021",
+      "title": "Judgment chart proportions match actual data",
+      "status": "pass",
+      "steps": [
+        { "action": "Load frontend_dashboard.json and get judgment counts", "expected": "Get actual judgment state counts", "observed": "today_judgments: 值得跟=0, 观察中=0, 短热噪音=3, 需要补证据=4, total=7" },
+        { "action": "Parse SVG arc angles", "expected": "Arc angles proportional to counts", "observed": "Arc 1 (orange/短热噪音): sweeps 154.3° = 42.9% of circle. Expected: 3/7 = 42.9%. Difference: 0.0%. Arc 2 (gray/需要补证据): sweeps 205.7° = 57.1% of circle. Expected: 4/7 = 57.1%. Difference: 0.0%." },
+        { "action": "Check within ±10% tolerance", "expected": "Each segment within ±10% of expected proportion", "observed": "Both arcs are exactly proportional (0.0% deviation). Well within ±10% tolerance." }
+      ],
+      "evidence": {
+        "screenshots": ["visual-upgrade/comparison-judgment-bubble/VAL-VIS-020-homepage-judgment.png"],
+        "consoleErrors": "none",
+        "dataComparison": "Arc 1 (短热噪音): 154.3°/360° = 42.86%, expected 3/7 = 42.86%, diff = 0.0%. Arc 2 (需要补证据): 205.7°/360° = 57.14%, expected 4/7 = 57.14%, diff = 0.0%. Both within ±10%."
+      },
+      "issues": null,
+      "evidenceFiles": ["visual-upgrade/comparison-judgment-bubble/VAL-VIS-020-homepage-judgment.png"]
+    },
+    {
+      "id": "VAL-VIS-030",
+      "title": "Bubble matrix has quadrant background shading",
+      "status": "pass",
+      "steps": [
+        { "action": "Navigate to direction-map.html", "expected": "Page loads without errors", "observed": "direction-map.html loaded, 0 console errors" },
+        { "action": "Inspect SVG for background rects", "expected": ">=4 background rect elements with distinct fill colors", "observed": "4 rect elements found with distinct fills: #d1d5db (gray, bottom-left), #fca5a5 (red, bottom-right), #6ee7b7 (green, top-left), #fcd34d (yellow, top-right). Opacity 0.1-0.12." },
+        { "action": "Check z-order", "expected": "Shading behind bubbles", "observed": "Last rect at DOM index 3, first circle at DOM index 4. Rects render before (behind) circles, confirming correct z-order." },
+        { "action": "Check quadrant coverage", "expected": "4 quadrants cover chart area", "observed": "Quadrants: top-left (80,40 430x250), top-right (510,40 430x250), bottom-left (80,290 430x250), bottom-right (510,290 430x250). Full chart area covered." }
+      ],
+      "evidence": {
+        "screenshots": ["visual-upgrade/comparison-judgment-bubble/VAL-VIS-030-direction-map.png"],
+        "consoleErrors": "none",
+        "domInspection": "4 rect elements: #d1d5db opacity=0.1, #fca5a5 opacity=0.1, #6ee7b7 opacity=0.12, #fcd34d opacity=0.1. 7 circle.bubble elements positioned within quadrants. Z-order: rects (indices 0-3) before circles (indices 4-10)."
+      },
+      "issues": null,
+      "evidenceFiles": ["visual-upgrade/comparison-judgment-bubble/VAL-VIS-030-direction-map.png"]
+    },
+    {
+      "id": "VAL-VIS-031",
+      "title": "Bubble matrix has hover tooltips",
+      "status": "pass",
+      "steps": [
+        { "action": "Check tooltip element exists", "expected": "Tooltip div with fields for name, heat, opportunity, risk, judgment", "observed": "div#bubble-tooltip exists with tooltip-title, tooltip-heat, tooltip-opportunity, tooltip-risk, tooltip-judgment spans. Initially display:none." },
+        { "action": "Hover over first bubble (廓形风格)", "expected": "Tooltip appears with direction data", "observed": "After mouseover dispatch on first circle.bubble: tooltip display changed to 'block'. Title='廓形风格', heat=45, opportunity=45, risk=43, judgment='短热噪音'. All values match frontend_dashboard.json." },
+        { "action": "Take screenshot with tooltip visible", "expected": "Screenshot shows tooltip overlay", "observed": "Screenshot captured showing tooltip positioned near bubble." },
+        { "action": "Mouseout from bubble", "expected": "Tooltip disappears", "observed": "After mouseout dispatch: tooltip display returned to 'none'. Tooltip correctly hidden." }
+      ],
+      "evidence": {
+        "screenshots": ["visual-upgrade/comparison-judgment-bubble/VAL-VIS-031-tooltip-visible.png"],
+        "consoleErrors": "none",
+        "interactionTest": "Mouseover: tooltip shown with correct data (廓形风格, heat=45, opp=45, risk=43, judgment=短热噪音). Mouseout: tooltip hidden (display=none)."
+      },
+      "issues": null,
+      "evidenceFiles": ["visual-upgrade/comparison-judgment-bubble/VAL-VIS-031-tooltip-visible.png"]
+    }
+  ],
+  "frictions": [
+    {
+      "description": "SVG circle.bubble elements are not recognized as interactive elements by agent-browser snapshot -i. Had to use JavaScript eval to dispatch mouseover/mouseout events directly instead of using agent-browser hover command.",
+      "resolved": true,
+      "resolution": "Used agent-browser eval to dispatch MouseEvent('mouseover') and MouseEvent('mouseout') on the circle.bubble element directly.",
+      "affectedAssertions": ["VAL-VIS-031"]
+    },
+    {
+      "description": "VAL-VIS-020 specifies '4 arc segments' but the current streetwear data has 0 for 值得跟 and 观察中, resulting in only 2 visible arcs. The implementation correctly omits zero-count segments.",
+      "resolved": true,
+      "resolution": "Accepted 2 arcs as correct behavior for data with only 2 non-zero judgment states. Colors match spec for the states that have data.",
+      "affectedAssertions": ["VAL-VIS-020"]
+    }
+  ],
+  "blockers": [],
+  "summary": "Tested 6 assertions: all 6 passed. Product-line comparison chart (VAL-VIS-010/011) shows opportunity vs risk with correct colors and legend. Judgment donut chart (VAL-VIS-020/021) renders proportional arcs matching data within 0% deviation. Bubble matrix (VAL-VIS-030) has 4 quadrant background rects with distinct colors behind bubbles. Tooltips (VAL-VIS-031) show/hide correctly with direction name, heat, opportunity, risk, and judgment state."
+}

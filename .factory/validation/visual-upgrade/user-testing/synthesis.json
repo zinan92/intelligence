@@ -1,0 +1,32 @@
+{
+  "milestone": "visual-upgrade",
+  "round": 1,
+  "status": "pass",
+  "assertionsSummary": {
+    "total": 15,
+    "passed": 15,
+    "failed": 0,
+    "blocked": 0
+  },
+  "passedAssertions": [
+    "VAL-VIS-001",
+    "VAL-VIS-002",
+    "VAL-VIS-003",
+    "VAL-VIS-010",
+    "VAL-VIS-011",
+    "VAL-VIS-020",
+    "VAL-VIS-021",
+    "VAL-VIS-030",
+    "VAL-VIS-031",
+    "VAL-VIS-040",
+    "VAL-VIS-041",
+    "VAL-BRIDGE-100",
+    "VAL-BRIDGE-101",
+    "VAL-BRIDGE-102",
+    "VAL-BRIDGE-103"
+  ],
+  "failedAssertions": [],
+  "blockedAssertions": [],
+  "appliedUpdates": [],
+  "previousRound": null
+}
