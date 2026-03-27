@@ -16,6 +16,13 @@
       <p class="module-subtitle text-muted">从产品线视角看市场趋势 — 哪些方向在助推，哪些在拖累</p>
     </div>
 
+    <!-- Product line comparison chart -->
+    <div class="card" style="margin-bottom: 2rem;">
+      <div class="card-body" id="comparison-chart-container">
+        <!-- Will be populated by JavaScript -->
+      </div>
+    </div>
+
     <!-- Product line sections container -->
     <div id="product-line-sections" style="display: flex; flex-direction: column; gap: 2rem;">
       <!-- Will be populated by JavaScript -->
@@ -36,6 +43,9 @@
       try {
         // Load dashboard data
         const data = await loadDashboardData();
+        
+        // Render comparison chart
+        renderComparisonChart(data);
         
         // Render all product line sections
         renderProductLineSections(data);
@@ -64,6 +74,22 @@
           </div>
         `;
       }
+    }
+
+    /**
+     * Render the product line comparison chart
+     */
+    function renderComparisonChart(data) {
+      const productLines = getProductLines(data);
+      const container = document.getElementById('comparison-chart-container');
+      
+      if (!container) return;
+      
+      // Render the comparison chart
+      container.innerHTML = renderProductLineComparisonChart(productLines, {
+        width: 1000,
+        height: 400
+      });
     }
 
     /**

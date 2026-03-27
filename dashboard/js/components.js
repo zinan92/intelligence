@@ -420,6 +420,175 @@ function getJudgmentColors(judgmentState) {
   return colorMap[judgmentState] || colorMap['需要补证据'];
 }
 
+/**
+ * Render a grouped horizontal bar chart comparing product lines by opportunity and risk
+ * @param {Array<Object>} productLines - Array of product line objects with opportunity_level and risk_level
+ * @param {Object} options - Configuration options
+ * @param {number} options.width - Width of SVG in pixels (default: 1000)
+ * @param {number} options.height - Height of SVG in pixels (default: 400)
+ * @returns {string} SVG element as HTML string
+ */
+function renderProductLineComparisonChart(productLines, options = {}) {
+  // Validate input
+  if (!productLines || !Array.isArray(productLines) || productLines.length === 0) {
+    return '<div class="text-center text-muted" style="padding: 2rem;">暂无产品线数据</div>';
+  }
+  
+  // Default options
+  const { width = 1000, height = 400 } = options;
+  
+  // Map level strings to numeric values
+  const levelMap = {
+    '高': 90,
+    '中高': 70,
+    '中': 50,
+    '低中': 30,
+    '低': 30
+  };
+  
+  // Process data
+  const data = productLines.map(line => ({
+    name: line.name,
+    opportunity: levelMap[line.opportunity_level] || 50,
+    risk: levelMap[line.risk_level] || 50
+  }));
+  
+  // Chart dimensions
+  const paddingTop = 60;
+  const paddingBottom = 40;
+  const paddingLeft = 120;
+  const paddingRight = 100;
+  const chartWidth = width - paddingLeft - paddingRight;
+  const chartHeight = height - paddingTop - paddingBottom;
+  
+  // Calculate bar dimensions
+  const barGroupHeight = chartHeight / data.length;
+  const barHeight = (barGroupHeight * 0.7) / 2; // Two bars per group, with 30% spacing
+  const barSpacing = barGroupHeight * 0.05;
+  
+  // Colors
+  const opportunityColor = '#10b981'; // Green/teal
+  const riskColor = '#ef4444'; // Red/orange
+  
+  // Scale for X axis (0-100)
+  const maxValue = 100;
+  const scale = chartWidth / maxValue;
+  
+  // Generate bars
+  const barsHtml = data.map((item, index) => {
+    const groupY = paddingTop + index * barGroupHeight;
+    const opportunityBarY = groupY + (barGroupHeight - barHeight * 2 - barSpacing) / 2;
+    const riskBarY = opportunityBarY + barHeight + barSpacing;
+    
+    const opportunityWidth = item.opportunity * scale;
+    const riskWidth = item.risk * scale;
+    
+    return `
+      <!-- Product line: ${item.name} -->
+      <!-- Opportunity bar -->
+      <rect
+        x="${paddingLeft}"
+        y="${opportunityBarY}"
+        width="${opportunityWidth}"
+        height="${barHeight}"
+        fill="${opportunityColor}"
+        opacity="0.8"
+      />
+      <text
+        x="${paddingLeft + opportunityWidth + 5}"
+        y="${opportunityBarY + barHeight / 2}"
+        font-size="14"
+        fill="#1a1d21"
+        alignment-baseline="middle"
+      >${item.opportunity}</text>
+      
+      <!-- Risk bar -->
+      <rect
+        x="${paddingLeft}"
+        y="${riskBarY}"
+        width="${riskWidth}"
+        height="${barHeight}"
+        fill="${riskColor}"
+        opacity="0.8"
+      />
+      <text
+        x="${paddingLeft + riskWidth + 5}"
+        y="${riskBarY + barHeight / 2}"
+        font-size="14"
+        fill="#1a1d21"
+        alignment-baseline="middle"
+      >${item.risk}</text>
+      
+      <!-- Product line label (Y-axis) -->
+      <text
+        x="${paddingLeft - 10}"
+        y="${groupY + barGroupHeight / 2}"
+        font-size="16"
+        font-weight="600"
+        fill="#1a1d21"
+        text-anchor="end"
+        alignment-baseline="middle"
+      >${item.name}</text>
+    `;
+  }).join('\n');
+  
+  // Generate X-axis
+  const xAxisTicks = [0, 25, 50, 75, 100];
+  const xAxisHtml = xAxisTicks.map(tick => {
+    const x = paddingLeft + tick * scale;
+    return `
+      <line
+        x1="${x}"
+        y1="${paddingTop}"
+        x2="${x}"
+        y2="${paddingTop + chartHeight}"
+        stroke="#e5e7eb"
+        stroke-width="1"
+      />
+      <text
+        x="${x}"
+        y="${paddingTop + chartHeight + 20}"
+        font-size="12"
+        fill="#6a7178"
+        text-anchor="middle"
+      >${tick}</text>
+    `;
+  }).join('\n');
+  
+  return `
+    <div style="width: 100%; overflow-x: auto;">
+      <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" style="display: block; max-width: 100%;">
+        <!-- Title -->
+        <text
+          x="${width / 2}"
+          y="30"
+          font-size="20"
+          font-weight="600"
+          fill="#1a1d21"
+          text-anchor="middle"
+        >产品线机会与风险对比</text>
+        
+        <!-- X-axis -->
+        ${xAxisHtml}
+        
+        <!-- Bars -->
+        ${barsHtml}
+        
+        <!-- Legend -->
+        <g transform="translate(${width - paddingRight + 10}, ${paddingTop})">
+          <!-- Opportunity legend -->
+          <rect x="0" y="0" width="20" height="12" fill="${opportunityColor}" opacity="0.8" />
+          <text x="25" y="10" font-size="14" fill="#1a1d21">机会</text>
+          
+          <!-- Risk legend -->
+          <rect x="0" y="25" width="20" height="12" fill="${riskColor}" opacity="0.8" />
+          <text x="25" y="35" font-size="14" fill="#1a1d21">风险</text>
+        </g>
+      </svg>
+    </div>
+  `;
+}
+
 // Export functions for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
@@ -434,6 +603,7 @@ if (typeof module !== 'undefined' && module.exports) {
     renderEvidenceCard,
     renderRiskCard,
     renderAreaChart,
-    getJudgmentColors
+    getJudgmentColors,
+    renderProductLineComparisonChart
   };
 }
