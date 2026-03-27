@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Iterable
 
 from intelligence.adapters.mediacrawler import load_samples
+from intelligence.analysis import build_frontend_dashboard, cluster_into_directions
 from intelligence.projects import discover_project_pack
 from intelligence.reporting import (
     Report,
@@ -66,6 +67,12 @@ def run_pack_flow(
         _score_payload(sample, engine.score(spec.bucket_scores_fn(sample)))
         for sample in samples
     ]
+    
+    # Prepare scored samples with both sample and result for clustering
+    scored_samples_for_clustering = [
+        {"sample": sample, "result": engine.score(spec.bucket_scores_fn(sample))}
+        for sample in samples
+    ]
 
     report = _build_report(
         spec, samples, scored_samples,
@@ -82,6 +89,11 @@ def run_pack_flow(
     # Generate dashboard.json
     dashboard = _build_dashboard(spec.name, samples, scored_samples)
     _write_json(output_path / "dashboard.json", dashboard)
+    
+    # Generate frontend_dashboard.json (new)
+    directions = cluster_into_directions(scored_samples_for_clustering, spec.name)
+    frontend_dashboard = build_frontend_dashboard(directions, scored_samples_for_clustering, spec.name)
+    _write_json(output_path / "frontend_dashboard.json", frontend_dashboard)
 
 
 # ---------------------------------------------------------------------------
