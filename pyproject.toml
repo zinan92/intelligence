@@ -12,7 +12,7 @@ requires-python = ">=3.10"
 authors = [
   { name = "Wendy" }
 ]
-license = { text = "Proprietary" }
+license = { text = "MIT" }
 dependencies = []
 
 [project.urls]
