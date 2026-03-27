@@ -41,7 +41,7 @@ Before coding:
 - Use viewBox for responsive sizing
 - All labels/legends in Chinese
 - Colors from CSS custom properties:
-  - 值得跟: var(--color-judgment-zhidegen) / #10b981
+  - 值得跟: var(--color-judgment-zhidegeng) / #10b981
   - 观察中: var(--color-judgment-guancharzhong) / #3b82f6
   - 短热噪音: var(--color-judgment-duanrezaoyin) / #f59e0b
   - 需要补证据: var(--color-judgment-xuyaobuzhengju) / #6b7280
