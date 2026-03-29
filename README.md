@@ -1,6 +1,17 @@
+<div align="center">
+
 # intelligence
 
-把中文社交平台采集的原始内容（小红书/抖音）转化为结构化趋势信号、方向聚类和决策报告。动词：归一化 → 评分 → 聚类 → 出报告。
+**把中文社交平台采集的原始内容转化为结构化趋势信号、方向聚类和决策报告**
+
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB.svg?logo=python&logoColor=white)](https://python.org)
+[![Zero Dependencies](https://img.shields.io/badge/Dependencies-0-brightgreen.svg)](pyproject.toml)
+[![Tests](https://img.shields.io/badge/Tests-138-blue.svg)](tests/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+</div>
+
+---
 
 ```
 in  JSONL 文件（MediaCrawler / 小红书下载器 / 抖音下载器导出）
@@ -15,7 +26,56 @@ fail Pack 资产校验失败       → exit 1, 列出缺失/非法项
 fail 输入样本为空            → 生成空报告（不崩溃）
 ```
 
-Adapters: MediaCrawler, xhs_downloader, douyin_downloader
+## 示例输出
+
+运行 `python3 -m intelligence run-pack jade --output-dir output/jade` 后，`report.md` 输出：
+
+```markdown
+# Jade Pack Report
+
+Jade pack processed 1 MediaCrawler sample from mediacrawler_jade_export.jsonl
+and produced a compact research report. The top signal scored 0.80 with high confidence.
+
+## Trend Clusters
+
+### Jade Pendant Signal
+- weighted score: 0.80
+- confidence: high
+- classification: confirmed_continuation
+- category-specific cue: jade + pendant language
+
+## Product Priorities
+
+### Build Now
+- direction: jade pendant feature line
+- why: the fixture shows a clear, repeatable category cue
+```
+
+`scored_samples.json` 输出（单条样本）：
+
+```json
+{
+  "bucket_scores": {
+    "jade_signal": 1.0,
+    "modernity": 0.5,
+    "commerce": 0.7
+  },
+  "weighted_score": 0.8,
+  "confidence": "high",
+  "classification": "confirmed_continuation"
+}
+```
+
+看板截图（5 页静态 HTML，中文界面）：
+
+<p align="center">
+  <img src="dashboard/exploration/01-homepage-top.png" width="45%" alt="首页信号总览" />
+  <img src="dashboard/exploration/12-direction-map-top.png" width="45%" alt="方向地图" />
+</p>
+<p align="center">
+  <img src="dashboard/exploration/05-direction-detail-top.png" width="45%" alt="方向详情" />
+  <img src="dashboard/exploration/09-evidence-library-top.png" width="45%" alt="证据库" />
+</p>
 
 ## 架构
 
@@ -74,56 +134,6 @@ python3 -m http.server 8765 --directory dashboard
 | 交互式看板 | 5 页静态 HTML 看板，中文界面，内联 SVG 图表 |
 | Project Pack | 品类配置隔离 — 种子关键词 + YAML 配置即可定义新品类 |
 | 零依赖 | 仅使用 Python 标准库，frozen dataclass 保证不可变 |
-
-## CLI 命令
-
-### `run-pack` — 运行品类研究 Pipeline
-
-```bash
-python3 -m intelligence run-pack <pack> --output-dir <dir> [--input <file.jsonl>]
-```
-
-| 参数 | 必填 | 说明 |
-|------|------|------|
-| `pack` | 是 | Pack 名称：`jade` 或 `designer_streetwear` |
-| `--output-dir` | 是 | 输出目录路径 |
-| `--input` | 否 | JSONL 输入文件路径，省略则使用内置 fixture |
-
-### `validate-pack` — 校验品类配置
-
-```bash
-python3 -m intelligence validate-pack <pack>
-```
-
-### `--version`
-
-```bash
-python3 -m intelligence --version
-```
-
-## 输出文件
-
-每次 `run-pack` 产出 7 个文件：
-
-| 文件 | 说明 |
-|------|------|
-| `normalized_samples.json` | 归一化后的帖子（含互动、作者、媒体字段） |
-| `scored_samples.json` | 带分桶评分的帖子 |
-| `dashboard.json` | 聚合看板数据（后端格式） |
-| `frontend_dashboard.json` | 前端看板消费的 JSON |
-| `report.json` | 压缩摘要（Report 模型） |
-| `report.md` | Markdown 报告 |
-| `report.html` | HTML 报告 |
-
-## 看板页面
-
-| 页面 | 文件 | 用途 |
-|------|------|------|
-| 首页 | `index.html` | 信号总览 — 趋势运动、判断摘要、观察清单、风险提示 |
-| 方向地图 | `direction-map.html` | 可排序/筛选的方向对比表 |
-| 方向详情 | `direction-detail.html` | 单个趋势方向的深度分析 |
-| 产品线观察 | `product-line.html` | 按产品线维度的市场视图 |
-| 证据库 | `evidence.html` | 三栏证据浏览器，含筛选和统计 |
 
 ## 技术栈
 
@@ -213,6 +223,32 @@ keyword_groups:
 
 添加新 Pack 详见 [docs/adding-a-pack.md](docs/adding-a-pack.md)。
 
+## CLI 命令
+
+### `run-pack` — 运行品类研究 Pipeline
+
+```bash
+python3 -m intelligence run-pack <pack> --output-dir <dir> [--input <file.jsonl>]
+```
+
+| 参数 | 必填 | 说明 |
+|------|------|------|
+| `pack` | 是 | Pack 名称：`jade` 或 `designer_streetwear` |
+| `--output-dir` | 是 | 输出目录路径 |
+| `--input` | 否 | JSONL 输入文件路径，省略则使用内置 fixture |
+
+### `validate-pack` — 校验品类配置
+
+```bash
+python3 -m intelligence validate-pack <pack>
+```
+
+### `--version`
+
+```bash
+python3 -m intelligence --version
+```
+
 ## For AI Agents
 
 ### Capability Contract
@@ -262,14 +298,14 @@ failure_modes:
 ### Agent 调用示例
 
 ```bash
-# CLI
+# CLI — 运行 pipeline 并读取结果
 python3 -m intelligence run-pack jade --output-dir /tmp/intel-output
 cat /tmp/intel-output/report.json
 cat /tmp/intel-output/scored_samples.json
 ```
 
 ```python
-# Python
+# Python — subprocess 调用
 import subprocess, json
 from pathlib import Path
 
@@ -289,7 +325,7 @@ def run_intelligence(pack: str = "jade") -> dict:
 ```
 
 ```python
-# Python API（直接调用模块）
+# Python API — 直接调用模块
 from intelligence.adapters.mediacrawler import load_samples
 from intelligence.scoring.engine import ScoringEngine, ScoringConfig
 
